@@ -139,7 +139,7 @@ def setup_connection():
                 `DietaryRestrictions_kosher` Boolean DEFAULT NULL,\
                 `DietaryRestrictions_halal` Boolean DEFAULT NULL,\
                 `DietaryRestrictions_soy` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_vegetarian` Boolean DEFAULT ,\
+                `DietaryRestrictions_vegetarian` Boolean DEFAULT NULL,\
                 `AgesAllowed` Boolean DEFAULT NULL,\
                 `RestaurantsCounterService` Boolean DEFAULT NULL,\
                 PRIMARY KEY(`business_id`) \
@@ -171,6 +171,23 @@ def setup_connection():
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS Review'
+            cursor.execute(sql)
+            sql = 'CREATE TABLE Review(\
+                `review_id` VARCHAR(25) NOT NULL,\
+                `user_id` VARCHAR(25) DEFAULT NULL,\
+                `business_id` VARCHAR(25) DEFAULT NULL,\
+                `stars` INT DEFAULT NULL,\
+                `useful` INT DEFAULT NULL,\
+                `funny` INT DEFAULT NULL,\
+                `cool` INT DEFAULT NULL,\
+                `text` TEXT DEFAULT NULL,\
+                `date` DATE,\
+                PRIMARY KEY (`review_id`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
 
             sql = 'DROP TABLE IF EXISTS Tips'
             cursor.execute(sql)
@@ -225,8 +242,8 @@ def main():
 
     business = get_data_from_csv(file_business)
 
-    # for count1, count2 in zip(business[0][1], business[1][1]):
-    #     print("{}:     {}".format(count1, count2))
+    for count1, count2 in zip(business[0][1], business[1][1]):
+        print("{}:     {}".format(count1, count2))
 
     # setup connection
     setup_connection()
