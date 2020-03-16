@@ -11,7 +11,7 @@ csv.field_size_limit(sys.maxsize)
 # 2. check if validation and handle wrong username/password
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
-    connection_key = {'host': '149.248.59.2', 'port': 3306, 'username': 'steven', 'password': '00000000',
+    connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': 'steven123456',
                       'database': 'Project'}
     return connection_key
 
