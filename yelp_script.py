@@ -306,22 +306,22 @@ def main():
     create_tables()
 
     # retrieve data ubuntu
-    # file_business_attributes = "/var/lib/mysql/Project/yelp_business_attributes.csv"
-    # file_business_hours = "/var/lib/mysql/Project/yelp_business_hours.csv"
-    # file_business = "/var/lib/mysql/Project/yelp_business.csv"
-    # file_checkin = "/var/lib/mysql/Project/yelp_checkin.csv"
-    # file_review = "/var/lib/mysql/Project/yelp_review.csv"
-    # file_tip = "/var/lib/mysql/Project/yelp_tip.csv"
-    # file_user = "/var/lib/mysql/Project/yelp_user.csv"
+    file_business_attributes = "/var/lib/mysql/Project/yelp_business_attributes.csv"
+    file_business_hours = "/var/lib/mysql/Project/yelp_business_hours.csv"
+    file_business = "/var/lib/mysql/Project/yelp_business.csv"
+    file_checkin = "/var/lib/mysql/Project/yelp_checkin.csv"
+    file_review = "/var/lib/mysql/Project/yelp_review.csv"
+    file_tip = "/var/lib/mysql/Project/yelp_tip.csv"
+    file_user = "/var/lib/mysql/Project/yelp_user.csv"
 
     # retrieve data local
-    file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
-    file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
-    file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
-    file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
-    file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
-    file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
-    file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
+    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
+    # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
+    # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
+    # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
+    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
+    # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     business_attributes = get_data_from_csv(file_business_attributes)
     business_hours = get_data_from_csv(file_business_hours)
