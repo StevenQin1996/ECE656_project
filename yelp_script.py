@@ -324,21 +324,21 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # business_hours = get_data_from_csv(file_business_hours)
-    # business = get_data_from_csv(file_business)
-    # checkin = get_data_from_csv(file_checkin)
-    # user = get_data_from_csv(file_user)
+    business_attributes = get_data_from_csv(file_business_attributes)
+    business_hours = get_data_from_csv(file_business_hours)
+    business = get_data_from_csv(file_business)
+    checkin = get_data_from_csv(file_checkin)
+    user = get_data_from_csv(file_user)
     review = get_data_from_csv(file_review)
     tips = get_data_from_csv(file_tip)
 
     # print(business_attributes.head())
 
-    # insert_data("Business_attributes", business_attributes)
-    # insert_data("Business_hours", business_hours)
-    # insert_data("Business", business)
-    # insert_data("Checkin", checkin)
-    # insert_data("User", user)
+    insert_data("Business_attributes", business_attributes)
+    insert_data("Business_hours", business_hours)
+    insert_data("Business", business)
+    insert_data("Checkin", checkin)
+    insert_data("User", user)
     insert_data("Review", review)
     insert_data("Tips", tips)
 
