@@ -76,7 +76,7 @@ def create_tables():
                 `WheelchairAccessible` VARCHAR(5) DEFAULT NULL,\
                 `BikeParking` VARCHAR(5) DEFAULT NULL,\
                 `Alcohol` VARCHAR(5) DEFAULT NULL,\
-                `HasTV` VARCHAR(5) DEFAULT NULL,\
+                `HasTV` VARCHAR(25) DEFAULT NULL,\
                 `NoiseLevel` VARCHAR(5) DEFAULT NULL,\
                 `RestaurantsAttire` VARCHAR(5) DEFAULT NULL,\
                 `Music_dj` VARCHAR(5) DEFAULT NULL,\
@@ -281,7 +281,7 @@ def test():
 # set up python on server
 def main():
     # create tables
-    create_tables()
+    # create_tables()
 
     # retrieve data ubuntu
     file_business_attributes = "/var/lib/mysql/Project/yelp_business_attributes.csv"
@@ -293,32 +293,34 @@ def main():
     file_user = "/var/lib/mysql/Project/yelp_user.csv"
 
     # retrieve data local
-#     file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
-#     file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
-#     file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
-#     file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
-#     file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
-#     file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
-#     file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
+    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
+    # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
+    # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
+    # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
+    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
+    # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     business_attributes = get_data_from_csv(file_business_attributes)
-    print(business_attributes.head())
-    insert_data("Business_attributes", business_attributes)
 
-    # business_hours = get_data_from_csv(file_business_hours)
-    # business = get_data_from_csv(file_business)
-    # checkin = get_data_from_csv(file_checkin)
-    # review = get_data_from_csv(file_review)
-    # tips = get_data_from_csv(file_tip)
-    # user = get_data_from_csv(file_user)
-    #
-    #
-    # insert_data("Business_hours", business_hours)
-    # insert_data("Business", business)
-    # insert_data("Checkin", checkin)
-    # insert_data("Tips", tips)
-    # insert_data("User", user)
-    # insert_data("Review", review)
+    # for item in business_attributes["HasTV"]:
+    #     if item != "Na":
+    #         print (item)
+
+    business_hours = get_data_from_csv(file_business_hours)
+    business = get_data_from_csv(file_business)
+    checkin = get_data_from_csv(file_checkin)
+    review = get_data_from_csv(file_review)
+    tips = get_data_from_csv(file_tip)
+    user = get_data_from_csv(file_user)
+
+    insert_data("Business_attributes", business_attributes)
+    insert_data("Business_hours", business_hours)
+    insert_data("Business", business)
+    insert_data("Checkin", checkin)
+    insert_data("Tips", tips)
+    insert_data("User", user)
+    insert_data("Review", review)
 
 if __name__ == '__main__':
     main()
