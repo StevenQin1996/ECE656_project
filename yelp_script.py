@@ -302,25 +302,31 @@ def main():
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     business_attributes = get_data_from_csv(file_business_attributes)
-
+    insert_data("Business_attributes", business_attributes)
+    
     # for item in business_attributes["HasTV"]:
     #     if item != "Na":
     #         print (item)
 
-    business_hours = get_data_from_csv(file_business_hours)
-    business = get_data_from_csv(file_business)
-    checkin = get_data_from_csv(file_checkin)
-    review = get_data_from_csv(file_review)
-    tips = get_data_from_csv(file_tip)
-    user = get_data_from_csv(file_user)
+    # business_hours = get_data_from_csv(file_business_hours)
+    # insert_data("Business_hours", business_hours)
+    # business = get_data_from_csv(file_business)
+    # insert_data("Business", business)
+    # checkin = get_data_from_csv(file_checkin)
+    # insert_data("Checkin", checkin)
+    # tips = get_data_from_csv(file_tip)
+    # insert_data("Tips", tips)
+    # user = get_data_from_csv(file_user)
+    # insert_data("User", user)
+    # review = get_data_from_csv(file_review)
+    # insert_data("Review", review)
 
-    insert_data("Business_attributes", business_attributes)
-    insert_data("Business_hours", business_hours)
-    insert_data("Business", business)
-    insert_data("Checkin", checkin)
-    insert_data("Tips", tips)
-    insert_data("User", user)
-    insert_data("Review", review)
+
+
+
+
+
+
 
 if __name__ == '__main__':
     main()
