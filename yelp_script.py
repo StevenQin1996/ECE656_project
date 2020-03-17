@@ -257,7 +257,7 @@ def insert_data(table_name, mydata):
 
             parameter = []
             for count in range(len(mydata.values)):
-                print(tuple(mydata.values[count]))
+                # print(tuple(mydata.values[count]))
                 parameter.append(tuple(mydata.values[count]))
 
             cursor.executemany(sql, parameter)
@@ -305,15 +305,15 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    checkin = get_data_from_csv(file_checkin)
-    insert_data("Checkin", checkin)
-    tips = get_data_from_csv(file_tip)
-    insert_data("Tips", tips)
-
     business_attributes = get_data_from_csv(file_business_attributes)
     insert_data("Business_attributes", business_attributes)
     business_hours = get_data_from_csv(file_business_hours)
     insert_data("Business_hours", business_hours)
+
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
 
     user = get_data_from_csv(file_user)
     insert_data("User", user)
