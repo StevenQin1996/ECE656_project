@@ -34,18 +34,18 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS Business'
             cursor.execute(sql)
             sql = 'CREATE TABLE Business(\
-                `business_id` VARCHAR(25) NOT NULL,\
-                `name` VARCHAR(25) DEFAULT NULL,\
+                `business_id` VARCHAR(128) NOT NULL,\
+                `name` VARCHAR(128) DEFAULT NULL,\
                 `neighborhood` VARCHAR(128) DEFAULT NULL,\
                 `address` VARCHAR(128) DEFAULT NULL,\
-                `city` VARCHAR(25) DEFAULT NULL,\
-                `state` VARCHAR(25) DEFAULT NULL,\
+                `city` VARCHAR(128) DEFAULT NULL,\
+                `state` VARCHAR(128) DEFAULT NULL,\
                 `postal_code` VARCHAR(10) DEFAULT NULL,\
                 `latitude` DOUBLE DEFAULT NULL,\
                 `longitude` DOUBLE DEFAULT NULL,\
                 `stars` FLOAT DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
-                `is_open` VARCHAR(25) DEFAULT NULL,\
+                `is_open` VARCHAR(128) DEFAULT NULL,\
                 `categories` TEXT DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
@@ -54,88 +54,88 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS Business_attributes'
             cursor.execute(sql)
             sql = "CREATE TABLE Business_attributes(\
-                `business_id` VARCHAR(25) NOT NULL,\
-                `AcceptsInsurance` VARCHAR(5) DEFAULT NULL,\
-                `ByAppointmentOnly` VARCHAR(5) DEFAULT NULL,\
-                `BusinessAcceptsCreditCards` VARCHAR(5) DEFAULT NULL,\
-                `BusinessParking_garage` VARCHAR(5) DEFAULT NULL,\
-                `BusinessParking_street` VARCHAR(5) DEFAULT NULL,\
-                `BusinessParking_validated` VARCHAR(5) DEFAULT NULL,\
-                `BusinessParking_lot` VARCHAR(5) DEFAULT NULL,\
-                `BusinessParking_valet` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_coloring` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_africanamerican` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_curly` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_perms` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_kids` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_extensions` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_asian` VARCHAR(5) DEFAULT NULL,\
-                `HairSpecializesIn_straightperms` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsPriceRange2` VARCHAR(5) DEFAULT NULL,\
-                `GoodForKids` VARCHAR(5) DEFAULT NULL,\
-                `WheelchairAccessible` VARCHAR(5) DEFAULT NULL,\
-                `BikeParking` VARCHAR(5) DEFAULT NULL,\
-                `Alcohol` VARCHAR(5) DEFAULT NULL,\
-                `HasTV` VARCHAR(25) DEFAULT NULL,\
-                `NoiseLevel` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsAttire` VARCHAR(5) DEFAULT NULL,\
-                `Music_dj` VARCHAR(5) DEFAULT NULL,\
-                `Music_background_music` VARCHAR(5) DEFAULT NULL,\
-                `Music_no_music` VARCHAR(5) DEFAULT NULL,\
-                `Music_karaoke` VARCHAR(5) DEFAULT NULL,\
-                `Music_live` VARCHAR(5) DEFAULT NULL,\
-                `Music_video` VARCHAR(5) DEFAULT NULL,\
-                `Music_jukebox` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_romantic` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_intimate` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_classy` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_hipster` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_divey` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_touristy` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_trendy` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_upscale` VARCHAR(5) DEFAULT NULL,\
-                `Ambience_casual` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsGoodForGroups` VARCHAR(5) DEFAULT NULL,\
-                `Caters` VARCHAR(5) DEFAULT NULL,\
-                `WiFi` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsReservations` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsTakeOut` VARCHAR(5) DEFAULT NULL,\
-                `HappyHour` VARCHAR(5) DEFAULT NULL,\
-                `GoodForDancing` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsTableService` VARCHAR(5) DEFAULT NULL,\
-                `OutdoorSeating` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsDelivery` VARCHAR(5) DEFAULT NULL,\
-                `BestNights_monday` VARCHAR(5) DEFAULT NULL,\
-                `BestNights_tuesday` VARCHAR(5) DEFAULT NULL,\
-                `BestNights_friday` VARCHAR(5) DEFAULT NULL,\
-                `BestNights_wednesday` VARCHAR(5) DEFAULT NULL,\
-                `BestNights_thursday` VARCHAR(5) DEFAULT NULL,\
-                `BestNights_sunday` VARCHAR(5) DEFAULT NULL,\
-                `BestNights_saturday` VARCHAR(5) DEFAULT NULL,\
-                `GoodForMeal_dessert` VARCHAR(5) DEFAULT NULL,\
-                `GoodForMeal_latenight` VARCHAR(5) DEFAULT NULL,\
-                `GoodForMeal_lunch` VARCHAR(5) DEFAULT NULL,\
-                `GoodForMeal_dinner` VARCHAR(5) DEFAULT NULL,\
-                `GoodForMeal_breakfast` VARCHAR(5) DEFAULT NULL,\
-                `GoodForMeal_brunch` VARCHAR(5) DEFAULT NULL,\
-                `CoatCheck` VARCHAR(5) DEFAULT NULL,\
-                `Smoking` VARCHAR(5) DEFAULT NULL,\
-                `DriveThru` VARCHAR(5) DEFAULT NULL,\
-                `DogsAllowed` VARCHAR(5) DEFAULT NULL,\
-                `BusinessAcceptsBitcoin` VARCHAR(5) DEFAULT NULL,\
-                `Open24Hours` VARCHAR(5) DEFAULT NULL,\
-                `BYOBCorkage` VARCHAR(5) DEFAULT NULL,\
-                `BYOB` VARCHAR(5) DEFAULT NULL,\
-                `Corkage` VARCHAR(5) DEFAULT NULL,\
-                `DietaryRestrictions_dairy` VARCHAR(5) DEFAULT NULL,\
-                `DietaryRestrictions_gluten` VARCHAR(5) DEFAULT NULL,\
-                `DietaryRestrictions_vegan` VARCHAR(5) DEFAULT NULL,\
-                `DietaryRestrictions_kosher` VARCHAR(5) DEFAULT NULL,\
-                `DietaryRestrictions_halal` VARCHAR(5) DEFAULT NULL,\
-                `DietaryRestrictions_soy` VARCHAR(5) DEFAULT NULL,\
-                `DietaryRestrictions_vegetarian` VARCHAR(5) DEFAULT NULL,\
-                `AgesAllowed` VARCHAR(5) DEFAULT NULL,\
-                `RestaurantsCounterService` VARCHAR(5) DEFAULT NULL,\
+                `business_id` VARCHAR(128) NOT NULL,\
+                `AcceptsInsurance` VARCHAR(128) DEFAULT NULL,\
+                `ByAppointmentOnly` VARCHAR(128) DEFAULT NULL,\
+                `BusinessAcceptsCreditCards` VARCHAR(128) DEFAULT NULL,\
+                `BusinessParking_garage` VARCHAR(128) DEFAULT NULL,\
+                `BusinessParking_street` VARCHAR(128) DEFAULT NULL,\
+                `BusinessParking_validated` VARCHAR(128) DEFAULT NULL,\
+                `BusinessParking_lot` VARCHAR(128) DEFAULT NULL,\
+                `BusinessParking_valet` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_coloring` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_africanamerican` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_curly` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_perms` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_kids` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_extensions` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_asian` VARCHAR(128) DEFAULT NULL,\
+                `HairSpecializesIn_straightperms` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsPriceRange2` VARCHAR(128) DEFAULT NULL,\
+                `GoodForKids` VARCHAR(128) DEFAULT NULL,\
+                `WheelchairAccessible` VARCHAR(128) DEFAULT NULL,\
+                `BikeParking` VARCHAR(128) DEFAULT NULL,\
+                `Alcohol` VARCHAR(128) DEFAULT NULL,\
+                `HasTV` VARCHAR(128) DEFAULT NULL,\
+                `NoiseLevel` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsAttire` VARCHAR(128) DEFAULT NULL,\
+                `Music_dj` VARCHAR(128) DEFAULT NULL,\
+                `Music_background_music` VARCHAR(128) DEFAULT NULL,\
+                `Music_no_music` VARCHAR(128) DEFAULT NULL,\
+                `Music_karaoke` VARCHAR(128) DEFAULT NULL,\
+                `Music_live` VARCHAR(128) DEFAULT NULL,\
+                `Music_video` VARCHAR(128) DEFAULT NULL,\
+                `Music_jukebox` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_romantic` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_intimate` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_classy` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_hipster` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_divey` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_touristy` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_trendy` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_upscale` VARCHAR(128) DEFAULT NULL,\
+                `Ambience_casual` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsGoodForGroups` VARCHAR(128) DEFAULT NULL,\
+                `Caters` VARCHAR(128) DEFAULT NULL,\
+                `WiFi` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsReservations` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsTakeOut` VARCHAR(128) DEFAULT NULL,\
+                `HappyHour` VARCHAR(128) DEFAULT NULL,\
+                `GoodForDancing` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsTableService` VARCHAR(128) DEFAULT NULL,\
+                `OutdoorSeating` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsDelivery` VARCHAR(128) DEFAULT NULL,\
+                `BestNights_monday` VARCHAR(128) DEFAULT NULL,\
+                `BestNights_tuesday` VARCHAR(128) DEFAULT NULL,\
+                `BestNights_friday` VARCHAR(128) DEFAULT NULL,\
+                `BestNights_wednesday` VARCHAR(128) DEFAULT NULL,\
+                `BestNights_thursday` VARCHAR(128) DEFAULT NULL,\
+                `BestNights_sunday` VARCHAR(128) DEFAULT NULL,\
+                `BestNights_saturday` VARCHAR(128) DEFAULT NULL,\
+                `GoodForMeal_dessert` VARCHAR(128) DEFAULT NULL,\
+                `GoodForMeal_latenight` VARCHAR(128) DEFAULT NULL,\
+                `GoodForMeal_lunch` VARCHAR(128) DEFAULT NULL,\
+                `GoodForMeal_dinner` VARCHAR(128) DEFAULT NULL,\
+                `GoodForMeal_breakfast` VARCHAR(128) DEFAULT NULL,\
+                `GoodForMeal_brunch` VARCHAR(128) DEFAULT NULL,\
+                `CoatCheck` VARCHAR(128) DEFAULT NULL,\
+                `Smoking` VARCHAR(128) DEFAULT NULL,\
+                `DriveThru` VARCHAR(128) DEFAULT NULL,\
+                `DogsAllowed` VARCHAR(128) DEFAULT NULL,\
+                `BusinessAcceptsBitcoin` VARCHAR(128) DEFAULT NULL,\
+                `Open24Hours` VARCHAR(128) DEFAULT NULL,\
+                `BYOBCorkage` VARCHAR(128) DEFAULT NULL,\
+                `BYOB` VARCHAR(128) DEFAULT NULL,\
+                `Corkage` VARCHAR(128) DEFAULT NULL,\
+                `DietaryRestrictions_dairy` VARCHAR(128) DEFAULT NULL,\
+                `DietaryRestrictions_gluten` VARCHAR(128) DEFAULT NULL,\
+                `DietaryRestrictions_vegan` VARCHAR(128) DEFAULT NULL,\
+                `DietaryRestrictions_kosher` VARCHAR(128) DEFAULT NULL,\
+                `DietaryRestrictions_halal` VARCHAR(128) DEFAULT NULL,\
+                `DietaryRestrictions_soy` VARCHAR(128) DEFAULT NULL,\
+                `DietaryRestrictions_vegetarian` VARCHAR(128) DEFAULT NULL,\
+                `AgesAllowed` VARCHAR(128) DEFAULT NULL,\
+                `RestaurantsCounterService` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY(`business_id`) \
                 )ENGINE = InnoDB DEFAULT CHARSET = UTF8MB4;"
             cursor.execute(sql)
@@ -143,14 +143,14 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS Business_hours'
             cursor.execute(sql)
             sql = 'CREATE TABLE Business_hours(\
-                `business_id` VARCHAR(25) NOT NULL,\
-                `Monday` VARCHAR(25) DEFAULT NULL,\
-                `Wednesday` VARCHAR(25) DEFAULT NULL,\
-                `Tuesday` VARCHAR(25) DEFAULT NULL,\
-                `Friday` VARCHAR(25) DEFAULT NULL,\
-                `Thursday` VARCHAR(25) DEFAULT NULL,\
-                `Saturday` VARCHAR(25) DEFAULT NULL,\
-                `Sunday` VARCHAR(25) DEFAULT NULL,\
+                `business_id` VARCHAR(128) NOT NULL,\
+                `Monday` VARCHAR(128) DEFAULT NULL,\
+                `Wednesday` VARCHAR(128) DEFAULT NULL,\
+                `Tuesday` VARCHAR(128) DEFAULT NULL,\
+                `Friday` VARCHAR(128) DEFAULT NULL,\
+                `Thursday` VARCHAR(128) DEFAULT NULL,\
+                `Saturday` VARCHAR(128) DEFAULT NULL,\
+                `Sunday` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
@@ -158,8 +158,8 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS Checkin'
             cursor.execute(sql)
             sql = 'CREATE TABLE Checkin(\
-                `business_id` VARCHAR(25) NOT NULL,\
-                `weekday` VARCHAR(25) DEFAULT NULL,\
+                `business_id` VARCHAR(128) NOT NULL,\
+                `weekday` VARCHAR(128) DEFAULT NULL,\
                 `hour` TIME DEFAULT NULL,\
                 `checkins` INT DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
@@ -169,9 +169,9 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS Review'
             cursor.execute(sql)
             sql = 'CREATE TABLE Review(\
-                `review_id` VARCHAR(25) NOT NULL,\
-                `user_id` VARCHAR(25) DEFAULT NULL,\
-                `business_id` VARCHAR(25) DEFAULT NULL,\
+                `review_id` VARCHAR(128) NOT NULL,\
+                `user_id` VARCHAR(128) DEFAULT NULL,\
+                `business_id` VARCHAR(128) DEFAULT NULL,\
                 `stars` INT DEFAULT NULL,\
                 `useful` INT DEFAULT NULL,\
                 `funny` INT DEFAULT NULL,\
@@ -189,8 +189,8 @@ def create_tables():
                 `text` TEXT DEFAULT NULL,\
                 `date` DATE DEFAULT NULL,\
                 `likes` INT DEFAULT NULL,\
-                `business_id` VARCHAR(25) NOT NULL,\
-                `user_id` VARCHAR(25) NOT NULL,\
+                `business_id` VARCHAR(128) NOT NULL,\
+                `user_id` VARCHAR(128) NOT NULL,\
                 PRIMARY KEY (`business_id`,`user_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
@@ -198,8 +198,8 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS User'
             cursor.execute(sql)
             sql = "CREATE TABLE User(\
-                `user_id` VARCHAR(25) NOT NULL,\
-                `name` VARCHAR(25) DEFAULT NULL,\
+                `user_id` VARCHAR(128) NOT NULL,\
+                `name` VARCHAR(128) DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
                 `yelping_since` DATE DEFAULT NULL,\
                 `friends` TEXT DEFAULT NULL,\
@@ -207,7 +207,7 @@ def create_tables():
                 `funny` INT DEFAULT NULL,\
                 `cool` INT DEFAULT NULL,\
                 `fans` INT DEFAULT NULL,\
-                `elite` VARCHAR(25) DEFAULT NULL,\
+                `elite` VARCHAR(128) DEFAULT NULL,\
                 `average_stars` FLOAT DEFAULT NULL,\
                 `compliment_hot` INT DEFAULT NULL,\
                 `compliment_more` INT DEFAULT NULL,\
@@ -225,9 +225,9 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS Review'
             cursor.execute(sql)
             sql = 'CREATE TABLE Review(\
-                `review_id` VARCHAR(25) NOT NULL,\
-                `user_id` VARCHAR(25) DEFAULT NULL,\
-                `business_id` VARCHAR(25) DEFAULT NULL,\
+                `review_id` VARCHAR(128) NOT NULL,\
+                `user_id` VARCHAR(128) DEFAULT NULL,\
+                `business_id` VARCHAR(128) DEFAULT NULL,\
                 `stars` INT DEFAULT NULL,\
                 `date` DATE DEFAULT NULL,\
                 `text` TEXT DEFAULT NULL,\
