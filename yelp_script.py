@@ -297,7 +297,7 @@ def load_from_csv(table_name, mydata):
                         LINES TERMINATED BY '\n'\
                         IGNORE 1 ROWS".format(mydata, table_name)
 
-            cursor.executemany(sql)
+            cursor.execute(sql)
             connection.commit()
     finally:
         connection.close()
