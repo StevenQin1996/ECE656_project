@@ -18,6 +18,7 @@ def get_connection_key():
 
 def get_data_from_csv(myfile):
     df = pd.read_csv(myfile, delimiter=',')
+    print("get data complete")
     return df
 
 
@@ -238,6 +239,7 @@ def create_tables():
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
     finally:
+        print("create table complete")
         connection.close()
 
 
@@ -291,7 +293,6 @@ def load_from_csv(table_name, mydata):
     try:
         with connection.cursor() as cursor:
             sql = "LOAD DATA local INFILE {} INTO TABLE {} FIELDS TERMINATED BY ',' ENCLOSED BY '""' LINES TERMINATED BY '\r\n' IGNORE 1 ROWS IGNORE 1".format(mydata, table_name)
-
             cursor.execute(sql)
             connection.commit()
     finally:
@@ -330,6 +331,8 @@ def main():
     user = get_data_from_csv(file_user)
     review = get_data_from_csv(file_review)
     tips = get_data_from_csv(file_tip)
+
+    # print(business_attributes.head())
 
     insert_data("Business_attributes", business_attributes)
     insert_data("Business_hours", business_hours)
