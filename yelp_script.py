@@ -11,7 +11,7 @@ csv.field_size_limit(sys.maxsize)
 # 2. check if validation and handle wrong username/password
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
-    connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': 'steven123456',
+    connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
                       'database': 'Project'}
     return connection_key
 
@@ -263,6 +263,20 @@ def insert_data(table_name, mydata):
     finally:
         connection.close()
 
+def test():
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'])
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "show tables;"
+
+            cursor.executemany(sql)
+            connection.commit()
+    finally:
+        connection.close()
+
 
 # set up python on server
 def main():
@@ -293,17 +307,6 @@ def main():
     insert_data("Tips", tips)
     insert_data("User", user)
     insert_data("Review", review)
-
-    # print(business_attributes.columns)
-    # print(business_attributes.shape)
-    # print(business['business_id'])
-    # print(user.columns)
-
-    for count1, count2 in zip(business[0][1], business[1][1]):
-        print("{}:     {}".format(count1, count2))
-
-
-
 
 if __name__ == '__main__':
     main()
