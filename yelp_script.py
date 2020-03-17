@@ -55,87 +55,87 @@ def create_tables():
             cursor.execute(sql)
             sql = "CREATE TABLE Business_attributes(\
                 `business_id` VARCHAR(25) NOT NULL,\
-                `AcceptsInsurance` Boolean DEFAULT NULL,\
-                `ByAppointmentOnly` Boolean DEFAULT NULL,\
-                `BusinessAcceptsCreditCards` Boolean DEFAULT NULL,\
-                `BusinessParking_garage` Boolean DEFAULT NULL,\
-                `BusinessParking_street` Boolean DEFAULT NULL,\
-                `BusinessParking_validated` Boolean DEFAULT NULL,\
-                `BusinessParking_lot` Boolean DEFAULT NULL,\
-                `BusinessParking_valet` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_coloring` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_africanamerican` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_curly` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_perms` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_kids` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_extensions` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_asian` Boolean DEFAULT NULL,\
-                `HairSpecializesIn_straightperms` Boolean DEFAULT NULL,\
-                `RestaurantsPriceRange2` Boolean DEFAULT NULL,\
-                `GoodForKids` Boolean DEFAULT NULL,\
-                `WheelchairAccessible` Boolean DEFAULT NULL,\
-                `BikeParking` Boolean DEFAULT NULL,\
-                `Alcohol` Boolean DEFAULT NULL,\
-                `HasTV` Boolean DEFAULT NULL,\
-                `NoiseLevel` Boolean DEFAULT NULL,\
-                `RestaurantsAttire` Boolean DEFAULT NULL,\
-                `Music_dj` Boolean DEFAULT NULL,\
-                `Music_background_music` Boolean DEFAULT NULL,\
-                `Music_no_music` Boolean DEFAULT NULL,\
-                `Music_karaoke` Boolean DEFAULT NULL,\
-                `Music_live` Boolean DEFAULT NULL,\
-                `Music_video` Boolean DEFAULT NULL,\
-                `Music_jukebox` Boolean DEFAULT NULL,\
-                `Ambience_romantic` Boolean DEFAULT NULL,\
-                `Ambience_intimate` Boolean DEFAULT NULL,\
-                `Ambience_classy` Boolean DEFAULT NULL,\
-                `Ambience_hipster` Boolean DEFAULT NULL,\
-                `Ambience_divey` Boolean DEFAULT NULL,\
-                `Ambience_touristy` Boolean DEFAULT NULL,\
-                `Ambience_trendy` Boolean DEFAULT NULL,\
-                `Ambience_upscale` Boolean DEFAULT NULL,\
-                `Ambience_casual` Boolean DEFAULT NULL,\
-                `RestaurantsGoodForGroups` Boolean DEFAULT NULL,\
-                `Caters` Boolean DEFAULT NULL,\
-                `WiFi` Boolean DEFAULT NULL,\
-                `RestaurantsReservations` Boolean DEFAULT NULL,\
-                `RestaurantsTakeOut` Boolean DEFAULT NULL,\
-                `HappyHour` Boolean DEFAULT NULL,\
-                `GoodForDancing` Boolean DEFAULT NULL,\
-                `RestaurantsTableService` Boolean DEFAULT NULL,\
-                `OutdoorSeating` Boolean DEFAULT NULL,\
-                `RestaurantsDelivery` Boolean DEFAULT NULL,\
-                `BestNights_monday` Boolean DEFAULT NULL,\
-                `BestNights_tuesday` Boolean DEFAULT NULL,\
-                `BestNights_friday` Boolean DEFAULT NULL,\
-                `BestNights_wednesday` Boolean DEFAULT NULL,\
-                `BestNights_thursday` Boolean DEFAULT NULL,\
-                `BestNights_sunday` Boolean DEFAULT NULL,\
-                `BestNights_saturday` Boolean DEFAULT NULL,\
-                `GoodForMeal_dessert` Boolean DEFAULT NULL,\
-                `GoodForMeal_latenight` Boolean DEFAULT NULL,\
-                `GoodForMeal_lunch` Boolean DEFAULT NULL,\
-                `GoodForMeal_dinner` Boolean DEFAULT NULL,\
-                `GoodForMeal_breakfast` Boolean DEFAULT NULL,\
-                `GoodForMeal_brunch` Boolean DEFAULT NULL,\
-                `CoatCheck` Boolean DEFAULT NULL,\
-                `Smoking` Boolean DEFAULT NULL,\
-                `DriveThru` Boolean DEFAULT NULL,\
-                `DogsAllowed` Boolean DEFAULT NULL,\
-                `BusinessAcceptsBitcoin` Boolean DEFAULT NULL,\
-                `Open24Hours` Boolean DEFAULT NULL,\
-                `BYOBCorkage` Boolean DEFAULT NULL,\
-                `BYOB` Boolean DEFAULT NULL,\
-                `Corkage` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_dairy` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_gluten` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_vegan` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_kosher` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_halal` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_soy` Boolean DEFAULT NULL,\
-                `DietaryRestrictions_vegetarian` Boolean DEFAULT NULL,\
-                `AgesAllowed` Boolean DEFAULT NULL,\
-                `RestaurantsCounterService` Boolean DEFAULT NULL,\
+                `AcceptsInsurance` VARCHAR(5) DEFAULT NULL,\
+                `ByAppointmentOnly` VARCHAR(5) DEFAULT NULL,\
+                `BusinessAcceptsCreditCards` VARCHAR(5) DEFAULT NULL,\
+                `BusinessParking_garage` VARCHAR(5) DEFAULT NULL,\
+                `BusinessParking_street` VARCHAR(5) DEFAULT NULL,\
+                `BusinessParking_validated` VARCHAR(5) DEFAULT NULL,\
+                `BusinessParking_lot` VARCHAR(5) DEFAULT NULL,\
+                `BusinessParking_valet` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_coloring` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_africanamerican` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_curly` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_perms` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_kids` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_extensions` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_asian` VARCHAR(5) DEFAULT NULL,\
+                `HairSpecializesIn_straightperms` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsPriceRange2` VARCHAR(5) DEFAULT NULL,\
+                `GoodForKids` VARCHAR(5) DEFAULT NULL,\
+                `WheelchairAccessible` VARCHAR(5) DEFAULT NULL,\
+                `BikeParking` VARCHAR(5) DEFAULT NULL,\
+                `Alcohol` VARCHAR(5) DEFAULT NULL,\
+                `HasTV` VARCHAR(5) DEFAULT NULL,\
+                `NoiseLevel` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsAttire` VARCHAR(5) DEFAULT NULL,\
+                `Music_dj` VARCHAR(5) DEFAULT NULL,\
+                `Music_background_music` VARCHAR(5) DEFAULT NULL,\
+                `Music_no_music` VARCHAR(5) DEFAULT NULL,\
+                `Music_karaoke` VARCHAR(5) DEFAULT NULL,\
+                `Music_live` VARCHAR(5) DEFAULT NULL,\
+                `Music_video` VARCHAR(5) DEFAULT NULL,\
+                `Music_jukebox` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_romantic` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_intimate` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_classy` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_hipster` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_divey` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_touristy` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_trendy` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_upscale` VARCHAR(5) DEFAULT NULL,\
+                `Ambience_casual` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsGoodForGroups` VARCHAR(5) DEFAULT NULL,\
+                `Caters` VARCHAR(5) DEFAULT NULL,\
+                `WiFi` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsReservations` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsTakeOut` VARCHAR(5) DEFAULT NULL,\
+                `HappyHour` VARCHAR(5) DEFAULT NULL,\
+                `GoodForDancing` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsTableService` VARCHAR(5) DEFAULT NULL,\
+                `OutdoorSeating` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsDelivery` VARCHAR(5) DEFAULT NULL,\
+                `BestNights_monday` VARCHAR(5) DEFAULT NULL,\
+                `BestNights_tuesday` VARCHAR(5) DEFAULT NULL,\
+                `BestNights_friday` VARCHAR(5) DEFAULT NULL,\
+                `BestNights_wednesday` VARCHAR(5) DEFAULT NULL,\
+                `BestNights_thursday` VARCHAR(5) DEFAULT NULL,\
+                `BestNights_sunday` VARCHAR(5) DEFAULT NULL,\
+                `BestNights_saturday` VARCHAR(5) DEFAULT NULL,\
+                `GoodForMeal_dessert` VARCHAR(5) DEFAULT NULL,\
+                `GoodForMeal_latenight` VARCHAR(5) DEFAULT NULL,\
+                `GoodForMeal_lunch` VARCHAR(5) DEFAULT NULL,\
+                `GoodForMeal_dinner` VARCHAR(5) DEFAULT NULL,\
+                `GoodForMeal_breakfast` VARCHAR(5) DEFAULT NULL,\
+                `GoodForMeal_brunch` VARCHAR(5) DEFAULT NULL,\
+                `CoatCheck` VARCHAR(5) DEFAULT NULL,\
+                `Smoking` VARCHAR(5) DEFAULT NULL,\
+                `DriveThru` VARCHAR(5) DEFAULT NULL,\
+                `DogsAllowed` VARCHAR(5) DEFAULT NULL,\
+                `BusinessAcceptsBitcoin` VARCHAR(5) DEFAULT NULL,\
+                `Open24Hours` VARCHAR(5) DEFAULT NULL,\
+                `BYOBCorkage` VARCHAR(5) DEFAULT NULL,\
+                `BYOB` VARCHAR(5) DEFAULT NULL,\
+                `Corkage` VARCHAR(5) DEFAULT NULL,\
+                `DietaryRestrictions_dairy` VARCHAR(5) DEFAULT NULL,\
+                `DietaryRestrictions_gluten` VARCHAR(5) DEFAULT NULL,\
+                `DietaryRestrictions_vegan` VARCHAR(5) DEFAULT NULL,\
+                `DietaryRestrictions_kosher` VARCHAR(5) DEFAULT NULL,\
+                `DietaryRestrictions_halal` VARCHAR(5) DEFAULT NULL,\
+                `DietaryRestrictions_soy` VARCHAR(5) DEFAULT NULL,\
+                `DietaryRestrictions_vegetarian` VARCHAR(5) DEFAULT NULL,\
+                `AgesAllowed` VARCHAR(5) DEFAULT NULL,\
+                `RestaurantsCounterService` VARCHAR(5) DEFAULT NULL,\
                 PRIMARY KEY(`business_id`) \
                 )ENGINE = InnoDB DEFAULT CHARSET = UTF8MB4;"
             cursor.execute(sql)
@@ -283,30 +283,42 @@ def main():
     # create tables
     create_tables()
 
+    # retrieve data ubuntu
+    # file_business_attributes = "/var/lib/mysql/Project/yelp_business_attributes.csv"
+    # file_business_hours = "/var/lib/mysql/Project/yelp_business_hours.csv"
+    # file_business = "/var/lib/mysql/Project/yelp_business.csv"
+    # file_checkin = "/var/lib/mysql/Project/yelp_checkin.csv"
+    # file_review = "/var/lib/mysql/Project/yelp_review.csv"
+    # file_tip = "/var/lib/mysql/Project/yelp_tip.csv"
+    # file_user = "/var/lib/mysql/Project/yelp_user.csv"
+
     # retrieve data
-    file_business_attributes = "/var/lib/mysql/Project/yelp_business_attributes.csv"
-    file_business_hours = "/var/lib/mysql/Project/yelp_business_hours.csv"
-    file_business = "/var/lib/mysql/Project/yelp_business.csv"
-    file_checkin = "/var/lib/mysql/Project/yelp_checkin.csv"
-    file_review = "/var/lib/mysql/Project/yelp_review.csv"
-    file_tip = "/var/lib/mysql/Project/yelp_tip.csv"
-    file_user = "/var/lib/mysql/Project/yelp_user.csv"
+    file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
+    file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
+    file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
+    file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
+    file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
+    file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     business_attributes = get_data_from_csv(file_business_attributes)
-    business_hours = get_data_from_csv(file_business_hours)
-    business = get_data_from_csv(file_business)
-    checkin = get_data_from_csv(file_checkin)
-    review = get_data_from_csv(file_review)
-    tips = get_data_from_csv(file_tip)
-    user = get_data_from_csv(file_user)
-
+    print(business_attributes.head())
     insert_data("Business_attributes", business_attributes)
-#     insert_data("Business_hours", business_hours)
-#     insert_data("Business", business)
-#     insert_data("Checkin", checkin)
-#     insert_data("Tips", tips)
-#     insert_data("User", user)
-#     insert_data("Review", review)
+
+    # business_hours = get_data_from_csv(file_business_hours)
+    # business = get_data_from_csv(file_business)
+    # checkin = get_data_from_csv(file_checkin)
+    # review = get_data_from_csv(file_review)
+    # tips = get_data_from_csv(file_tip)
+    # user = get_data_from_csv(file_user)
+    #
+    #
+    # insert_data("Business_hours", business_hours)
+    # insert_data("Business", business)
+    # insert_data("Checkin", checkin)
+    # insert_data("Tips", tips)
+    # insert_data("User", user)
+    # insert_data("Review", review)
 
 if __name__ == '__main__':
     main()
