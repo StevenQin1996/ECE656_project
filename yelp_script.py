@@ -258,7 +258,7 @@ def insert_data(table_name, mydata):
 
             parameter = []
             for count in range(len(mydata.values)):
-                print(tuple(mydata.values[count]))
+                # print(tuple(mydata.values[count]))
                 parameter.append(tuple(mydata.values[count]))
 
             cursor.executemany(sql, parameter)
@@ -281,6 +281,28 @@ def test():
             connection.commit()
     finally:
         connection.close()
+
+
+def load_from_csv(table_name, mydata):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'])
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "LOAD DATA local INFILE {}\
+                        INTO TABLE {} \
+                        FIELDS TERMINATED BY ',' \
+                        ENCLOSED BY ""\
+                        LINES TERMINATED BY '\n'\
+                        IGNORE 1 ROWS".format(mydata, table_name)
+
+            cursor.executemany(sql)
+            connection.commit()
+    finally:
+        connection.close()
+
+
 
 
 # set up python on server
@@ -307,22 +329,33 @@ def main():
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     business_attributes = get_data_from_csv(file_business_attributes)
-    insert_data("Business_attributes", business_attributes)
-    business_hours = get_data_from_csv(file_business_hours)
-    insert_data("Business_hours", business_hours)
+    load_from_csv("Business_attributes", business_attributes)
+    # insert_data("Business_attributes", business_attributes)
 
-    tips = get_data_from_csv(file_tip)
-    insert_data("Tips", tips)
+    business_hours = get_data_from_csv(file_business_hours)
+    load_from_csv("Business_hours", business_hours)
+    # insert_data("Business_hours", business_hours)
+
+    business = get_data_from_csv(file_business)
+    load_from_csv("Business", business)
+    # insert_data("Business", business)
 
     checkin = get_data_from_csv(file_checkin)
-    insert_data("Checkin", checkin)
+    load_from_csv("Checkin", checkin)
+    # insert_data("Checkin", checkin)
 
     user = get_data_from_csv(file_user)
-    insert_data("User", user)
+    load_from_csv("User", user)
+    # insert_data("User", user)
+
     review = get_data_from_csv(file_review)
-    insert_data("Review", review)
-    business = get_data_from_csv(file_business)
-    insert_data("Business", business)
+    load_from_csv("Review", review)
+    # insert_data("Review", review)
+
+    tips = get_data_from_csv(file_tip)
+    load_from_csv("Tips", tips)
+    # insert_data("Tips", tips)
+
 
 if __name__ == '__main__':
     main()
