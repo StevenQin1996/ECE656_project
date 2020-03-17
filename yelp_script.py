@@ -12,7 +12,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Project'}
+                      'database': 'Test'}
     return connection_key
 
 
@@ -257,7 +257,7 @@ def insert_data(table_name, mydata):
 
             parameter = []
             for count in range(len(mydata.values)):
-                # print(tuple(mydata.values[count]))
+                print(tuple(mydata.values[count]))
                 parameter.append(tuple(mydata.values[count]))
 
             cursor.executemany(sql, parameter)
@@ -309,7 +309,7 @@ def main():
     insert_data("Checkin", checkin)
     tips = get_data_from_csv(file_tip)
     insert_data("Tips", tips)
-    
+
     business_attributes = get_data_from_csv(file_business_attributes)
     insert_data("Business_attributes", business_attributes)
     business_hours = get_data_from_csv(file_business_hours)
