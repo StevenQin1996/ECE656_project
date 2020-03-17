@@ -12,7 +12,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test'}
+                      'database': 'Test2'}
     return connection_key
 
 
@@ -24,18 +24,18 @@ def get_data_from_csv(myfile):
 
 def create_tables():
     # Open database connection
-    print(1)
+
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
                                  database=my_key['database'])
 
     try:
         with connection.cursor() as cursor:
-            print(2)
+
             # create table
             sql = 'DROP TABLE IF EXISTS Business'
             cursor.execute(sql)
-            print(3)
+
             sql = 'CREATE TABLE Business(\
                 `business_id` VARCHAR(32) NOT NULL,\
                 `name` VARCHAR(32) DEFAULT NULL,\
@@ -53,11 +53,12 @@ def create_tables():
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
-            print(4)
+
+
             sql = 'DROP TABLE IF EXISTS Business_attributes'
             cursor.execute(sql)
-            print(5)
-            sql = "CREATE TABLE Business_attributes(\
+
+            sql = 'CREATE TABLE Business_attributes(\
                 `business_id` VARCHAR(32) NOT NULL,\
                 `AcceptsInsurance` VARCHAR(32) DEFAULT NULL,\
                 `ByAppointmentOnly` VARCHAR(32) DEFAULT NULL,\
@@ -141,12 +142,12 @@ def create_tables():
                 `AgesAllowed` VARCHAR(32) DEFAULT NULL,\
                 `RestaurantsCounterService` VARCHAR(32) DEFAULT NULL,\
                 PRIMARY KEY(`business_id`) \
-                )ENGINE = InnoDB DEFAULT CHARSET = UTF8MB4;"
+                )ENGINE = InnoDB DEFAULT CHARSET = UTF8MB4;'
             cursor.execute(sql)
-            print(6)
+
             sql = 'DROP TABLE IF EXISTS Business_hours'
             cursor.execute(sql)
-            print(7)
+
             sql = 'CREATE TABLE Business_hours(\
                 `business_id` VARCHAR(32) NOT NULL,\
                 `Monday` VARCHAR(32) DEFAULT NULL,\
@@ -159,10 +160,10 @@ def create_tables():
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
-            print(8)
+
             sql = 'DROP TABLE IF EXISTS Checkin'
             cursor.execute(sql)
-            print(9)
+
             sql = 'CREATE TABLE Checkin(\
                 `business_id` VARCHAR(32) NOT NULL,\
                 `weekday` VARCHAR(32) DEFAULT NULL,\
@@ -171,10 +172,10 @@ def create_tables():
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
-            print(10)
+
             sql = 'DROP TABLE IF EXISTS Review'
             cursor.execute(sql)
-            print(11)
+
             sql = 'CREATE TABLE Review(\
                 `review_id` VARCHAR(32) NOT NULL,\
                 `user_id` VARCHAR(32) DEFAULT NULL,\
@@ -188,10 +189,10 @@ def create_tables():
                 PRIMARY KEY (`review_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
-            print(12)
+
             sql = 'DROP TABLE IF EXISTS Tips'
             cursor.execute(sql)
-            print(13)
+
             sql = "CREATE TABLE Tips(\
                 `tips_id` INT NOT NULL AUTO_INCREMENT,\
                 `text` VARCHAR(500) DEFAULT NULL,\
@@ -202,7 +203,7 @@ def create_tables():
                 PRIMARY KEY (`tips_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;"
             cursor.execute(sql)
-            print(14)
+
             sql = 'DROP TABLE IF EXISTS User'
             cursor.execute(sql)
             sql = "CREATE TABLE User(\
@@ -245,7 +246,7 @@ def create_tables():
                 PRIMARY KEY (`review_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
-            print(5)
+
     finally:
         print("create table complete")
         connection.close()
