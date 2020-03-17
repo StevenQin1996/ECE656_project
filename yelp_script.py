@@ -260,7 +260,7 @@ def insert_data(table_name, mydata):
 
             parameter = []
             for count in range(len(mydata.values)):
-                print(tuple(mydata.values[count]))
+                # print(tuple(mydata.values[count]))
                 parameter.append(tuple(mydata.values[count]))
 
             cursor.executemany(sql, parameter)
