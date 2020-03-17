@@ -301,12 +301,12 @@ def main():
     user = get_data_from_csv(file_user)
 
     insert_data("Business_attributes", business_attributes)
-    insert_data("Business_hours", business_hours)
-    insert_data("Business", business)
-    insert_data("Checkin", checkin)
-    insert_data("Tips", tips)
-    insert_data("User", user)
-    insert_data("Review", review)
+#     insert_data("Business_hours", business_hours)
+#     insert_data("Business", business)
+#     insert_data("Checkin", checkin)
+#     insert_data("Tips", tips)
+#     insert_data("User", user)
+#     insert_data("Review", review)
 
 if __name__ == '__main__':
     main()
