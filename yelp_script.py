@@ -182,7 +182,6 @@ def create_tables():
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
-
             sql = 'DROP TABLE IF EXISTS Tips'
             cursor.execute(sql)
             sql = 'CREATE TABLE Tips(\
@@ -261,7 +260,9 @@ def insert_data(table_name, mydata):
             cursor.executemany(sql, parameter)
             connection.commit()
     finally:
+        print("{}: update complete".format(table_name))
         connection.close()
+
 
 def test():
     my_key = get_connection_key()
@@ -301,29 +302,20 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # passed
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-
-    #pending
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
     business_hours = get_data_from_csv(file_business_hours)
     insert_data("Business_hours", business_hours)
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
-    # checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
-
-
-
-
-
-
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
 
 
 if __name__ == '__main__':
