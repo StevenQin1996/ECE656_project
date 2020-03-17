@@ -304,12 +304,10 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-    # business_hours = get_data_from_csv(file_business_hours)
-    # insert_data("Business_hours", business_hours)
-    business = get_data_from_csv(file_business)
-    insert_data("Business", business)
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
+    business_hours = get_data_from_csv(file_business_hours)
+    insert_data("Business_hours", business_hours)
     checkin = get_data_from_csv(file_checkin)
     insert_data("Checkin", checkin)
     tips = get_data_from_csv(file_tip)
@@ -318,7 +316,8 @@ def main():
     insert_data("User", user)
     review = get_data_from_csv(file_review)
     insert_data("Review", review)
-
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
 
 if __name__ == '__main__':
     main()
