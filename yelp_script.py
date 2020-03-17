@@ -299,8 +299,6 @@ def load_from_csv(table_name, mydata):
         connection.close()
 
 
-
-
 # set up python on server
 def main():
     # create tables
@@ -325,21 +323,24 @@ def main():
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     business_attributes = get_data_from_csv(file_business_attributes)
-    business_hours = get_data_from_csv(file_business_hours)
-    business = get_data_from_csv(file_business)
-    checkin = get_data_from_csv(file_checkin)
-    user = get_data_from_csv(file_user)
-    review = get_data_from_csv(file_review)
-    tips = get_data_from_csv(file_tip)
-
-    # print(business_attributes.head())
-
     insert_data("Business_attributes", business_attributes)
+
+    business_hours = get_data_from_csv(file_business_hours)
     insert_data("Business_hours", business_hours)
+
+    business = get_data_from_csv(file_business)
     insert_data("Business", business)
+
+    checkin = get_data_from_csv(file_checkin)
     insert_data("Checkin", checkin)
+
+    user = get_data_from_csv(file_user)
     insert_data("User", user)
+
+    review = get_data_from_csv(file_review)
     insert_data("Review", review)
+
+    tips = get_data_from_csv(file_tip)
     insert_data("Tips", tips)
 
     # load_from_csv("Business_attributes", business_attributes)
