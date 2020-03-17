@@ -17,7 +17,7 @@ def get_connection_key():
 
 
 def get_data_from_csv(myfile):
-    df = pd.read_csv(myfile, delimiter=',').iloc[:,1:-1]
+    df = pd.read_csv(myfile, delimiter=',')
     return df
 
 
