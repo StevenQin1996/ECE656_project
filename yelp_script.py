@@ -46,7 +46,7 @@ def create_tables():
                 `stars` FLOAT DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
                 `is_open` VARCHAR(32) DEFAULT NULL,\
-                `categories` TEXT DEFAULT NULL,\
+                `categories` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
@@ -176,7 +176,7 @@ def create_tables():
                 `useful` INT DEFAULT NULL,\
                 `funny` INT DEFAULT NULL,\
                 `cool` INT DEFAULT NULL,\
-                `text` TEXT DEFAULT NULL,\
+                `text` VARCHAR(500) DEFAULT NULL,\
                 `date` DATE,\
                 PRIMARY KEY (`review_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
@@ -184,14 +184,15 @@ def create_tables():
 
             sql = 'DROP TABLE IF EXISTS Tips'
             cursor.execute(sql)
-            sql = 'CREATE TABLE Tips(\
-                `text` TEXT DEFAULT NULL,\
+            sql = "CREATE TABLE Tips(\
+                `tips_id` INT NOT NULL AUTO_INCREMENT,\
+                `text` VARCHAR(500) DEFAULT NULL,\
                 `date` DATE DEFAULT NULL,\
                 `likes` INT DEFAULT NULL,\
                 `business_id` VARCHAR(32) NOT NULL,\
                 `user_id` VARCHAR(32) NOT NULL,\
-                PRIMARY KEY (`business_id`,`user_id`)\
-                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+                PRIMARY KEY (`tips_id`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;"
             cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS User'
@@ -201,7 +202,7 @@ def create_tables():
                 `name` VARCHAR(32) DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
                 `yelping_since` DATE DEFAULT NULL,\
-                `friends` TEXT DEFAULT NULL,\
+                `friends` VARCHAR(500) DEFAULT NULL,\
                 `useful` INT DEFAULT NULL,\
                 `funny` INT DEFAULT NULL,\
                 `cool` INT DEFAULT NULL,\
