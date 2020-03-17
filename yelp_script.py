@@ -281,7 +281,7 @@ def test():
 # set up python on server
 def main():
     # create tables
-    # create_tables()
+    create_tables()
 
     # retrieve data ubuntu
     file_business_attributes = "/var/lib/mysql/Project/yelp_business_attributes.csv"
