@@ -45,8 +45,8 @@ def create_tables():
                 `city` VARCHAR(128) DEFAULT NULL,\
                 `state` VARCHAR(128) DEFAULT NULL,\
                 `postal_code` VARCHAR(10) DEFAULT NULL,\
-                `latitude` FLOAT DEFAULT NULL,\
-                `longitude` FLOAT DEFAULT NULL,\
+                `latitude` DECIMAL(5,20) DEFAULT NULL,\
+                `longitude` DECIMAL(5,20) DEFAULT NULL,\
                 `stars` FLOAT DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
                 `is_open` VARCHAR(128) DEFAULT NULL,\
@@ -316,7 +316,7 @@ def load_from_csv(table_name, mydata):
 # set up python on server
 def main():
     # create tables
-    create_tables()
+    # create_tables()
 
     # retrieve data ubuntu
     file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
