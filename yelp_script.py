@@ -18,6 +18,7 @@ def get_connection_key():
 
 def get_data_from_csv(myfile):
     df = pd.read_csv(myfile, delimiter=',')
+    df.fillna("NULL", inplace = True)
     print("get data complete")
     return df
 
@@ -53,7 +54,6 @@ def create_tables():
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
-
 
             sql = 'DROP TABLE IF EXISTS Business_attributes'
             cursor.execute(sql)
@@ -271,10 +271,11 @@ def insert_data(table_name, mydata):
             # for count in range(len(mydata.values)):
             #     # print(tuple(mydata.values[count]))
             #     parameter.append(tuple(mydata.values[count]))
-
+            # print(type(parameter))
             # cursor.executemany(sql, parameter)
             # connection.commit()
-            records = mydata.to_records(index=False)
+            records = mydata.to_records(index=False).tolist()
+            # print(type(records))
             cursor.executemany(sql, records)
             connection.commit()
     finally:
@@ -300,11 +301,12 @@ def test():
 def load_from_csv(table_name, mydata):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile = 1)
+                                 database=my_key['database'], local_infile=1)
 
     try:
         with connection.cursor() as cursor:
-            sql = "LOAD DATA local INFILE {} INTO TABLE {} FIELDS TERMINATED BY ',' ENCLOSED BY '""' LINES TERMINATED BY '\r\n' IGNORE 1 ROWS IGNORE 1".format(mydata, table_name)
+            sql = "LOAD DATA local INFILE {} INTO TABLE {} FIELDS TERMINATED BY ',' ENCLOSED BY '""' LINES TERMINATED BY '\r\n' IGNORE 1 ROWS IGNORE 1".format(
+                mydata, table_name)
             cursor.execute(sql)
             connection.commit()
     finally:
@@ -335,7 +337,6 @@ def main():
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     business_attributes = get_data_from_csv(file_business_attributes)
-
     # print(tuple(business_attributes[0:1].values))
     # for column, item in zip(business_attributes.columns, business_attributes.values[55]):
     #     print("{}: {}".format(column,item))
@@ -366,6 +367,7 @@ def main():
     # load_from_csv("User", user)
     # load_from_csv("Review", review)
     # load_from_csv("Tips", tips)
+
 
 if __name__ == '__main__':
     main()
