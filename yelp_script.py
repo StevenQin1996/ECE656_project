@@ -56,7 +56,7 @@ def create_tables():
             cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Business_attributes'
-            cursor.execute(sql)
+            # cursor.execute(sql)
 
             sql = 'CREATE TABLE Business_attributes(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -143,10 +143,10 @@ def create_tables():
                 `RestaurantsCounterService` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY(`business_id`) \
                 )ENGINE = InnoDB DEFAULT CHARSET = UTF8MB4;'
-            cursor.execute(sql)
+            # cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Business_hours'
-            cursor.execute(sql)
+            # cursor.execute(sql)
 
             sql = 'CREATE TABLE Business_hours(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -159,7 +159,7 @@ def create_tables():
                 `Sunday` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            cursor.execute(sql)
+            # cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Checkin'
             cursor.execute(sql)
@@ -316,7 +316,7 @@ def load_from_csv(table_name, mydata):
 # set up python on server
 def main():
     # create tables
-    # create_tables()
+    create_tables()
 
     # retrieve data ubuntu
     # file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
@@ -346,20 +346,19 @@ def main():
     # insert_data("Business_hours", business_hours)
     #
     business = get_data_from_csv(file_business)
-    print(business['latitude'][476])
-    # insert_data("Business", business)
+    insert_data("Business", business)
 
     checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
-    #
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
-    #
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
+    insert_data("Checkin", checkin)
+
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
+
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
+
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
 
     # load_from_csv("Business_attributes", business_attributes)
     # load_from_csv("Business_hours", business_hours)
