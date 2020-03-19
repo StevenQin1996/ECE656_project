@@ -274,8 +274,8 @@ def insert_data(table_name, mydata):
 
             # cursor.executemany(sql, parameter)
             # connection.commit()
-
-            cursor.executemany(sql, mydata.values.all())
+            records = mydata.to_records(index=False)
+            cursor.executemany(sql, records)
             connection.commit()
     finally:
         print("{}: update complete".format(table_name))
@@ -326,7 +326,7 @@ def main():
     file_user = "/var/lib/mysql-files/yelp_user.csv"
 
     # retrieve data local
-    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/yelp_dataset/converted/business.csv"
+    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
     # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
     # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
     # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
@@ -336,8 +336,9 @@ def main():
 
     business_attributes = get_data_from_csv(file_business_attributes)
 
-    for column, item in zip(business_attributes.columns, business_attributes.values[55]):
-        print("{}: {}".format(column,item))
+    # print(tuple(business_attributes[0:1].values))
+    # for column, item in zip(business_attributes.columns, business_attributes.values[55]):
+    #     print("{}: {}".format(column,item))
     insert_data("Business_attributes", business_attributes)
 
     business_hours = get_data_from_csv(file_business_hours)
