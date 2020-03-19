@@ -41,7 +41,7 @@ def create_tables():
                 `business_id` VARCHAR(32) NOT NULL,\
                 `name` VARCHAR(32) DEFAULT NULL,\
                 `neighborhood` VARCHAR(32) DEFAULT NULL,\
-                `address` VARCHAR(32) DEFAULT NULL,\
+                `address` VARCHAR(128) DEFAULT NULL,\
                 `city` VARCHAR(32) DEFAULT NULL,\
                 `state` VARCHAR(32) DEFAULT NULL,\
                 `postal_code` VARCHAR(10) DEFAULT NULL,\
@@ -50,7 +50,7 @@ def create_tables():
                 `stars` FLOAT DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
                 `is_open` VARCHAR(32) DEFAULT NULL,\
-                `categories` VARCHAR(128) DEFAULT NULL,\
+                `categories` TEXT DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
@@ -211,7 +211,7 @@ def create_tables():
                 `name` VARCHAR(32) DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
                 `yelping_since` DATE DEFAULT NULL,\
-                `friends` VARCHAR(500) DEFAULT NULL,\
+                `friends` LONGTEXT DEFAULT NULL,\
                 `useful` INT DEFAULT NULL,\
                 `funny` INT DEFAULT NULL,\
                 `cool` INT DEFAULT NULL,\
