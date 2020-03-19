@@ -45,8 +45,8 @@ def create_tables():
                 `city` VARCHAR(128) DEFAULT NULL,\
                 `state` VARCHAR(128) DEFAULT NULL,\
                 `postal_code` VARCHAR(10) DEFAULT NULL,\
-                `latitude` DOUBLE DEFAULT NULL,\
-                `longitude` DOUBLE DEFAULT NULL,\
+                `latitude` FLOAT DEFAULT NULL,\
+                `longitude` FLOAT DEFAULT NULL,\
                 `stars` FLOAT DEFAULT NULL,\
                 `review_count` INT DEFAULT NULL,\
                 `is_open` VARCHAR(128) DEFAULT NULL,\
@@ -316,49 +316,50 @@ def load_from_csv(table_name, mydata):
 # set up python on server
 def main():
     # create tables
-    create_tables()
+    # create_tables()
 
     # retrieve data ubuntu
-    file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
-    file_business_hours = "/var/lib/mysql-files/yelp_business_hours.csv"
-    file_business = "/var/lib/mysql-files/yelp_business.csv"
-    file_checkin = "/var/lib/mysql-files/yelp_checkin.csv"
-    file_review = "/var/lib/mysql-files/yelp_review.csv"
-    file_tip = "/var/lib/mysql-files/yelp_tip.csv"
-    file_user = "/var/lib/mysql-files/yelp_user.csv"
+    # file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
+    # file_business_hours = "/var/lib/mysql-files/yelp_business_hours.csv"
+    # file_business = "/var/lib/mysql-files/yelp_business.csv"
+    # file_checkin = "/var/lib/mysql-files/yelp_checkin.csv"
+    # file_review = "/var/lib/mysql-files/yelp_review.csv"
+    # file_tip = "/var/lib/mysql-files/yelp_tip.csv"
+    # file_user = "/var/lib/mysql-files/yelp_user.csv"
 
     # retrieve data local
-    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
-    # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
-    # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
-    # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
-    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
-    # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
-    # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
+    file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
+    file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
+    file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
+    file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
+    file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
+    file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    business_attributes = get_data_from_csv(file_business_attributes)
-    # print(tuple(business_attributes[0:1].values))
-    # for column, item in zip(business_attributes.columns, business_attributes.values[55]):
-    #     print("{}: {}".format(column,item))
-    insert_data("Business_attributes", business_attributes)
-
-    business_hours = get_data_from_csv(file_business_hours)
-    insert_data("Business_hours", business_hours)
-
+    # business_attributes = get_data_from_csv(file_business_attributes)
+    # # print(tuple(business_attributes[0:1].values))
+    # # for column, item in zip(business_attributes.columns, business_attributes.values[55]):
+    # #     print("{}: {}".format(column,item))
+    # insert_data("Business_attributes", business_attributes)
+    #
+    # business_hours = get_data_from_csv(file_business_hours)
+    # insert_data("Business_hours", business_hours)
+    #
     business = get_data_from_csv(file_business)
-    insert_data("Business", business)
+    print(business['latitude'][476])
+    # insert_data("Business", business)
 
     checkin = get_data_from_csv(file_checkin)
-    insert_data("Checkin", checkin)
-
-    user = get_data_from_csv(file_user)
-    insert_data("User", user)
-
-    review = get_data_from_csv(file_review)
-    insert_data("Review", review)
-
-    tips = get_data_from_csv(file_tip)
-    insert_data("Tips", tips)
+    # insert_data("Checkin", checkin)
+    #
+    # user = get_data_from_csv(file_user)
+    # insert_data("User", user)
+    #
+    # review = get_data_from_csv(file_review)
+    # insert_data("Review", review)
+    #
+    # tips = get_data_from_csv(file_tip)
+    # insert_data("Tips", tips)
 
     # load_from_csv("Business_attributes", business_attributes)
     # load_from_csv("Business_hours", business_hours)
