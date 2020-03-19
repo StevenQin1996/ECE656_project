@@ -39,7 +39,7 @@ def create_tables():
 
             sql = 'CREATE TABLE Business(\
                 `business_id` VARCHAR(32) NOT NULL,\
-                `name` VARCHAR(32) DEFAULT NULL,\
+                `name` VARCHAR(128) DEFAULT NULL,\
                 `neighborhood` VARCHAR(32) DEFAULT NULL,\
                 `address` VARCHAR(128) DEFAULT NULL,\
                 `city` VARCHAR(32) DEFAULT NULL,\
