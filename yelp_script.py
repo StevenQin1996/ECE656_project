@@ -317,7 +317,7 @@ def load_from_csv(table_name, mydata):
 # set up python on server
 def main():
     # create tables
-    create_tables()
+    # create_tables()
 
     # retrieve data ubuntu
     file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
@@ -352,9 +352,8 @@ def main():
     # checkin = get_data_from_csv(file_checkin)
     # insert_data("Checkin", checkin)
     #
-    user = get_data_from_csv(file_user)
-    print(user.columns)
-    insert_data("User", user)
+    # user = get_data_from_csv(file_user)
+    # insert_data("User", user)
     #
     review = get_data_from_csv(file_review)
     insert_data("Review", review)
