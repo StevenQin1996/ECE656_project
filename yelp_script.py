@@ -18,7 +18,7 @@ def get_connection_key():
 
 def get_data_from_csv(myfile):
     df = pd.read_csv(myfile, delimiter=',')
-    # df.fillna("NULL", inplace = True)
+    df.fillna("NULL", inplace = True)
     print("get data complete")
     return df
 
@@ -65,13 +65,22 @@ def load_from_csv(table_name, mydata):
 def main():
 
     # retrieve data ubuntu
-    file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
-    file_business_hours = "/var/lib/mysql-files/yelp_business_hours.csv"
-    file_business = "/var/lib/mysql-files/yelp_business.csv"
-    file_checkin = "/var/lib/mysql-files/yelp_checkin.csv"
-    file_review = "/var/lib/mysql-files/yelp_review.csv"
-    file_tip = "/var/lib/mysql-files/yelp_tip.csv"
-    file_user = "/var/lib/mysql-files/yelp_user.csv"
+    # file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
+    # file_business_hours = "/var/lib/mysql-files/yelp_business_hours.csv"
+    # file_business = "/var/lib/mysql-files/yelp_business.csv"
+    # file_checkin = "/var/lib/mysql-files/yelp_checkin.csv"
+    # file_review = "/var/lib/mysql-files/yelp_review.csv"
+    # file_tip = "/var/lib/mysql-files/yelp_tip.csv"
+    # file_user = "/var/lib/mysql-files/yelp_user.csv"
+
+    # retrieve data local
+    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
+    # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
+    # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
+    # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
+    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
+    # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
     # business_attributes = get_data_from_csv(file_business_attributes)
     # insert_data("Business_attributes", business_attributes)
@@ -92,7 +101,11 @@ def main():
     # insert_data("Review", review)
 
     tips = get_data_from_csv(file_tip)
+    # print(tips.columns)
+    # print(tips.head())
+    # print(tips[1:5].values)
     insert_data("Tips", tips)
+
 
 if __name__ == '__main__':
     main()
