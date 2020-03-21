@@ -184,17 +184,7 @@ def create_tables():
             # cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Tips'
-            cursor.execute(sql)
-
-            # sql = "CREATE TABLE Tips(\
-            #     `tips_id` INT NOT NULL AUTO_INCREMENT,\
-            #     `text` TEXT DEFAULT NULL,\
-            #     `date` DATE DEFAULT NULL,\
-            #     `likes` INT DEFAULT NULL,\
-            #     `business_id` VARCHAR(128) NOT NULL,\
-            #     `user_id` VARCHAR(128) NOT NULL,\
-            #     PRIMARY KEY (`tips_id`)\
-            #     )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;"
+            # cursor.execute(sql)
 
             sql = "CREATE TABLE Tips(\
                 `text` TEXT DEFAULT NULL,\
@@ -203,7 +193,7 @@ def create_tables():
                 `business_id` VARCHAR(128) NOT NULL,\
                 `user_id` VARCHAR(128) NOT NULL\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;"
-            cursor.execute(sql)
+            # cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS User'
             # cursor.execute(sql)
@@ -233,6 +223,17 @@ def create_tables():
                 PRIMARY KEY (`user_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             # cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS Elite'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE Elite(\
+                `user_id` VARCHAR(128) NOT NULL,\
+                `elite` INT NOT NULL,\
+                PRIMARY KEY (`user_id`,`elite`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
 
     finally:
         print("create table complete")
