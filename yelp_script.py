@@ -12,7 +12,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test2'}
+                      'database': 'Test3'}
     return connection_key
 
 
@@ -109,27 +109,26 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-    #
-    # business_hours = get_data_from_csv(file_business_hours)
-    # insert_data("Business_hours", business_hours)
-    #
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
 
-    # checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
-    #
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
+    business_hours = get_data_from_csv(file_business_hours)
+    insert_data("Business_hours", business_hours)
 
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
 
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
+
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
+
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
+
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
 
     split_elite = split_data("user_id", "elite", "User")
     insert_data("Elite", split_elite)
