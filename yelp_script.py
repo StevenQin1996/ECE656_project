@@ -109,17 +109,17 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    business_attributes = get_data_from_csv(file_business_attributes)
-    insert_data("Business_attributes", business_attributes)
-
-    business_hours = get_data_from_csv(file_business_hours)
-    insert_data("Business_hours", business_hours)
-
-    business = get_data_from_csv(file_business)
-    insert_data("Business", business)
-
-    checkin = get_data_from_csv(file_checkin)
-    insert_data("Checkin", checkin)
+    # business_attributes = get_data_from_csv(file_business_attributes)
+    # insert_data("Business_attributes", business_attributes)
+    #
+    # business_hours = get_data_from_csv(file_business_hours)
+    # insert_data("Business_hours", business_hours)
+    #
+    # business = get_data_from_csv(file_business)
+    # insert_data("Business", business)
+    #
+    # checkin = get_data_from_csv(file_checkin)
+    # insert_data("Checkin", checkin)
 
     user = get_data_from_csv(file_user)
     insert_data("User", user)

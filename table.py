@@ -157,12 +157,10 @@ def create_tables():
             cursor.execute(sql)
 
             sql = 'CREATE TABLE Checkin(\
-                `checkin_id` INT NOT NULL AUTO_INCREMENT,\
                 `business_id` VARCHAR(128) NOT NULL,\
                 `weekday` VARCHAR(128) DEFAULT NULL,\
                 `hour` TIME DEFAULT NULL,\
-                `checkins` INT DEFAULT NULL,\
-                PRIMARY KEY (`checkin_id`)\
+                `checkins` INT DEFAULT NULL\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
