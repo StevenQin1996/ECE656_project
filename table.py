@@ -27,7 +27,7 @@ def create_tables():
 
             # create table
             sql = 'DROP TABLE IF EXISTS Business'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Business(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -45,10 +45,10 @@ def create_tables():
                 `categories` TEXT DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            #cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Business_attributes'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Business_attributes(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -135,10 +135,10 @@ def create_tables():
                 `RestaurantsCounterService` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY(`business_id`) \
                 )ENGINE = InnoDB DEFAULT CHARSET = UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Business_hours'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Business_hours(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -151,10 +151,10 @@ def create_tables():
                 `Sunday` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Checkin'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Checkin(\
                 `checkin_id` INT NOT NULL AUTO_INCREMENT,\
@@ -164,10 +164,10 @@ def create_tables():
                 `checkins` INT DEFAULT NULL,\
                 PRIMARY KEY (`checkin_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Review'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Review(\
                 `review_id` VARCHAR(128) NOT NULL,\
@@ -181,10 +181,10 @@ def create_tables():
                 `date` DATE,\
                 PRIMARY KEY (`review_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Tips'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = "CREATE TABLE Tips(\
                 `text` TEXT DEFAULT NULL,\
@@ -193,10 +193,10 @@ def create_tables():
                 `business_id` VARCHAR(128) NOT NULL,\
                 `user_id` VARCHAR(128) NOT NULL\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;"
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS User'
-            # cursor.execute(sql)
+            cursor.execute(sql)
             sql = 'CREATE TABLE User(\
                 `user_id` VARCHAR(128) NOT NULL,\
                 `name` VARCHAR(128) DEFAULT NULL,\
@@ -222,7 +222,7 @@ def create_tables():
                 `compliment_photos` INT DEFAULT NULL,\
                 PRIMARY KEY (`user_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Elite'
             cursor.execute(sql)
@@ -233,7 +233,6 @@ def create_tables():
                 PRIMARY KEY (`user_id`,`elite`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
-
 
     finally:
         print("create table complete")
