@@ -132,8 +132,7 @@ def main():
     # insert_data("Tips", tips)
 
     split_elite = split_data("user_id", "elite", "User")
-    new_elite = get_data_from_csv(split_elite)
-    insert_data("Elite", new_elite)
+    insert_data("Elite", split_elite)
 
 
 
