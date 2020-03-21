@@ -100,6 +100,15 @@ def main():
     file_tip = "/var/lib/mysql-files/yelp_tip.csv"
     file_user = "/var/lib/mysql-files/yelp_user.csv"
 
+    # retrieve data local
+    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
+    # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
+    # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
+    # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
+    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
+    # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
+
     # business_attributes = get_data_from_csv(file_business_attributes)
     # insert_data("Business_attributes", business_attributes)
     #
@@ -118,12 +127,15 @@ def main():
     # review = get_data_from_csv(file_review)
     # insert_data("Review", review)
 
+
     # tips = get_data_from_csv(file_tip)
     # insert_data("Tips", tips)
 
     split_elite = split_data("user_id", "elite", "User")
     new_elite = get_data_from_csv(split_elite)
     insert_data("Elite", new_elite)
+
+
 
 if __name__ == '__main__':
     main()

@@ -186,14 +186,22 @@ def create_tables():
             sql = 'DROP TABLE IF EXISTS Tips'
             cursor.execute(sql)
 
+            # sql = "CREATE TABLE Tips(\
+            #     `tips_id` INT NOT NULL AUTO_INCREMENT,\
+            #     `text` TEXT DEFAULT NULL,\
+            #     `date` DATE DEFAULT NULL,\
+            #     `likes` INT DEFAULT NULL,\
+            #     `business_id` VARCHAR(128) NOT NULL,\
+            #     `user_id` VARCHAR(128) NOT NULL,\
+            #     PRIMARY KEY (`tips_id`)\
+            #     )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;"
+
             sql = "CREATE TABLE Tips(\
-                `tips_id` INT NOT NULL AUTO_INCREMENT,\
-                `text` VARCHAR(500) DEFAULT NULL,\
+                `text` TEXT DEFAULT NULL,\
                 `date` DATE DEFAULT NULL,\
                 `likes` INT DEFAULT NULL,\
                 `business_id` VARCHAR(128) NOT NULL,\
-                `user_id` VARCHAR(128) NOT NULL,\
-                PRIMARY KEY (`tips_id`)\
+                `user_id` VARCHAR(128) NOT NULL\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;"
             cursor.execute(sql)
 
