@@ -12,7 +12,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test2'}
+                      'database': 'Test3'}
     return connection_key
 
 
@@ -118,19 +118,18 @@ def main():
     #
     # business = get_data_from_csv(file_business)
     # insert_data("Business", business)
-
+    #
     # checkin = get_data_from_csv(file_checkin)
     # insert_data("Checkin", checkin)
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
-    #
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
 
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
 
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
+
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
 
     # split_elite = split_data("user_id", "elite", "User")
     # insert_data("Elite", split_elite)
