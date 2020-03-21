@@ -18,7 +18,7 @@ def get_connection_key():
 
 def get_data_from_csv(myfile):
     df = pd.read_csv(myfile, delimiter=',')
-    # df.fillna("NULL", inplace = True)
+    df.fillna("NULL", inplace = True)
     print("get data complete")
     return df
 
@@ -61,6 +61,33 @@ def load_from_csv(table_name, mydata):
         connection.close()
 
 
+def split_data(id, column_name, table_name):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT {id},{column} FROM {table} WHERE {column} <> 'None' ".format(id=id, column=column_name, table=table_name)
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            cols = cursor.description
+            connection.commit()
+    finally:
+        connection.close()
+        col = []
+        for i in cols:
+            col.append(i[0])
+        data = list(map(list, data))
+        data = pd.DataFrame(data, columns=col)
+        split_data = (data.set_index([id])[column_name]
+                               .str.split(',', expand=True)
+                               .stack()
+                               .reset_index(level=1, drop=True)
+                               .reset_index(name=column_name))
+        return split_data
+
+
 # set up python on server
 def main():
 
@@ -91,8 +118,12 @@ def main():
     # review = get_data_from_csv(file_review)
     # insert_data("Review", review)
 
-    tips = get_data_from_csv(file_tip)
-    insert_data("Tips", tips)
+    # tips = get_data_from_csv(file_tip)
+    # insert_data("Tips", tips)
+
+    split_elite = split_data("user_id", "elite", "User")
+    new_elite = get_data_from_csv(split_elite)
+    insert_data("Elite", new_elite)
 
 if __name__ == '__main__':
     main()
