@@ -125,9 +125,10 @@ def split_friend(id, column_name, table_name):
                    .reset_index(name=column_name))
             insert_data("Friends", split_data)
             print(i)
+            del split_data
             gc.collect()
             sleep(1)
-            
+
         split_data = (data.set_index([id])[column_name][length * 1000:-1]
                       .str.split(',', expand=True)
                       .stack()
