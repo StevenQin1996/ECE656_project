@@ -124,12 +124,12 @@ def split_friend(id, column_name, table_name):
             print(gc.collect())
             sleep(5)
 
-        split_data = (data.set_index([id])[column_name][length * 10000:-1]
-                      .str.split(',', expand=True)
-                      .stack()
-                      .reset_index(level=1, drop=True)
-                      .reset_index(name=column_name))
-        insert_data("Friends", split_data)
+        # split_data = (data.set_index([id])[column_name][length * 10000:-1]
+        #               .str.split(',', expand=True)
+        #               .stack()
+        #               .reset_index(level=1, drop=True)
+        #               .reset_index(name=column_name))
+        # insert_data("Friends", split_data)
 
 
 # set up python on server
