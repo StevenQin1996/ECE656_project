@@ -115,13 +115,13 @@ def main():
     #
     # business_hours = get_data_from_csv(file_business_hours)
     # insert_data("Business_hours", business_hours)
-    #
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
-    #
+
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
+
     # checkin = get_data_from_csv(file_checkin)
     # insert_data("Checkin", checkin)
-
+    #
     # user = get_data_from_csv(file_user)
     # insert_data("User", user)
     #
@@ -130,15 +130,17 @@ def main():
     #
     # tips = get_data_from_csv(file_tip)
     # insert_data("Tips", tips)
-
+    #
     # split_elite = split_data("user_id", "elite", "User")
     # insert_data("Elite", split_elite)
+
 
     # split_friends = split_data("user_id", "friends", "User")
     # insert_data("Friends", split_friends)
 
     split_category = split_data("business_id", "categories", "Business")
     insert_data("Category", split_category)
+
 
 
 if __name__ == '__main__':
