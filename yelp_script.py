@@ -5,6 +5,7 @@ import csv
 import sys
 import pandas as pd
 import gc
+import math
 
 csv.field_size_limit(sys.maxsize)
 
@@ -111,9 +112,9 @@ def split_friend(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
-        length = len(data) % 10
+        length = math.floor(len(data) / 1000)
         for i in range(0, length):
-            split_data = (data.set_index([id])[column_name][i*10 - 10:i*10 - 1]
+            split_data = (data.set_index([id])[column_name][i*1000 - 1000:i*1000 - 1]
                    .str.split(',', expand=True)
                    .stack()
                    .reset_index(level=1, drop=True)
@@ -123,12 +124,12 @@ def split_friend(id, column_name, table_name):
             gc.collect()
             print(i)
 
-        # split_data = (data.set_index([id])[column_name][length * 10:-1]
-        #               .str.split(',', expand=True)
-        #               .stack()
-        #               .reset_index(level=1, drop=True)
-        #               .reset_index(name=column_name))
-        # insert_data("Friends", split_data)
+        split_data = (data.set_index([id])[column_name][length * 1000:-1]
+                      .str.split(',', expand=True)
+                      .stack()
+                      .reset_index(level=1, drop=True)
+                      .reset_index(name=column_name))
+        insert_data("Friends", split_data)
 
 
 # set up python on server
