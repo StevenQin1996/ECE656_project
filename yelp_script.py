@@ -129,6 +129,8 @@ def split_friend(id, column_name, table_name):
             del split_data
             print(gc.get_count())
             gc.collect(generation=0)
+            gc.collect(generation=1)
+            gc.collect(generation=2)
             sleep(1)
 
         split_data = (data.set_index([id])[column_name][length * 1000:-1]
