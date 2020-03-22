@@ -113,7 +113,7 @@ def split_friend(id, column_name, table_name):
         data = pd.DataFrame(data, columns=col)
         length = len(data) % 10
         for i in range(0, length):
-            split_data = (data.set_index([id])[column_name][i*10 - 10, i*10 - 1]
+            split_data = (data.set_index([id])[column_name][i*10 - 10:i*10 - 1]
                    .str.split(',', expand=True)
                    .stack()
                    .reset_index(level=1, drop=True)
