@@ -12,7 +12,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test3'}
+                      'database': 'Test2'}
     return connection_key
 
 
@@ -80,12 +80,12 @@ def split_data(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
+        print(data)
         split_data = (data.set_index([id])[column_name]
-                               .str.split(',', expand=True)
+                               .str.split(';', expand=True)
                                .stack()
                                .reset_index(level=1, drop=True)
                                .reset_index(name=column_name))
-        print(split_data)
         return split_data
 
 
@@ -134,8 +134,11 @@ def main():
     # split_elite = split_data("user_id", "elite", "User")
     # insert_data("Elite", split_elite)
 
-    split_friends = split_data("user_id", "friends", "User")
-    insert_data("Friends", split_friends)
+    # split_friends = split_data("user_id", "friends", "User")
+    # insert_data("Friends", split_friends)
+
+    split_category = split_data("business_id", "categories", "Business")
+    insert_data("Category", split_category)
 
 
 if __name__ == '__main__':
