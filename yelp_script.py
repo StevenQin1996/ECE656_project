@@ -89,6 +89,41 @@ def split_data(id, column_name, table_name):
         return split_data
 
 
+def split_friend(id, column_name, table_name):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT {id},{column} FROM {table} WHERE {column} <> 'None' ".format(id=id, column=column_name, table=table_name)
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            cols = cursor.description
+            connection.commit()
+    finally:
+        connection.close()
+        col = []
+        for i in cols:
+            col.append(i[0])
+        data = list(map(list, data))
+        data = pd.DataFrame(data, columns=col)
+        length = len(data)% 10000
+        for i in range(1,length):
+            split_data = (data.set_index([id])[column_name][i*(i-1)*10000:i*10000]
+                   .str.split(',', expand=True)
+                   .stack()
+                   .reset_index(level=1, drop=True)
+                   .reset_index(name=column_name))
+            insert_data("Friends", split_data)
+        split_data = (data.set_index([id])[column_name][length * (length - 1) * 10000:-1]
+                      .str.split(',', expand=True)
+                      .stack()
+                      .reset_index(level=1, drop=True)
+                      .reset_index(name=column_name))
+        insert_data("Friends", split_data)
+
+
 # set up python on server
 def main():
 
@@ -137,8 +172,8 @@ def main():
     # split_category = split_data("business_id", "categories", "Business")
     # insert_data("Category", split_category)
 
-    split_friends = split_data("user_id", "friends", "User")
-    # insert_data("Friends", split_friends)
+    split_friends = split_friend("user_id", "friends", "User")
+
 
 
 if __name__ == '__main__':
