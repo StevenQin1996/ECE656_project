@@ -9,6 +9,7 @@ import gc
 csv.field_size_limit(sys.maxsize)
 
 
+
 # change to be made later:
 # 1. CML to control user name, password, and database
 # 2. check if validation and handle wrong username/password
@@ -126,7 +127,7 @@ def split_friend(id, column_name, table_name):
             insert_data("Friends", split_data)
             print(i)
             del split_data
-            gc.collect()
+            gc.collect(generation=0)
             sleep(1)
 
         split_data = (data.set_index([id])[column_name][length * 1000:-1]
