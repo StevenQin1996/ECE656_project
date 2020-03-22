@@ -4,6 +4,7 @@ import pymysql
 import csv
 import sys
 import pandas as pd
+import gc
 
 csv.field_size_limit(sys.maxsize)
 
@@ -124,7 +125,9 @@ def split_friend(id, column_name, table_name):
                    .reset_index(name=column_name))
             insert_data("Friends", split_data)
             print(i)
+            gc.collect()
             sleep(1)
+            
         split_data = (data.set_index([id])[column_name][length * 1000:-1]
                       .str.split(',', expand=True)
                       .stack()
