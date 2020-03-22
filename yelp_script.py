@@ -111,35 +111,35 @@ def split_friend(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
-        split_data = (data.set_index([id])[column_name]
-                      .str.split(',', expand=True)
-                      .stack()
-                      .reset_index(level=1, drop=True)
-                      .reset_index(name=column_name))
-        return split_data
-        # insert_data("Friends", split_data)
-        # length = len(data) % 100
-        # for i in range(1, length):
-        #     split_data = (data.set_index([id])[column_name][i*100-100:i*100-1]
-        #            .str.split(',', expand=True)
-        #            .stack()
-        #            .reset_index(level=1, drop=True)
-        #            .reset_index(name=column_name))
-        #     insert_data("Friends", split_data)
-        #     print(i)
-        #     del split_data
-        #     print(gc.get_count())
-        #     gc.collect(generation=0)
-        #     gc.collect(generation=1)
-        #     gc.collect(generation=2)
-        #     sleep(1)
-        #
-        # split_data = (data.set_index([id])[column_name][length * 100:-1]
+        # split_data = (data.set_index([id])[column_name]
         #               .str.split(',', expand=True)
         #               .stack()
         #               .reset_index(level=1, drop=True)
         #               .reset_index(name=column_name))
+        # return split_data
         # insert_data("Friends", split_data)
+        length = len(data) % 1000
+        for i in range(1, length):
+            split_data = (data.set_index([id])[column_name][i*1000-1000:i*1000-1]
+                   .str.split(',', expand=True)
+                   .stack()
+                   .reset_index(level=1, drop=True)
+                   .reset_index(name=column_name))
+            insert_data("Friends", split_data)
+            print(i)
+            del split_data
+            print(gc.get_count())
+            gc.collect(generation=0)
+            gc.collect(generation=1)
+            gc.collect(generation=2)
+            sleep(1)
+
+        split_data = (data.set_index([id])[column_name][length * 1000:-1]
+                      .str.split(',', expand=True)
+                      .stack()
+                      .reset_index(level=1, drop=True)
+                      .reset_index(name=column_name))
+        insert_data("Friends", split_data)
 
 
 # set up python on server
@@ -190,8 +190,8 @@ def main():
     # split_category = split_data("business_id", "categories", "Business")
     # insert_data("Category", split_category)
 
-    split_friend = split_data("user_id", "friends", "User")
-    insert_data("Friend", split_friend)
+    split_friend("user_id", "friends", "User")
+    # insert_data("Friend", split_friend)
 
 
 
