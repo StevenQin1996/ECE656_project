@@ -27,7 +27,7 @@ def create_tables():
 
             # create table
             sql = 'DROP TABLE IF EXISTS Business'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Business(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -45,10 +45,10 @@ def create_tables():
                 `categories` TEXT DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Business_attributes'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Business_attributes(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -135,10 +135,10 @@ def create_tables():
                 `RestaurantsCounterService` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY(`business_id`) \
                 )ENGINE = InnoDB DEFAULT CHARSET = UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Business_hours'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Business_hours(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -151,10 +151,10 @@ def create_tables():
                 `Sunday` VARCHAR(128) DEFAULT NULL,\
                 PRIMARY KEY (`business_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Checkin'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'CREATE TABLE Checkin(\
                 `business_id` VARCHAR(128) NOT NULL,\
@@ -162,7 +162,7 @@ def create_tables():
                 `hour` TIME DEFAULT NULL,\
                 `checkins` INT DEFAULT NULL\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            cursor.execute(sql)
 
             sql = 'DROP TABLE IF EXISTS Review'
             cursor.execute(sql)
