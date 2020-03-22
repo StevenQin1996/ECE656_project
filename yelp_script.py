@@ -116,8 +116,8 @@ def main():
     # business_hours = get_data_from_csv(file_business_hours)
     # insert_data("Business_hours", business_hours)
 
-    business = get_data_from_csv(file_business)
-    insert_data("Business", business)
+    # business = get_data_from_csv(file_business)
+    # insert_data("Business", business)
 
     # checkin = get_data_from_csv(file_checkin)
     # insert_data("Checkin", checkin)
