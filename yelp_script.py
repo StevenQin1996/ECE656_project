@@ -81,10 +81,11 @@ def split_data(id, column_name, table_name):
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
         split_data = (data.set_index([id])[column_name]
-                               .str.split(';', expand=True)
+                               .str.split(',', expand=True)
                                .stack()
                                .reset_index(level=1, drop=True)
                                .reset_index(name=column_name))
+        print(data)
         return split_data
 
 
@@ -133,13 +134,11 @@ def main():
     # split_elite = split_data("user_id", "elite", "User")
     # insert_data("Elite", split_elite)
 
+    # split_category = split_data("business_id", "categories", "Business")
+    # insert_data("Category", split_category)
 
-    # split_friends = split_data("user_id", "friends", "User")
+    split_friends = split_data("user_id", "friends", "User")
     # insert_data("Friends", split_friends)
-
-    split_category = split_data("business_id", "categories", "Business")
-    insert_data("Category", split_category)
-
 
 
 if __name__ == '__main__':
