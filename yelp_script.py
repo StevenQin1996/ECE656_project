@@ -85,7 +85,6 @@ def split_data(id, column_name, table_name):
                                .stack()
                                .reset_index(level=1, drop=True)
                                .reset_index(name=column_name))
-        print(data)
         return split_data
 
 
@@ -108,13 +107,12 @@ def split_friend(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
-        split_data = (data.set_index([id])[column_name][7]
-                      .str.split(',', expand=True)
-                      .stack()
-                      .reset_index(level=1, drop=True)
-                      .reset_index(name=column_name))
+        split_data = (data.set_index([id])[column_name][6]
+                               .str.split(',', expand=True)
+                               .stack()
+                               .reset_index(level=1, drop=True)
+                               .reset_index(name=column_name))
         insert_data("Friends", split_data)
-        print("done")
 
         # length = len(data) % 10000
         # for i in range(1, length):
