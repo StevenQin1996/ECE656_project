@@ -109,14 +109,14 @@ def split_friend(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
-        # split_data = (data.set_index([id])[column_name][7*10000-10000:7*10000-1]
-        #               .str.split(',', expand=True)
-        #               .stack()
-        #               .reset_index(level=1, drop=True)
-        #               .reset_index(name=column_name))
-        # insert_data("Friends", split_data)
+        split_data = (data.set_index([id])[column_name][7*10000-10000:7*10000-1]
+                      .str.split(',', expand=True)
+                      .stack()
+                      .reset_index(level=1, drop=True)
+                      .reset_index(name=column_name))
+        insert_data("Friends", split_data)
         length = len(data) % 10000
-        for i in range(1, length):
+        for i in range(8, length):
             split_data = (data.set_index([id])[column_name][i*10000-10000:i*10000-1]
                    .str.split(',', expand=True)
                    .stack()
