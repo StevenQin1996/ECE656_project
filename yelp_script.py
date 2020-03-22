@@ -118,9 +118,9 @@ def split_friend(id, column_name, table_name):
         #               .reset_index(name=column_name))
         # return split_data
         # insert_data("Friends", split_data)
-        length = len(data) % 1000
+        length = len(data) % 100000
         for i in range(1, length):
-            split_data = (data.set_index([id])[column_name][i*1000-1000:i*1000-1]
+            split_data = (data.set_index([id])[column_name][i*100000-100000:i*100000-1]
                    .str.split(',', expand=True)
                    .stack()
                    .reset_index(level=1, drop=True)
@@ -129,8 +129,9 @@ def split_friend(id, column_name, table_name):
             print(i)
             del split_data
             print(gc.collect())
+            sleep(5)
 
-        split_data = (data.set_index([id])[column_name][length * 1000:-1]
+        split_data = (data.set_index([id])[column_name][length * 100000:-1]
                       .str.split(',', expand=True)
                       .stack()
                       .reset_index(level=1, drop=True)
