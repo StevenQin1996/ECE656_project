@@ -80,7 +80,6 @@ def split_data(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
-        print(data)
         split_data = (data.set_index([id])[column_name]
                                .str.split(';', expand=True)
                                .stack()
