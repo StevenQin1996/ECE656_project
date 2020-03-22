@@ -84,13 +84,11 @@ def split_data(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
-        df = data.drop(column_name, axis=1).join(
-            data[column_name].str.split(',', expand=True).stack().reset_index(level=1, drop=True).rename(column_name))
-        # split_data = (data.set_index([id])[column_name]
-        #                        .str.split(',', expand=True)
-        #                        .stack()
-        #                        .reset_index(level=1, drop=True)
-        #                        .reset_index(name=column_name))
+        split_data = (data.set_index([id])[column_name]
+                               .str.split(',', expand=True)
+                               .stack()
+                               .reset_index(level=1, drop=True)
+                               .reset_index(name=column_name))
         return split_data
 
 
@@ -113,35 +111,25 @@ def split_friend(id, column_name, table_name):
             col.append(i[0])
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
-        df = data.drop(column_name, axis=1).join(
-            data[column_name].str.split(',', expand=True).stack().reset_index(level=1, drop=True).rename(column_name))
-        # split_data = (data.set_index([id])[column_name]
-        #               .str.split(',', expand=True)
-        #               .stack()
-        #               .reset_index(level=1, drop=True)
-        #               .reset_index(name=column_name))
-        # return split_data
-        # insert_data("Friends", split_data)
-        # length = len(data) % 10000
-        # for i in range(1, length):
-        #     split_data = (data.set_index([id])[column_name][i*10000-10000:i*10000-1]
-        #            .str.split(',', expand=True)
-        #            .stack()
-        #            .reset_index(level=1, drop=True)
-        #            .reset_index(name=column_name))
-        #     insert_data("Friends", split_data)
-        #     print(i)
-        #     del split_data
-        #     print(gc.collect())
-        #     sleep(5)
-        #
-        # split_data = (data.set_index([id])[column_name][length * 10000:-1]
-        #               .str.split(',', expand=True)
-        #               .stack()
-        #               .reset_index(level=1, drop=True)
-        #               .reset_index(name=column_name))
-        # insert_data("Friends", split_data)
-        print(df)
+        length = len(data)
+        for i in range(0, length):
+            split_data = (data.set_index([id])[column_name][i]
+                   .str.split(',', expand=True)
+                   .stack()
+                   .reset_index(level=1, drop=True)
+                   .reset_index(name=column_name))
+            insert_data("Friends", split_data)
+            print(i)
+            del split_data
+            print(gc.collect())
+            sleep(5)
+
+        split_data = (data.set_index([id])[column_name][length * 10000:-1]
+                      .str.split(',', expand=True)
+                      .stack()
+                      .reset_index(level=1, drop=True)
+                      .reset_index(name=column_name))
+        insert_data("Friends", split_data)
 
 
 # set up python on server
