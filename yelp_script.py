@@ -127,6 +127,7 @@ def split_friend(id, column_name, table_name):
             insert_data("Friends", split_data)
             print(i)
             del split_data
+            print(gc.get_count())
             gc.collect(generation=0)
             sleep(1)
 
