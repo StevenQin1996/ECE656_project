@@ -85,6 +85,7 @@ def split_data(id, column_name, table_name):
                                .stack()
                                .reset_index(level=1, drop=True)
                                .reset_index(name=column_name))
+        print(split_data)
         return split_data
 
 
@@ -121,18 +122,20 @@ def main():
     # checkin = get_data_from_csv(file_checkin)
     # insert_data("Checkin", checkin)
 
-    user = get_data_from_csv(file_user)
-    insert_data("User", user)
+    # user = get_data_from_csv(file_user)
+    # insert_data("User", user)
+    #
+    # review = get_data_from_csv(file_review)
+    # insert_data("Review", review)
+    #
+    # tips = get_data_from_csv(file_tip)
+    # insert_data("Tips", tips)
 
-    review = get_data_from_csv(file_review)
-    insert_data("Review", review)
+    # split_elite = split_data("user_id", "elite", "User")
+    # insert_data("Elite", split_elite)
 
-    tips = get_data_from_csv(file_tip)
-    insert_data("Tips", tips)
-
-    split_elite = split_data("user_id", "elite", "User")
-    insert_data("Elite", split_elite)
-
+    split_friends = split_data("user_id", "friends", "User")
+    insert_data("Friends", split_friends)
 
 
 if __name__ == '__main__':
