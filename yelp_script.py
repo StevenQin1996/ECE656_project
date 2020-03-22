@@ -122,14 +122,14 @@ def main():
     # checkin = get_data_from_csv(file_checkin)
     # insert_data("Checkin", checkin)
 
-    user = get_data_from_csv(file_user)
-    insert_data("User", user)
-
-    review = get_data_from_csv(file_review)
-    insert_data("Review", review)
-
-    tips = get_data_from_csv(file_tip)
-    insert_data("Tips", tips)
+    # user = get_data_from_csv(file_user)
+    # insert_data("User", user)
+    #
+    # review = get_data_from_csv(file_review)
+    # insert_data("Review", review)
+    #
+    # tips = get_data_from_csv(file_tip)
+    # insert_data("Tips", tips)
 
     # split_elite = split_data("user_id", "elite", "User")
     # insert_data("Elite", split_elite)
