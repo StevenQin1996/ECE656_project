@@ -111,7 +111,7 @@ def split_friend(id, column_name, table_name):
         data = list(map(list, data))
         data = pd.DataFrame(data, columns=col)
         length = math.floor(len(data) / 1000)
-        for i in range(1, 2):
+        for i in range(1, length):
             split_data = (data.set_index([id])[column_name][i*1000 - 1000:i*1000 - 1]
                    .str.split(', ', expand=True)
                    .stack()
@@ -122,12 +122,12 @@ def split_friend(id, column_name, table_name):
             gc.collect()
             print(i)
 
-        # split_data = (data.set_index([id])[column_name][length * 1000:-1]
-        #               .str.split(',', expand=True)
-        #               .stack()
-        #               .reset_index(level=1, drop=True)
-        #               .reset_index(name=column_name))
-        # insert_data("Friends", split_data)
+        split_data = (data.set_index([id])[column_name][length * 1000:-1]
+                      .str.split(',', expand=True)
+                      .stack()
+                      .reset_index(level=1, drop=True)
+                      .reset_index(name=column_name))
+        insert_data("Friends", split_data)
 
 
 # set up python on server
