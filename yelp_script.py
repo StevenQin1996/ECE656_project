@@ -118,6 +118,8 @@ def split_data(id, column_name, table_name, spliter, target_table):
                       .reset_index(level=1, drop=True)
                       .reset_index(name=column_name))
         insert_data(target_table, split_data)
+        del split_data
+        gc.collect()
         print("split data complete")
         sys.stdout.flush()
 
@@ -144,24 +146,38 @@ def main():
 
     business_attributes = get_data_from_csv(file_business_attributes)
     insert_data("Business_attributes", business_attributes)
+    del business_attributes
+    gc.collect()
 
     business_hours = get_data_from_csv(file_business_hours)
     insert_data("Business_hours", business_hours)
+    del business_hours
+    gc.collect()
 
     business = get_data_from_csv(file_business)
     insert_data("Business", business)
+    del business
+    gc.collect()
 
     checkin = get_data_from_csv(file_checkin)
     insert_data("Checkin", checkin)
+    del checkin
+    gc.collect()
 
     user = get_data_from_csv(file_user)
     insert_data("User", user)
+    del user
+    gc.collect()
 
     review = get_data_from_csv(file_review)
     insert_data("Review", review)
+    del review
+    gc.collect()
 
     tips = get_data_from_csv(file_tip)
     insert_data("Tips", tips)
+    del tips
+    gc.collect()
 
     split_data("business_id", "categories", "Business", ";", "Category")
 
