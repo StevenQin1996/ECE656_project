@@ -30,7 +30,7 @@ ALTER TABLE Elite ADD CONSTRAINT User_elite_FK FOREIGN KEY (user_id) REFERENCES 
 
 ALTER TABLE User_Group ADD CONSTRAINT User_Group_FK FOREIGN KEY (user_id) REFERENCES User(user_id) on delete restrict on update restrict;
 
-ALTER TABLE User_Group ADD CONSTRAINT Group_User_FK FOREIGN KEY (group_id) REFERENCES Groups_info(group_id) on delete restrict on update restrict;
+ALTER TABLE User_Group ADD CONSTRAINT Group_User_FK FOREIGN KEY (group_id) REFERENCES Group_info(group_id) on delete restrict on update restrict;
 
 ALTER TABLE Tips ADD CONSTRAINT Tips_Business_FK FOREIGN KEY (business_id) REFERENCES Business(business_id) on delete restrict on update restrict;
 

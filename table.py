@@ -12,7 +12,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test3'}
+                      'database': 'Test4'}
     return connection_key
 
 def create_tables():
