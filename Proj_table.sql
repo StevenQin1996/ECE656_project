@@ -7,7 +7,7 @@ CREATE TABLE Groups_info(
 
 
 DROP TABLE IF EXISTS User_Group;
-CREATE TABLE User_Group(
+CREATE TABLE `User_Group`(
 	`user_id` VARCHAR(255) NOT NULL,
 	`group_id` INT NOT NULL,
 	PRIMARY KEY (`user_id`,`group_id`)
