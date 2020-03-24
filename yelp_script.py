@@ -43,6 +43,9 @@ def insert_data(table_name, mydata):
             records = mydata.to_records(index=False).tolist()
             cursor.executemany(sql, records)
             connection.commit()
+    except pymysql.InternalError as error:
+        code, message = error.args
+        print (">>>>>>>>>>>>>", code, message)
     finally:
         print("{}: update complete".format(table_name))
         sys.stdout.flush()
@@ -78,6 +81,7 @@ def execute_query(file_path):
 
 
 def split_data(id, column_name, table_name, spliter, target_table):
+    print(">>>>>>>>>>>>>>>start split>>>>>>>>>>>>>>>>>>>>")
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
                                  database=my_key['database'], local_infile=1)
@@ -130,8 +134,8 @@ def main():
     file_tip = "/var/lib/mysql-files/yelp_tip.csv"
     file_user = "/var/lib/mysql-files/yelp_user.csv"
 
-    business_attributes = get_data_from_csv(file_business_attributes)
-    insert_data("Business_attributes", business_attributes)
+    # business_attributes = get_data_from_csv(file_business_attributes)
+    # insert_data("Business_attributes", business_attributes)
 
     business_hours = get_data_from_csv(file_business_hours)
     insert_data("Business_hours", business_hours)
@@ -151,8 +155,6 @@ def main():
     tips = get_data_from_csv(file_tip)
     insert_data("Tips", tips)
 
-    print("start split")
-    
     split_data("business_id", "Category", "Business", ";", "Category")
 
     split_data("user_id", "elite", "User", ",", "Elite")

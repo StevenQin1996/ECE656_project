@@ -1,25 +1,17 @@
-DROP TABLE IF EXISTS Group_info;
-CREATE TABLE Groups_info(
-	`group_id` INT NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(255) DEFAULT NULL,
-	PRIMARY KEY (`group_id`)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-
-
-DROP TABLE IF EXISTS User_Group;
-CREATE TABLE `User_Group`(
-	`user_id` VARCHAR(255) NOT NULL,
-	`group_id` INT NOT NULL,
-	PRIMARY KEY (`user_id`,`group_id`)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-
-
-DROP TABLE IF EXISTS Friends;
-CREATE TABLE Friends(
-	`user_id` VARCHAR(255) DEFAULT NULL,
-	`friend_id` VARCHAR(255) DEFAULT NULL
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-
+--DROP TABLE IF EXISTS Group_info;
+--CREATE TABLE Groups_info(
+--	`group_id` INT NOT NULL AUTO_INCREMENT,
+--	`name` VARCHAR(255) DEFAULT NULL,
+--	PRIMARY KEY (`group_id`)
+--)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+--
+--
+--DROP TABLE IF EXISTS User_Group;
+--CREATE TABLE `User_Group`(
+--	`user_id` VARCHAR(255) NOT NULL,
+--	`group_id` INT NOT NULL,
+--	PRIMARY KEY (`user_id`,`group_id`)
+--)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 DROP TABLE IF EXISTS temp_Category;
 CREATE TABLE temp_Category(
@@ -34,28 +26,20 @@ DROP TABLE Category;
 
 RENAME TABLE temp_Category TO Category;
 
+
+
 DROP TABLE IF EXISTS temp_Friends;
 CREATE TABLE temp_Friends(
 	`user_id` VARCHAR(255) NOT NULL,
 	`friend_id` VARCHAR(255) NOT NULL,
-	PRIMARY KEY (`user_id`, `friend_id`)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-
-
-DROP TABLE IF EXISTS temp2_Friends;
-CREATE TABLE temp2_Friends(
-	`user_id` VARCHAR(255) DEFAULT NULL,
-	`friend_id` VARCHAR(255) DEFAULT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 
 INSERT INTO temp_Friends(user_id,friend_id) SELECT F.user_id, F.friend_id FROM Friends F INNER JOIN User U ON F.friend_id = U.user_id GROUP BY F.user_id, F.friend_id;
 
-DROP TABLE IF EXISTS Friends;
-CREATE TABLE Friends(
-	`user_id` VARCHAR(255) DEFAULT NULL,
-	`friend_id` VARCHAR(255) DEFAULT NULL
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+DROP TABLE Friends;
+
+RENAME TABLE temp_Friends TO Friends;
 
 
 DROP TABLE IF EXISTS Notification;
