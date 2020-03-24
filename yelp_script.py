@@ -8,7 +8,6 @@ import math
 csv.field_size_limit(sys.maxsize)
 
 
-
 # change to be made later:
 # 1. CML to control user name, password, and database
 # 2. check if validation and handle wrong username/password
@@ -21,7 +20,7 @@ def get_connection_key():
 
 def get_data_from_csv(myfile):
     df = pd.read_csv(myfile, delimiter=',')
-    df.fillna("NULL", inplace = True)
+    df.fillna("NULL", inplace=True)
     print("get data complete")
     return df
 
@@ -64,41 +63,28 @@ def load_from_csv(table_name, mydata):
         connection.close()
 
 
-def split_data(id, column_name, table_name):
+def execute_query(file_path):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
                                  database=my_key['database'], local_infile=1)
 
     try:
         with connection.cursor() as cursor:
-            sql = "SELECT {id},{column} FROM {table} WHERE {column} <> 'None' ".format(id=id, column=column_name, table=table_name)
+            sql = "source {}".format(file_path)
             cursor.execute(sql)
-            data = cursor.fetchall()
-            cols = cursor.description
-            connection.commit()
     finally:
         connection.close()
-        col = []
-        for i in cols:
-            col.append(i[0])
-        data = list(map(list, data))
-        data = pd.DataFrame(data, columns=col)
-        split_data = (data.set_index([id])[column_name]
-                               .str.split(',', expand=True)
-                               .stack()
-                               .reset_index(level=1, drop=True)
-                               .reset_index(name=column_name))
-        return split_data
 
 
-def split_friend(id, column_name, table_name):
+def split_data(id, column_name, table_name, spliter, target_table):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
                                  database=my_key['database'], local_infile=1)
 
     try:
         with connection.cursor() as cursor:
-            sql = "SELECT {id},{column} FROM {table} WHERE {column} <> 'None' ".format(id=id, column=column_name, table=table_name)
+            sql = "SELECT {id},{column} FROM {table} WHERE {column} <> 'None' ".format(id=id, column=column_name,
+                                                                                       table=table_name)
             cursor.execute(sql)
             data = cursor.fetchall()
             cols = cursor.description
@@ -112,27 +98,27 @@ def split_friend(id, column_name, table_name):
         data = pd.DataFrame(data, columns=col)
         length = math.floor(len(data) / 1000)
         for i in range(1, length):
-            split_data = (data.set_index([id])[column_name][i*1000 - 1000:i*1000 - 1]
-                   .str.split(', ', expand=True)
-                   .stack()
-                   .reset_index(level=1, drop=True)
-                   .reset_index(name=column_name))
-            insert_data("Friends", split_data)
+            split_data = (data.set_index([id])[column_name][i * 1000 - 1000:i * 1000 - 1]
+                          .str.split(spliter, expand=True)
+                          .stack()
+                          .reset_index(level=1, drop=True)
+                          .reset_index(name=column_name))
+            insert_data(target_table, split_data)
             del split_data
             gc.collect()
-            print(i)
+            print("split data status: {}".format(i))
 
         split_data = (data.set_index([id])[column_name][length * 1000:-1]
-                      .str.split(',', expand=True)
+                      .str.split(spliter, expand=True)
                       .stack()
                       .reset_index(level=1, drop=True)
                       .reset_index(name=column_name))
-        insert_data("Friends", split_data)
+        insert_data(target_table, split_data)
+        print("split data complete")
 
 
 # set up python on server
 def main():
-
     # retrieve data ubuntu
     file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
     file_business_hours = "/var/lib/mysql-files/yelp_business_hours.csv"
@@ -142,23 +128,14 @@ def main():
     file_tip = "/var/lib/mysql-files/yelp_tip.csv"
     file_user = "/var/lib/mysql-files/yelp_user.csv"
 
-    # retrieve data local
-    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
-    # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
-    # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
-    # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
-    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
-    # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
-    # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
-
     business_attributes = get_data_from_csv(file_business_attributes)
     insert_data("Business_attributes", business_attributes)
 
     business_hours = get_data_from_csv(file_business_hours)
     insert_data("Business_hours", business_hours)
 
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
 
     checkin = get_data_from_csv(file_checkin)
     insert_data("Checkin", checkin)
@@ -172,15 +149,13 @@ def main():
     tips = get_data_from_csv(file_tip)
     insert_data("Tips", tips)
 
-    split_Category = split_data("business_id", "Category", "Business", ";")
-    insert_data("Category", split_Category)
+    split_data("business_id", "Category", "Business", ";", "Category")
 
-    split_elite = split_data("user_id", "elite", "User", ",")
-    insert_data("Elite", split_elite)
+    split_data("user_id", "elite", "User", ",", "Elite")
 
-    split_friends = split_data("user_id", "friends", "User", ",")
-    insert_data("Friends", split_friends)
+    split_data("user_id", "friends", "User", ",", "Friends")
 
+    execute_query("/home/ECE656_project/remove_duplicate.sql")
 
 if __name__ == '__main__':
     main()
