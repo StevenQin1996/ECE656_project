@@ -67,15 +67,14 @@ def load_from_csv(table_name, mydata):
         connection.close()
 
 
-def execute_query(file_path):
+def execute_query(query):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
                                  database=my_key['database'], local_infile=1)
 
     try:
         with connection.cursor() as cursor:
-            sql = "source {}".format(file_path)
-            cursor.execute(sql)
+            cursor.execute(query)
     finally:
         connection.close()
 
@@ -143,34 +142,34 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-    #
-    # business_hours = get_data_from_csv(file_business_hours)
-    # insert_data("Business_hours", business_hours)
-    #
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
-    #
-    # checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
-    #
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
-    #
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
-    #
-    # split_data("business_id", "categories", "Business", ";", "Category")
-    #
-    # split_data("user_id", "elite", "User", ",", "Elite")
-    #
-    # split_data("user_id", "friends", "User", ",", "Friends")
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
 
-    execute_query("/home/steven/ECE656_project/Proj_table.sql")
+    business_hours = get_data_from_csv(file_business_hours)
+    insert_data("Business_hours", business_hours)
+
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
+
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
+
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
+
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
+
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
+
+    split_data("business_id", "categories", "Business", ";", "Category")
+
+    split_data("user_id", "elite", "User", ",", "Elite")
+
+    split_data("user_id", "friends", "User", ",", "Friends")
+
+    execute_query("Source /home/steven/ECE656_project/Proj_table.sql")
 
 if __name__ == '__main__':
     main()
