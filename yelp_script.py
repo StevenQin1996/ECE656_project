@@ -155,7 +155,7 @@ def main():
 
     split_data("user_id", "friends", "User", ",", "Friends")
 
-    execute_query("/home/ECE656_project/remove_duplicate.sql")
+    # execute_query("/home/ECE656_project/remove_duplicate.sql")
 
 if __name__ == '__main__':
     main()
