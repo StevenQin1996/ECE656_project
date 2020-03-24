@@ -151,35 +151,35 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-    #
-    # business_hours = get_data_from_csv(file_business_hours)
-    # insert_data("Business_hours", business_hours)
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
+
+    business_hours = get_data_from_csv(file_business_hours)
+    insert_data("Business_hours", business_hours)
 
     # business = get_data_from_csv(file_business)
     # insert_data("Business", business)
 
-    # checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
-    #
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
-    #
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
-    #
-    # split_elite = split_data("user_id", "elite", "User")
-    # insert_data("Elite", split_elite)
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
 
-    # split_category = split_data("business_id", "categories", "Business")
-    # insert_data("Category", split_category)
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
 
-    split_friend("user_id", "friends", "User")
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
 
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
+
+    split_Category = split_data("business_id", "Category", "Business", ";")
+    insert_data("Category", split_Category)
+
+    split_elite = split_data("user_id", "elite", "User", ",")
+    insert_data("Elite", split_elite)
+
+    split_friends = split_data("user_id", "friends", "User", ",")
+    insert_data("Friends", split_friends)
 
 
 if __name__ == '__main__':

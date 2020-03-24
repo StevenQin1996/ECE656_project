@@ -232,6 +232,57 @@ def create_tables():
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
+            sql = 'DROP TABLE IF EXISTS Group'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE Group(\
+                `group_id` VARCHAR(255) NOT NULL,\
+                `user_id` VARCHAR(128) NOT NULL,\
+                PRIMARY KEY (`group_id`,`user_id`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS Friends'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE Friends(\
+                `user_id` VARCHAR(128) NOT NULL,\
+                `friend_id` VARCHAR(128) NOT NULL,\
+                PRIMARY KEY (`user_id`,`friend_id`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS temp_Friends'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE temp_Friends(\
+                `user_id` VARCHAR(128) NOT NULL,\
+                `friend_id` VARCHAR(128) NOT NULL,\
+                PRIMARY KEY (`user_id`,`friend_id`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS Category'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE Category(\
+                `business_id` VARCHAR(128) NOT NULL,\
+                `category` VARCHAR(128) NOT NULL,\
+                PRIMARY KEY (`business_id`,`category`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS temp_Category'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE temp_Category(\
+                `business_id` VARCHAR(128) NOT NULL,\
+                `category` VARCHAR(128) NOT NULL,\
+                PRIMARY KEY (`business_id`,`category`)\
+                )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+
     finally:
         print("create table complete")
         connection.close()
