@@ -143,17 +143,17 @@ def main():
     business = get_data_from_csv(file_business)
     insert_data("Business", business)
 
-    checkin = get_data_from_csv(file_checkin)
-    insert_data("Checkin", checkin)
-
-    user = get_data_from_csv(file_user)
-    insert_data("User", user)
-
-    review = get_data_from_csv(file_review)
-    insert_data("Review", review)
-
-    tips = get_data_from_csv(file_tip)
-    insert_data("Tips", tips)
+    # checkin = get_data_from_csv(file_checkin)
+    # insert_data("Checkin", checkin)
+    #
+    # user = get_data_from_csv(file_user)
+    # insert_data("User", user)
+    #
+    # review = get_data_from_csv(file_review)
+    # insert_data("Review", review)
+    #
+    # tips = get_data_from_csv(file_tip)
+    # insert_data("Tips", tips)
     #
     # split_data("business_id", "Category", "Business", ";", "Category")
     #
