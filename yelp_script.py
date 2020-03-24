@@ -45,6 +45,7 @@ def insert_data(table_name, mydata):
             connection.commit()
     finally:
         print("{}: update complete".format(table_name))
+        sys.stdout.flush()
         connection.close()
 
 
@@ -115,6 +116,7 @@ def split_data(id, column_name, table_name, spliter, target_table):
                       .reset_index(name=column_name))
         insert_data(target_table, split_data)
         print("split data complete")
+        sys.stdout.flush()
 
 
 # set up python on server
