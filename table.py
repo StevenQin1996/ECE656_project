@@ -232,10 +232,10 @@ def create_tables():
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
-            sql = 'DROP TABLE IF EXISTS Group'
+            sql = 'DROP TABLE IF EXISTS `Group`'
             cursor.execute(sql)
 
-            sql = 'CREATE TABLE Group(\
+            sql = 'CREATE TABLE `Group`(\
                 `group_id` VARCHAR(255) NOT NULL,\
                 `user_id` VARCHAR(128) NOT NULL,\
                 PRIMARY KEY (`group_id`,`user_id`)\
