@@ -247,8 +247,7 @@ def create_tables():
 
             sql = 'CREATE TABLE Friends(\
                 `user_id` VARCHAR(128) NOT NULL,\
-                `friend_id` VARCHAR(128) NOT NULL,\
-                PRIMARY KEY (`user_id`,`friend_id`)\
+                `friend_id` VARCHAR(128) NOT NULL\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
@@ -267,8 +266,7 @@ def create_tables():
 
             sql = 'CREATE TABLE Category(\
                 `business_id` VARCHAR(128) NOT NULL,\
-                `category` VARCHAR(128) NOT NULL,\
-                PRIMARY KEY (`business_id`,`category`)\
+                `category` VARCHAR(128) NOT NULL\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
@@ -282,6 +280,39 @@ def create_tables():
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
+            sql = 'DROP TABLE IF EXISTS Notification;'
+            cursor.execute(sql)
+
+            sql = ' CREATE TABLE Notification(\
+                `notification_id` INT NOT NULL AUTO_INCREMENT,\
+                `review_id` VARCHAR(128) DEFAULT NULL,\
+                `reviewbusiness_id` VARCHAR(128) DEFAULT NULL,\
+                `reviewuser_id` VARCHAR(128) DEFAULT NULL,\
+                `user_id` VARCHAR(128) DEFAULT NULL,\
+                `is_read` BOOLEAN DEFAULT NULL,\
+                PRIMARY KEY (`notification_id`)\
+            )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS Group_info;'
+            cursor.execute(sql)
+
+            sql = ' CREATE TABLE Group_info(\
+                `group_id` INT NOT NULL AUTO_INCREMENT,\
+	            `name` VARCHAR(255) DEFAULT NULL,\
+	            PRIMARY KEY (`group_id`)\
+              )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS User_Group;'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE User_Group(\
+                `user_id` VARCHAR(255) NOT NULL,\
+                `group_id` INT NOT NULL,\
+                PRIMARY KEY (`user_id`,`group_id`)\
+            )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
 
     finally:
         print("create table complete")
