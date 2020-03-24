@@ -143,20 +143,20 @@ def main():
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    business_attributes = get_data_from_csv(file_business_attributes)
-    insert_data("Business_attributes", business_attributes)
-
-    business_hours = get_data_from_csv(file_business_hours)
-    insert_data("Business_hours", business_hours)
-
-    business = get_data_from_csv(file_business)
-    insert_data("Business", business)
-
-    checkin = get_data_from_csv(file_checkin)
-    insert_data("Checkin", checkin)
-
-    user = get_data_from_csv(file_user)
-    insert_data("User", user)
+    # business_attributes = get_data_from_csv(file_business_attributes)
+    # insert_data("Business_attributes", business_attributes)
+    #
+    # business_hours = get_data_from_csv(file_business_hours)
+    # insert_data("Business_hours", business_hours)
+    #
+    # business = get_data_from_csv(file_business)
+    # insert_data("Business", business)
+    #
+    # checkin = get_data_from_csv(file_checkin)
+    # insert_data("Checkin", checkin)
+    #
+    # user = get_data_from_csv(file_user)
+    # insert_data("User", user)
 
     # review = get_data_from_csv(file_review)
     # insert_data("Review", review)
@@ -164,11 +164,11 @@ def main():
     # tips = get_data_from_csv(file_tip)
     # insert_data("Tips", tips)
     #
-    # split_data("business_id", "Category", "Business", ";", "Category")
-    #
-    # split_data("user_id", "elite", "User", ",", "Elite")
-    #
-    # split_data("user_id", "friends", "User", ",", "Friends")
+    split_data("business_id", "Category", "Business", ";", "Category")
+
+    split_data("user_id", "elite", "User", ",", "Elite")
+
+    split_data("user_id", "friends", "User", ",", "Friends")
 
     # execute_query("/home/ECE656_project/remove_duplicate.sql")
 
