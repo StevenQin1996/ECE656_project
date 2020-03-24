@@ -172,11 +172,11 @@ def create_tables():
                 `user_id` VARCHAR(128) DEFAULT NULL,\
                 `business_id` VARCHAR(128) DEFAULT NULL,\
                 `stars` INT DEFAULT NULL,\
+                `date` DATE,\
+                `text` TEXT DEFAULT NULL,\
                 `useful` INT DEFAULT NULL,\
                 `funny` INT DEFAULT NULL,\
                 `cool` INT DEFAULT NULL,\
-                `text` VARCHAR(500) DEFAULT NULL,\
-                `date` DATE,\
                 PRIMARY KEY (`review_id`)\
                 )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
