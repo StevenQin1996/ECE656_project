@@ -164,7 +164,7 @@ def main():
     # tips = get_data_from_csv(file_tip)
     # insert_data("Tips", tips)
     #
-    split_data("business_id", "Category", "Business", ";", "Category")
+    split_data("business_id", "categories", "Business", ";", "Category")
 
     split_data("user_id", "elite", "User", ",", "Elite")
 
