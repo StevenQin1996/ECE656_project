@@ -2,8 +2,11 @@ import pymysql
 import csv
 import sys
 import pandas as pd
+import gc
+import math
 
 csv.field_size_limit(sys.maxsize)
+
 
 
 # change to be made later:
@@ -85,8 +88,46 @@ def split_data(id, column_name, table_name):
                                .stack()
                                .reset_index(level=1, drop=True)
                                .reset_index(name=column_name))
-        print(split_data)
         return split_data
+
+
+def split_friend(id, column_name, table_name):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT {id},{column} FROM {table} WHERE {column} <> 'None' ".format(id=id, column=column_name, table=table_name)
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            cols = cursor.description
+            connection.commit()
+    finally:
+        connection.close()
+        col = []
+        for i in cols:
+            col.append(i[0])
+        data = list(map(list, data))
+        data = pd.DataFrame(data, columns=col)
+        length = math.floor(len(data) / 1000)
+        for i in range(1, length):
+            split_data = (data.set_index([id])[column_name][i*1000 - 1000:i*1000 - 1]
+                   .str.split(', ', expand=True)
+                   .stack()
+                   .reset_index(level=1, drop=True)
+                   .reset_index(name=column_name))
+            insert_data("Friends", split_data)
+            del split_data
+            gc.collect()
+            print(i)
+
+        split_data = (data.set_index([id])[column_name][length * 1000:-1]
+                      .str.split(',', expand=True)
+                      .stack()
+                      .reset_index(level=1, drop=True)
+                      .reset_index(name=column_name))
+        insert_data("Friends", split_data)
 
 
 # set up python on server
@@ -116,8 +157,8 @@ def main():
     business_hours = get_data_from_csv(file_business_hours)
     insert_data("Business_hours", business_hours)
 
-    business = get_data_from_csv(file_business)
-    insert_data("Business", business)
+    # business = get_data_from_csv(file_business)
+    # insert_data("Business", business)
 
     checkin = get_data_from_csv(file_checkin)
     insert_data("Checkin", checkin)
@@ -139,7 +180,6 @@ def main():
 
     split_friends = split_data("user_id", "friends", "User", ",")
     insert_data("Friends", split_friends)
-
 
 
 if __name__ == '__main__':
