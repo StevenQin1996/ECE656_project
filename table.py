@@ -314,6 +314,23 @@ def create_tables():
             )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
+            sql = 'DROP TABLE IF EXISTS temp_Review;'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE temp_Review(\
+                `review_id` VARCHAR(128) NOT NULL,\
+                `user_id` VARCHAR(128) DEFAULT NULL,\
+                `business_id` VARCHAR(128) DEFAULT NULL,\
+                `stars` INT DEFAULT NULL,\
+                `date` DATE,\
+                `text` TEXT DEFAULT NULL,\
+                `useful` INT DEFAULT NULL,\
+                `funny` INT DEFAULT NULL,\
+                `cool` INT DEFAULT NULL,\
+                PRIMARY KEY (`review_id`)\
+            )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
     finally:
         print("create table complete")
         connection.close()
