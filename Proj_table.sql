@@ -1,8 +1,6 @@
-
 INSERT INTO temp_Category(business_id,category) SELECT * FROM Category GROUP BY business_id, category;
 DROP TABLE Category;
 RENAME TABLE temp_Category TO Category;
-
 
 INSERT INTO temp_Friends(user_id,friend_id) SELECT F.user_id, F.friend_id FROM Friends F INNER JOIN User U ON F.friend_id = U.user_id GROUP BY F.user_id, F.friend_id;
 DROP TABLE Friends;

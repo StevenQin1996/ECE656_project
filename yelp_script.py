@@ -139,31 +139,31 @@ def main():
     # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
     # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
     # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
-    file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-    #
-    # business_hours = get_data_from_csv(file_business_hours)
-    # insert_data("Business_hours", business_hours)
-    #
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
-    #
-    # checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
 
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
-    #
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
-    #
+    business_hours = get_data_from_csv(file_business_hours)
+    insert_data("Business_hours", business_hours)
+
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
+
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
+
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
+
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
+
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
+
     split_data("business_id", "categories", "Business", ";", "Category")
 
     split_data("user_id", "elite", "User", ",", "Elite")
