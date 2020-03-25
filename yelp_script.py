@@ -14,7 +14,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test3'}
+                      'database': 'Test4'}
     return connection_key
 
 
@@ -67,19 +67,6 @@ def load_from_csv(table_name, mydata):
         connection.close()
 
 
-def execute_query(file_path):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
-
-    try:
-        with connection.cursor() as cursor:
-            sql = "source {}".format(file_path)
-            cursor.execute(sql)
-    finally:
-        connection.close()
-
-
 def split_data(id, column_name, table_name, spliter, target_table):
     print(">>>>>>>>>>>>>>>start split>>>>>>>>>>>>>>>>>>>>")
     my_key = get_connection_key()
@@ -119,6 +106,8 @@ def split_data(id, column_name, table_name, spliter, target_table):
                       .reset_index(level=1, drop=True)
                       .reset_index(name=column_name))
         insert_data(target_table, split_data)
+        del split_data
+        gc.collect()
         print("split data complete")
         sys.stdout.flush()
 
@@ -139,38 +128,50 @@ def main():
     # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
     # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
     # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
-    file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
     # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
     # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
 
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-    #
-    # business_hours = get_data_from_csv(file_business_hours)
-    # insert_data("Business_hours", business_hours)
-    #
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
-    #
-    # checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
+    del business_attributes
+    gc.collect()
 
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
-    #
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
-    #
+    business_hours = get_data_from_csv(file_business_hours)
+    insert_data("Business_hours", business_hours)
+    del business_hours
+    gc.collect()
+
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
+    del business
+    gc.collect()
+
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
+    del checkin
+    gc.collect()
+
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
+    del user
+    gc.collect()
+
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
+    del review
+    gc.collect()
+
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
+    del tips
+    gc.collect()
+
     split_data("business_id", "categories", "Business", ";", "Category")
 
     split_data("user_id", "elite", "User", ",", "Elite")
 
     split_data("user_id", "friends", "User", ",", "Friends")
-
-    # execute_query("/home/ECE656_project/remove_duplicate.sql")
 
 if __name__ == '__main__':
     main()

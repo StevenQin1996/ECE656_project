@@ -12,7 +12,7 @@ csv.field_size_limit(sys.maxsize)
 # 3. check database existance, create new database if need(if mistyped, then recommend an existing database similar to the entry)
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test3'}
+                      'database': 'Test4'}
     return connection_key
 
 def create_tables():
@@ -311,6 +311,23 @@ def create_tables():
                 `user_id` VARCHAR(255) NOT NULL,\
                 `group_id` INT NOT NULL,\
                 PRIMARY KEY (`user_id`,`group_id`)\
+            )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
+
+            sql = 'DROP TABLE IF EXISTS temp_Review;'
+            cursor.execute(sql)
+
+            sql = 'CREATE TABLE temp_Review(\
+                `review_id` VARCHAR(128) NOT NULL,\
+                `user_id` VARCHAR(128) DEFAULT NULL,\
+                `business_id` VARCHAR(128) DEFAULT NULL,\
+                `stars` INT DEFAULT NULL,\
+                `date` DATE,\
+                `text` TEXT DEFAULT NULL,\
+                `useful` INT DEFAULT NULL,\
+                `funny` INT DEFAULT NULL,\
+                `cool` INT DEFAULT NULL,\
+                PRIMARY KEY (`review_id`)\
             )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             cursor.execute(sql)
 
