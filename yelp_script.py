@@ -67,14 +67,15 @@ def load_from_csv(table_name, mydata):
         connection.close()
 
 
-def execute_query(query):
+def execute_query(PATH_TO_FILE):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
                                  database=my_key['database'], local_infile=1)
 
     try:
         with connection.cursor() as cursor:
-            cursor.execute(query)
+            for line in open(PATH_TO_FILE):
+                cursor.execute(line)
     finally:
         connection.close()
 
@@ -127,65 +128,65 @@ def split_data(id, column_name, table_name, spliter, target_table):
 # set up python on server
 def main():
     # retrieve data ubuntu
-    # file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
-    # file_business_hours = "/var/lib/mysql-files/yelp_business_hours.csv"
-    # file_business = "/var/lib/mysql-files/yelp_business.csv"
-    # file_checkin = "/var/lib/mysql-files/yelp_checkin.csv"
-    # file_review = "/var/lib/mysql-files/yelp_review.csv"
-    # file_tip = "/var/lib/mysql-files/yelp_tip.csv"
-    # file_user = "/var/lib/mysql-files/yelp_user.csv"
-    #
-    # # retrieve data local
-    # # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
-    # # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
-    # # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
-    # # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
-    # # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
-    # # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
-    # # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
-    #
-    # business_attributes = get_data_from_csv(file_business_attributes)
-    # insert_data("Business_attributes", business_attributes)
-    # del business_attributes
-    # gc.collect()
-    #
-    # business_hours = get_data_from_csv(file_business_hours)
-    # insert_data("Business_hours", business_hours)
-    # del business_hours
-    # gc.collect()
-    #
-    # business = get_data_from_csv(file_business)
-    # insert_data("Business", business)
-    # del business
-    # gc.collect()
-    #
-    # checkin = get_data_from_csv(file_checkin)
-    # insert_data("Checkin", checkin)
-    # del checkin
-    # gc.collect()
-    #
-    # user = get_data_from_csv(file_user)
-    # insert_data("User", user)
-    # del user
-    # gc.collect()
-    #
-    # review = get_data_from_csv(file_review)
-    # insert_data("Review", review)
-    # del review
-    # gc.collect()
-    #
-    # tips = get_data_from_csv(file_tip)
-    # insert_data("Tips", tips)
-    # del tips
-    # gc.collect()
-    #
-    # split_data("business_id", "categories", "Business", ";", "Category")
-    #
-    # split_data("user_id", "elite", "User", ",", "Elite")
-    #
-    # split_data("user_id", "friends", "User", ",", "Friends")
+    file_business_attributes = "/var/lib/mysql-files/yelp_business_attributes.csv"
+    file_business_hours = "/var/lib/mysql-files/yelp_business_hours.csv"
+    file_business = "/var/lib/mysql-files/yelp_business.csv"
+    file_checkin = "/var/lib/mysql-files/yelp_checkin.csv"
+    file_review = "/var/lib/mysql-files/yelp_review.csv"
+    file_tip = "/var/lib/mysql-files/yelp_tip.csv"
+    file_user = "/var/lib/mysql-files/yelp_user.csv"
 
-    execute_query("Source /home/steven/ECE656_project/Proj_table.sql")
+    # retrieve data local
+    # file_business_attributes = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_attributes.csv"
+    # file_business_hours = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business_hours.csv"
+    # file_business = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_business.csv"
+    # file_checkin = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_checkin.csv"
+    # file_review = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_review.csv"
+    # file_tip = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_tip.csv"
+    # file_user = "/Users/shiyunqin/Desktop/Homework/graduate/ece656/project/csv/yelp_user.csv"
+
+    business_attributes = get_data_from_csv(file_business_attributes)
+    insert_data("Business_attributes", business_attributes)
+    del business_attributes
+    gc.collect()
+
+    business_hours = get_data_from_csv(file_business_hours)
+    insert_data("Business_hours", business_hours)
+    del business_hours
+    gc.collect()
+
+    business = get_data_from_csv(file_business)
+    insert_data("Business", business)
+    del business
+    gc.collect()
+
+    checkin = get_data_from_csv(file_checkin)
+    insert_data("Checkin", checkin)
+    del checkin
+    gc.collect()
+
+    user = get_data_from_csv(file_user)
+    insert_data("User", user)
+    del user
+    gc.collect()
+
+    review = get_data_from_csv(file_review)
+    insert_data("Review", review)
+    del review
+    gc.collect()
+
+    tips = get_data_from_csv(file_tip)
+    insert_data("Tips", tips)
+    del tips
+    gc.collect()
+
+    split_data("business_id", "categories", "Business", ";", "Category")
+
+    split_data("user_id", "elite", "User", ",", "Elite")
+
+    split_data("user_id", "friends", "User", ",", "Friends")
+
+    execute_query("/home/steven/ECE656_project/Proj_table.sql")
 
 if __name__ == '__main__':
     main()
