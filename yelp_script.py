@@ -67,19 +67,6 @@ def load_from_csv(table_name, mydata):
         connection.close()
 
 
-def execute_query(PATH_TO_FILE):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
-
-    try:
-        with connection.cursor() as cursor:
-            for line in open(PATH_TO_FILE):
-                cursor.execute(line)
-    finally:
-        connection.close()
-
-
 def split_data(id, column_name, table_name, spliter, target_table):
     print(">>>>>>>>>>>>>>>start split>>>>>>>>>>>>>>>>>>>>")
     my_key = get_connection_key()
@@ -185,8 +172,6 @@ def main():
     split_data("user_id", "elite", "User", ",", "Elite")
 
     split_data("user_id", "friends", "User", ",", "Friends")
-
-    execute_query("/home/steven/ECE656_project/Proj_table.sql")
 
 if __name__ == '__main__':
     main()
