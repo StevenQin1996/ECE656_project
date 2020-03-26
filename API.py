@@ -3,18 +3,97 @@ import csv
 import sys
 import pandas as pd
 
+
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
                       'database': 'Test2'}
     return connection_key
 
-def BusinessPage():
-    inp = input("Select Category:\n"
-                "1: Restaurant\n"
-                "2: Coffee & Tea\n"
-                "3: Hair Salons\n"
-                "4: More\n")
 
+def BusinessPage():
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+    try:
+        with connection.cursor() as cursor:
+            while True:
+                search_name = input("Please enter the search content:")
+                sql = "Select business_id FROM Category WHERE category = '{data}'".format(data=search_name)
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                connection.commit()
+                if data:
+                    Search_Business_List(search_name)
+                    return
+                print("{} is not in category list, please choose one from following:\n".format(search_name))
+                sql = "select category FROM Category GROUP BY category order by count(business_id) desc limit 10;"
+                cursor.execute(sql)
+                data_list = cursor.fetchall()
+                cols = cursor.description
+                connection.commit()
+                col = []
+                for i in cols:
+                    col.append(i[0])
+                data_list = list(map(list, data_list))
+                data_list = pd.DataFrame(data_list, columns=col)
+                print(data_list)
+    finally:
+        connection.close()
+
+
+def Search_Business_List(name):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+    try:
+        with connection.cursor() as cursor:
+            while True:
+                business = input("Please enter the business name:")
+                sql = "SELECT B.business_id FROM " \
+                      "Category C INNER JOIN Business B ON C.business_id = B.business_id " \
+                      "WHERE C.category LIKE {x} AND B.name = '{y}';"\
+                    .format(x="'%"+name+"%'", y=business)
+                cursor.execute(sql)
+                data_id = cursor.fetchall()
+                connection.commit()
+                if data_id:
+                    Search_Business_Info(data_id[0][0])
+                    return
+                print("{x} is not in {y} list, please choose one from following:".format(x=business, y=name))
+                sql = "SELECT name FROM Category C INNER JOIN Business B ON C.business_id = B.business_id WHERE category LIKE {x};" \
+                    .format(x="'%" + name + "%'")
+                cursor.execute(sql)
+                data_list = cursor.fetchall()
+                cols = cursor.description
+                connection.commit()
+                col = []
+                for i in cols:
+                    col.append(i[0])
+                data_list = list(map(list, data_list))
+                data_list = pd.DataFrame(data_list, columns=col)
+                print(data_list)
+    finally:
+        connection.close()
+
+def Search_Business_Info(id):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT name, address, city, state, stars FROM Business WHERE business_id = '{}'".format(id)
+            cursor.execute(sql)
+            data_list = cursor.fetchall()
+            cols = cursor.description
+            connection.commit()
+            col = []
+            for i in cols:
+                col.append(i[0])
+            data_list = list(map(list, data_list))
+            data_list = pd.DataFrame(data_list, columns=col)
+            print(data_list)
+    finally:
+        connection.close()
 
 def UserPage():
     inp = input("1: Write Review\n"
@@ -55,8 +134,14 @@ def login():
                 sql = "SELECT user_id FROM User limit 5"
                 cursor.execute(sql)
                 user_list = cursor.fetchall()
+                cols = cursor.description
                 connection.commit()
-                print(user_list)
+                col = []
+                for i in cols:
+                    col.append(i[0])
+                user_list = list(map(list, user_list))
+                data = pd.DataFrame(user_list, columns=col)
+                print(data)
     finally:
         connection.close()
 
