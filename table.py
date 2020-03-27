@@ -314,6 +314,17 @@ def create_tables():
             # )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             # cursor.execute(sql)
             #
+            #
+            # sql = 'DROP TABLE IF EXISTS Follow;'
+            # cursor.execute(sql)
+            #
+            # sql = 'CREATE TABLE Follow(\
+            #     `user_id` VARCHAR(255) NOT NULL,\
+            #     `business_id` INT NOT NULL,\
+            #     PRIMARY KEY (`user_id`,`business_id`)\
+            # )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            # cursor.execute(sql)
+            #
             # sql = 'DROP TABLE IF EXISTS temp_Review;'
             # cursor.execute(sql)
             #

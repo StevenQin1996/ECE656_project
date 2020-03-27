@@ -107,7 +107,7 @@ def UserPage(user_id):
     if inp == "1":
         Review(user_id)
     elif inp == "2":
-        Follow()
+        Follow(user_id)
     elif inp == "3":
         Notification()
     elif inp == "exit":
@@ -188,8 +188,97 @@ def Review(user_id):
         connection.close()
 
 
-def Follow():
-    print("Follow")
+def Group(user_id):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+    try:
+        with connection.cursor() as cursor:
+            name = input("Please input the group name:")
+            sql = "SELECT U.user_id " \
+                  "FROM Groups_info G INNER JOIN User_Group U ON G.group_id = U.group_id " \
+                  "WHERE G.name = '{}';".format(name)
+            cursor.execute(sql)
+            user_list = cursor.fetchall()
+            cols = cursor.description
+            connection.commit()
+            col = []
+            for i in cols:
+                col.append(i[0])
+            data_list = list(map(list, user_list))
+            data_list = pd.DataFrame(data_list, columns=col)
+            if user_list and user_id in data_list['user_id'].values:
+                print("You already in the group {}".format(name))
+                return
+            elif user_list and user_id not in data_list['user_id'].values:
+                sql = "INSERT INTO User_Group(group_id, user_id) SELECT" \
+                      "(SELECT group_id FROM Groups_info WHERE name = '{name}'), '{user}';" \
+                    .format(name=name, user=user_id)
+                cursor.execute(sql)
+                connection.commit()
+                print("Successfully join in the group {}".format(name))
+            else:
+                inp = input("The group {} is not exist, do you want to create this group(Y/N): ".format(name))
+                if inp == "Y" or "y":
+                    sql = "INSERT INTO Groups_info(name) VALUES('{}');".format(name)
+                    cursor.execute(sql)
+                    connection.commit()
+                    sql = "INSERT INTO User_Group(group_id, user_id) SELECT" \
+                          "(SELECT group_id FROM Groups_info WHERE name = '{group}'), '{user}';"\
+                        .format(group=name, user=user_id)
+                    cursor.execute(sql)
+                    connection.commit()
+                    print("Successfully create the group {}".format(name))
+                elif inp == "N" or "n":
+                    return
+    finally:
+        connection.close()
+
+
+def Topic(user_id):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+    try:
+        with connection.cursor() as cursor:
+            business_name = input("Please input the topic name:")
+            sql = "SELECT F.user_id " \
+                  "FROM Business B INNER JOIN Follow F ON B.business_id = F.business_id " \
+                  "WHERE B.name = '{}'; ".format(business_name)
+            cursor.execute(sql)
+            user_list = cursor.fetchall()
+            cols = cursor.description
+            connection.commit()
+            col = []
+            for i in cols:
+                col.append(i[0])
+            data_list = list(map(list, user_list))
+            data_list = pd.DataFrame(data_list, columns=col)
+            if user_list and user_id in data_list['user_id'].values:
+                print("You already follow the topic {}".format(business_name))
+                return
+            elif user_list and user_id not in data_list['user_id'].values:
+                sql = "INSERT INTO Follow(business_id, user_id) SELECT" \
+                      "(SELECT business_id FROM Business WHERE name = '{group}'), '{user}';" \
+                    .format(group=business_name, user=user_id)
+                cursor.execute(sql)
+                connection.commit()
+                print("Successfully follow in the topic {}".format(business_name))
+            else:
+                print("Do not have this topic")
+    finally:
+        connection.close()
+
+
+def Follow(user_id):
+    inp = input("1: Follow a group\n"
+                "2: Follow a topic\n")
+    if inp == "1":
+        Group(user_id)
+    elif inp == "2":
+        Topic(user_id)
+    else:
+        print("Wrong Input Try Again")
 
 
 def Notification():
