@@ -7,6 +7,10 @@ import string
 from datetime import date
 
 
+class emptyQuery(Exception):
+    pass
+
+
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
                       'database': 'Test2'}
@@ -111,104 +115,55 @@ def UserPage(user_id):
 
 
 def Review(user_id):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
-    try:
-        with connection.cursor() as cursor:
-            while True:
-                try:
-                    business_id = input("Enter Business ID:  ")
-                    sql = "SELECT B.name, B.stars, B.review_count ,B.is_open ,C.category FROM Business B inner join Category C on B.business_id = C.business_id where B.business_id = '{}'".format(
-                        business_id)
-                    cursor.execute(sql)
-                    data = cursor.fetchall()
-                    connection.commit()
-                    if data:
-                        print("Business abstraction shown below.\n")
-                        columns = ["name", "stars", "review_count", "is_open", "categories"]
-                        df = pd.DataFrame(data, columns=columns)
-                        print(df)
-                        user_choice = input("type 1 to insert a review for business {}.\n".format(df['name'][0]))
-                        if user_choice == "1":
-                            my_input = {}
-                            my_input['review_id'] = randomString(25)
-                            my_input['user_id'] = user_id
-                            my_input['business_id'] = business_id
-                            my_input['date'] = date.today()
+    while True:
+        try:
+            business_id = input("Enter Business ID:  ")
+            sql = "SELECT B.name, B.stars, B.review_count ,B.is_open ,C.category FROM Business B inner join Category C on B.business_id = C.business_id where B.business_id = '{}'".format(
+                business_id)
+            result = display_sql(sql)
+            if result.empty:
+                raise emptyQuery
+            else:
+                print("Business abstraction shown below.\n")
+                print(result, "\n")
+                user_choice = input("type 1 to insert a review for business {}.\n".format(result['name'][0]))
+                if user_choice == "1":
+                    my_input = {}
+                    my_input['review_id'] = randomString(25)
+                    my_input['user_id'] = user_id
+                    my_input['business_id'] = business_id
+                    my_input['date'] = date.today()
 
-                            # try:
-                            inp = input("Enter stars from 1 - 5: ")
-                            if 1 <= int(inp) <= 5:
-                                my_input['stars'] = int(inp)
+                    # try:
+                    inp = input("Enter stars from 1 - 5: ")
+                    if 1 <= int(inp) <= 5:
+                        my_input['stars'] = int(inp)
 
-                            inp = input("Enter useful 0 or 1:  ")
-                            if 0 <= int(inp) <= 1:
-                                my_input['useful'] = int(inp)
+                    inp = input("Enter useful 0 or 1:  ")
+                    if 0 <= int(inp) <= 1:
+                        my_input['useful'] = int(inp)
 
-                            inp = input("Enter useful 0 or 1:  ")
-                            if 0 <= int(inp) <= 1:
-                                my_input['funny'] = int(inp)
+                    inp = input("Enter useful 0 or 1:  ")
+                    if 0 <= int(inp) <= 1:
+                        my_input['funny'] = int(inp)
 
-                            inp = input("Enter useful 0 or 1:  ")
-                            if 0 <= int(inp) <= 1:
-                                my_input['cool'] = int(inp)
+                    inp = input("Enter useful 0 or 1:  ")
+                    if 0 <= int(inp) <= 1:
+                        my_input['cool'] = int(inp)
 
-                            my_input['text'] = input("Enter review below: \n")
+                    my_input['text'] = input("Enter review below: \n")
 
-                            insert_data("Review", my_input)
+                    insert_data("Review", my_input)
 
-                            push_notification_Friend(my_input['review_id'], my_input['user_id'],
-                                                     my_input['business_id'])
-                            # except ValueError:
-                            #     print("invalid entry")
-                        else:
-                            return 0
-                    else:
-                        raise pymysql.err.InternalError()
-                except pymysql.err.InternalError as e:
-                    print("an Error happened: ")
-                    print("Maybe choose another Business ID From Following:")
-                    sql = "SELECT business_id FROM Business limit 5"
-                    result = display_sql(sql)
-                    print(result)
-                except pymysql.err.ProgrammingError as error:
-                    code, message = error.args
-                    print(">>>>>>>>>>>>>", code, message)
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
-
-
-def display_sql(sql):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute(sql)
-            data_list = cursor.fetchall()
-            cols = cursor.description
-            connection.commit()
-            col = []
-            for i in cols:
-                col.append(i[0])
-            data_list = list(map(list, data_list))
-            data_list = pd.DataFrame(data_list, columns=col)
-            return data_list
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
+                    push_notification_Friend(my_input['review_id'], my_input['user_id'],
+                                             my_input['business_id'])
+                return 0
+        except emptyQuery:
+            print("an Error happened: ")
+            print("Maybe choose another Business ID From Following:")
+            sql = "SELECT business_id FROM Business limit 5"
+            result = display_sql(sql)
+            print(result)
 
 
 def Follow():
@@ -216,75 +171,47 @@ def Follow():
 
 
 def push_notification_Friend(review_id, review_user, review_business):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
-    try:
-        with connection.cursor() as cursor:
-            sql = "SELECT friend_id as user_id FROM Friends WHERE user_id = '{}'".format(review_user)
-            result = display_sql(sql)
-            result.insert(1, "review_id", review_id, allow_duplicates = False)
-            result.insert(1, "reviewbusiness_id", review_business, allow_duplicates = False )
-            result.insert(1, "reviewuser_id", review_user, allow_duplicates = False)
-            result.insert(1, "is_read", 0, allow_duplicates = False)
+    sql = "SELECT friend_id as user_id FROM Friends WHERE user_id = '{}'".format(review_user)
+    result = display_sql(sql)
+    result.insert(1, "review_id", review_id, allow_duplicates=False)
+    result.insert(1, "reviewbusiness_id", review_business, allow_duplicates=False)
+    result.insert(1, "reviewuser_id", review_user, allow_duplicates=False)
+    result.insert(1, "is_read", 0, allow_duplicates=False)
 
-            insert_pandas("Notification", result)
-
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
+    insert_pandas("Notification", result)
 
 
 def Notification(user_id):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
-    try:
-        with connection.cursor() as cursor:
-            while True:
-                try:
-                    sql = "select count(notification_id)" \
+    while True:
+        try:
+            sql = "select count(notification_id) as 'count' " \
+                  "from Notification N " \
+                  "where N.user_id = '{}' and N.is_read = 0".format(user_id)
+            result = display_sql(sql)
+            if result.empty:
+                print("There is no new notification")
+                print(">>>>>>>>>>>.continue working")
+                raise emptyQuery
+            else:
+                print("You have {} new messages".format(result["count"].values))
+                user_choice = input("type 1 to read reviews \n")
+                if user_choice == "1":
+                    sql = "select N.notification_id,R.review_id,B.name as business_name, R.stars, R.date, R.text, R.useful, R.funny, R.cool " \
                           "from Notification N " \
+                          "inner join Review R on N.review_id = R.review_id " \
+                          "inner join Business B on R.business_id = B.business_id " \
                           "where N.user_id = '{}' and N.is_read = 0".format(user_id)
-                    cursor.execute(sql)
-                    data = cursor.fetchall()
-                    connection.commit()
-                    print("You have {} new messages".format(data))
-                    if data:
-                        user_choice = input("type 1 to read reviews \n")
-                        if user_choice == "1":
-                            sql = "select N.notification_id,R.review_id,B.name,R.stars,R.date,R.text,R.useful,R.funny,R.cool " \
-                                  "from Notification N " \
-                                  "inner join Review R on N.review_id = R.review_id " \
-                                  "inner join Business on R.business_id = B.business_id " \
-                                  "where N.user_id = '{}' and N.is_read = 0".format(user_id)
-                            result = display_sql(sql)
-                            print(result)
+                    result = display_sql(sql)
+                    print(result)
 
-                            sql = "UPDATE Notification set is_read = 1 where notification_id = %s"
-                            cursor.executemany(sql, result["notification_id"])
-                            connection.commit()
-                    else:
-                        print("There is no new notification")
+                    update_sql("Notification", "is_read", 1, "notification_id", result["notification_id"])
 
-                except pymysql.err.InternalError as e:
-                    print("an Error happened: ")
-                    print("Maybe choose another Business ID From Following:")
-                    sql = "SELECT business_id FROM Business limit 5"
-                    cursor.execute(sql)
-                    business_list = cursor.fetchall()
-                    connection.commit()
-                    print(business_list)
-                except pymysql.err.ProgrammingError as error:
-                    code, message = error.args
-                    print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
+        except emptyQuery:
+            print("an Error happened: ")
+            print("Maybe choose another Business ID From Following:")
+            sql = "SELECT business_id FROM Business limit 5"
+            result = display_sql(sql)
+            print(result)
 
 
 def HomePage(user_name, user_id):
@@ -302,31 +229,20 @@ def HomePage(user_name, user_id):
 
 
 def login():
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
-    try:
-        with connection.cursor() as cursor:
-            while True:
-                user_id = input("Please Enter Your User ID:  ")
-                sql = "SELECT name FROM User WHERE user_id = '{}'".format(user_id)
-                cursor.execute(sql)
-                user_name = cursor.fetchall()
-                connection.commit()
-                if user_name:
-                    return user_name[0][0], user_id
-                print("User ID do not exist, choose another User ID From Following:")
-                sql = "SELECT user_id FROM User limit 5"
-                result = display_sql(sql)
-                print(result)
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
+    while True:
+        try:
+            user_id = input("Please Enter Your User ID:  ")
+            sql = "SELECT name FROM User WHERE user_id = '{}'".format(user_id)
+            result = display_sql(sql)
+            if result.empty:
+                raise emptyQuery
+            else:
+                return (result["name"][0], user_id)
+        except emptyQuery:
+            print("ID do not exist, choose another User ID From Following:")
+            sql = "SELECT user_id FROM User limit 5"
+            result = display_sql(sql)
+            print(result)
 
 
 def randomString(stringLength):
@@ -392,6 +308,51 @@ def insert_pandas(table_name, mydata):
     except pymysql.err.ProgrammingError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
+    finally:
+        connection.close()
+
+
+def display_sql(sql):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            data_list = cursor.fetchall()
+            cols = cursor.description
+            connection.commit()
+            col = []
+            for i in cols:
+                col.append(i[0])
+            data_list = list(map(list, data_list))
+            data_list = pd.DataFrame(data_list, columns=col)
+            return data_list
+    except pymysql.InternalError as error:
+        print(">>>>>>>>>>>>>", error)
+    except pymysql.err.ProgrammingError as error:
+        print(">>>>>>>>>>>>>", error)
+    except pymysql.err.OperationalError as error:
+        print(">>>>>>>>>>>>>", error)
+
+    finally:
+        connection.close()
+
+
+def update_sql(table, update_column, update_value, clause_column, clause_value):
+    my_key = get_connection_key()
+    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
+                                 database=my_key['database'], local_infile=1)
+    try:
+        with connection.cursor() as cursor:
+            sql = "UPDATE {} set {} = {} where {} = ".format(table, update_column, update_value, clause_column)
+            sql += "%s"
+            records = clause_value.tolist()
+            print(type(records))
+            cursor.executemany(sql, records)
+            connection.commit()
+    except pymysql.err.OperationalError as error:
+        print(">>>>>>>>>>>>>", error)
     finally:
         connection.close()
 
