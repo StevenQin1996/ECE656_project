@@ -264,17 +264,18 @@ def Follow(user_id):
         print("Wrong Input Try Again")
 
 
-def push_notification(choice, review_id, review_user, review_business):
-    if choice.lower() == "friends":
+def push_notification(relation, review_id, review_user, review_business):
+    if relation.lower() == "friends":
         sql = "SELECT friend_id as user_id FROM Friends WHERE user_id = '{}'".format(review_user)
         result = display_sql(sql)
         result.insert(1, "review_id", review_id, allow_duplicates=False)
         result.insert(1, "reviewbusiness_id", review_business, allow_duplicates=False)
         result.insert(1, "reviewuser_id", review_user, allow_duplicates=False)
         result.insert(1, "is_read", 0, allow_duplicates=False)
+        result.insert(1,"relation", relation, allow_duplicates=False)
         insert_pandas("Notification", result)
 
-    elif choice.lower() == "groups":
+    elif relation.lower() == "groups":
         sql = "select group_id from User_Group where user_id = '{}'".format(review_user)
         result = display_sql(sql)
         for group in result['group_id']:
@@ -284,6 +285,7 @@ def push_notification(choice, review_id, review_user, review_business):
             result.insert(1, "reviewbusiness_id", review_business, allow_duplicates=False)
             result.insert(1, "reviewuser_id", review_user, allow_duplicates=False)
             result.insert(1, "is_read", 0, allow_duplicates=False)
+            result.insert(1, "relation", relation, allow_duplicates=False)
             insert_pandas("Notification", result)
     print("Notification send complete")
 
