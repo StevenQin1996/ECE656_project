@@ -1,5 +1,4 @@
 import pymysql
-import csv
 import sys
 import pandas as pd
 import random
@@ -18,51 +17,37 @@ def get_connection_key():
 
 
 def BusinessPage():
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
     try:
-        with connection.cursor() as cursor:
-            while True:
-                search_name = input("Please enter the search content:  ")
-                sql = "Select business_id FROM Category WHERE category = '{data}'".format(data=search_name)
-                cursor.execute(sql)
-                data = cursor.fetchall()
-                connection.commit()
-                if data:
-                    Search_Business_List(search_name)
-                    return
-                print("{} is not in category list, please choose one from following:\n".format(search_name))
-                sql = "select category FROM Category GROUP BY category order by count(business_id) desc limit 10;"
-                result = display_sql(sql)
-                print(result)
+        while True:
+            search_name = input("Please enter the search content:  ")
+            sql = "Select business_id FROM Category WHERE category = '{data}'".format(data=search_name)
+            result = display_sql(sql)
+            if not result.empty:
+                Search_Business_List(search_name)
+                return
+            print("{} is not in category list, please choose one from following:\n".format(search_name))
+            sql = "select category FROM Category GROUP BY category order by count(business_id) desc limit 10;"
+            result = display_sql(sql)
+            print(result)
     except pymysql.InternalError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
     except pymysql.err.ProgrammingError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
 
 
 def Search_Business_List(name):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
     try:
-        with connection.cursor() as cursor:
             while True:
                 business = input("Please enter the business name:  ")
                 sql = "SELECT B.business_id FROM " \
                       "Category C INNER JOIN Business B ON C.business_id = B.business_id " \
                       "WHERE C.category LIKE {x} AND B.name = '{y}';" \
                     .format(x="'%" + name + "%'", y=business)
-                cursor.execute(sql)
-                data_id = cursor.fetchall()
-                connection.commit()
-                if data_id:
-                    Search_Business_Info(data_id[0][0])
+                result = display_sql(sql)
+                if not result.empty:
+                    Search_Business_Info(result.values[0][0])
                     return
                 print("{x} is not in {y} list, please choose one from following:".format(x=business, y=name))
                 sql = "SELECT name FROM Category C INNER JOIN Business B ON C.business_id = B.business_id WHERE category LIKE {x};" \
@@ -75,27 +60,20 @@ def Search_Business_List(name):
     except pymysql.err.ProgrammingError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
 
 
 def Search_Business_Info(id):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
     try:
-        with connection.cursor() as cursor:
-            sql = "SELECT name, address, city, state, stars FROM Business WHERE business_id = '{}'".format(id)
-            result = display_sql(sql)
-            print(result)
+        sql = "SELECT name, address, city, state, stars FROM Business WHERE business_id = '{}'".format(id)
+        result = display_sql(sql)
+        print(result)
     except pymysql.InternalError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
     except pymysql.err.ProgrammingError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
-    finally:
-        connection.close()
+
 
 
 def UserPage(user_id):
@@ -166,100 +144,75 @@ def Review(user_id):
             print(result)
 
 
-def Group(user_id):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
+def follow_group(user_id):
     try:
-        with connection.cursor() as cursor:
-            name = input("Please input the group name:")
-            sql = "SELECT U.user_id " \
-                  "FROM Groups_info G INNER JOIN User_Group U ON G.group_id = U.group_id " \
-                  "WHERE G.name = '{}';".format(name)
-            cursor.execute(sql)
-            user_list = cursor.fetchall()
-            cols = cursor.description
-            connection.commit()
-            col = []
-            for i in cols:
-                col.append(i[0])
-            data_list = list(map(list, user_list))
-            data_list = pd.DataFrame(data_list, columns=col)
-            if user_list and user_id in data_list['user_id'].values:
-                print("You already in the group {}".format(name))
+        name = input("Please input the group name:")
+        sql = "SELECT U.user_id " \
+              "FROM Groups_info G INNER JOIN User_Group U ON G.group_id = U.group_id " \
+              "WHERE G.name = '{}';".format(name)
+        user_list = display_sql(sql)
+        if not user_list.empty and user_id in user_list['user_id'].values:
+            print("You already in the group {}".format(name))
+            return
+        elif not user_list.empty and user_id not in user_list['user_id'].values:
+            sql = "SELECT group_id FROM Groups_info WHERE name = '{name}';".format(name=name)
+            result = display_sql(sql)
+            my_input = {'group_id': result.values[0][0], 'user_id': user_id}
+            insert_data("User_Group", my_input)
+        else:
+            inp = input("The group {} is not exist, do you want to create this group(Y/N): ".format(name))
+            if inp == "Y":
+                my_input1 = {'name': name}
+                insert_data("Groups_info",my_input1)
+                sql = "SELECT group_id FROM Groups_info WHERE name = '{name}';".format(name=name)
+                result = display_sql(sql)
+                my_input2 = {'group_id': result.values[0][0], 'user_id': user_id}
+                insert_data("User_Group", my_input2)
+            else:
                 return
-            elif user_list and user_id not in data_list['user_id'].values:
-                sql = "INSERT INTO User_Group(group_id, user_id) SELECT" \
-                      "(SELECT group_id FROM Groups_info WHERE name = '{name}'), '{user}';" \
-                    .format(name=name, user=user_id)
-                cursor.execute(sql)
-                connection.commit()
-                print("Successfully join in the group {}".format(name))
-            else:
-                inp = input("The group {} is not exist, do you want to create this group(Y/N): ".format(name))
-                if inp == "Y":
-                    sql = "INSERT INTO Groups_info(name) VALUES('{}');".format(name)
-                    cursor.execute(sql)
-                    connection.commit()
-                    sql = "INSERT INTO User_Group(group_id, user_id) SELECT" \
-                          "(SELECT group_id FROM Groups_info WHERE name = '{group}'), '{user}';" \
-                        .format(group=name, user=user_id)
-                    cursor.execute(sql)
-                    connection.commit()
-                    print("Successfully create the group {}".format(name))
-                else:
-                    return
-    finally:
-        connection.close()
+    except pymysql.InternalError as error:
+        code, message = error.args
+        print(">>>>>>>>>>>>>", code, message)
+    except pymysql.err.ProgrammingError as error:
+        code, message = error.args
+        print(">>>>>>>>>>>>>", code, message)
 
 
-def Topic(user_id):
-    my_key = get_connection_key()
-    connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
-                                 database=my_key['database'], local_infile=1)
+def follow_topic(user_id):
     try:
-        with connection.cursor() as cursor:
-            business_name = input("Please input the topic name:")
-            sql = "SELECT business_id FROM Business WHERE name = '{}';".format(business_name)
-            cursor.execute(sql)
-            data = cursor.fetchall()
-            connection.commit()
-            if data:
-                sql = "SELECT F.user_id " \
-                      "FROM Business B INNER JOIN Follow F ON B.business_id = F.business_id " \
-                      "WHERE B.name = '{}'; ".format(business_name)
-                cursor.execute(sql)
-                user_list = cursor.fetchall()
-                cols = cursor.description
-                connection.commit()
-                col = []
-                for i in cols:
-                    col.append(i[0])
-                data_list = list(map(list, user_list))
-                data_list = pd.DataFrame(data_list, columns=col)
-                if user_list and user_id in data_list['user_id'].values:
-                    print("You already follow the topic {}".format(business_name))
-                    return
-                else:
-                    sql = "INSERT INTO Follow(business_id, user_id) SELECT" \
-                          "(SELECT business_id FROM Business WHERE name = '{group}'), '{user}';" \
-                        .format(group=business_name, user=user_id)
-                    cursor.execute(sql)
-                    connection.commit()
-                    print("Successfully follow in the topic {}".format(business_name))
+        name = input("Please input the topic name:")
+        sql = "SELECT business_id FROM Business WHERE name = '{}';".format(name)
+        result = display_sql(sql)
+        if not result.empty:
+            sql = "SELECT F.user_id " \
+                  "FROM Business B INNER JOIN Follow F ON B.business_id = F.business_id " \
+                  "WHERE B.name = '{}'; ".format(name)
+            user_list = display_sql(sql)
+            if not user_list.empty and user_id in user_list['user_id'].values:
+                print("You already follow the topic {}".format(name))
+                return
             else:
-                print("Do not have this topic")
-    finally:
-        connection.close()
+                sql = "SELECT business_id FROM Business WHERE name = '{name}';".format(name=name)
+                result = display_sql(sql)
+                my_input = {'business_id': result.values[0][0], 'user_id': user_id}
+                insert_data("Follow", my_input)
+        else:
+            print("Do not have this topic")
+    except pymysql.InternalError as error:
+        code, message = error.args
+        print(">>>>>>>>>>>>>", code, message)
+    except pymysql.err.ProgrammingError as error:
+        code, message = error.args
+        print(">>>>>>>>>>>>>", code, message)
 
 
 def Follow(user_id):
     inp = input("1: Follow a group\n"
                 "2: Follow a topic\n")
     if inp == "1":
-        Group(user_id)
+        follow_group(user_id)
     elif inp == "2":
-        Topic(user_id)
+        follow_topic(user_id)
     else:
         print("Wrong Input Try Again")
 
