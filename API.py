@@ -128,13 +128,9 @@ def Review(user_id):
                 print(result, "\n")
                 user_choice = input("type 1 to insert a review for business {}.\n".format(result['name'][0]))
                 if user_choice == "1":
-                    my_input = {}
-                    my_input['review_id'] = randomString(25)
-                    my_input['user_id'] = user_id
-                    my_input['business_id'] = business_id
-                    my_input['date'] = date.today()
+                    my_input = {'review_id': randomString(25), 'user_id': user_id, 'business_id': business_id,
+                                'date': date.today()}
 
-                    # try:
                     inp = input("Enter stars from 1 - 5: ")
                     if 1 <= int(inp) <= 5:
                         my_input['stars'] = int(inp)
@@ -155,8 +151,12 @@ def Review(user_id):
 
                     insert_data("Review", my_input)
 
-                    push_notification_Friend(my_input['review_id'], my_input['user_id'],
+                    push_notification_Friend("friends", my_input['review_id'], my_input['user_id'],
                                              my_input['business_id'])
+                    push_notification_Friend("groups", my_input['review_id'], my_input['user_id'],
+                                             my_input['business_id'])
+
+
                 return 0
         except emptyQuery:
             print("an Error happened: ")
@@ -202,7 +202,7 @@ def Group(user_id):
                     cursor.execute(sql)
                     connection.commit()
                     sql = "INSERT INTO User_Group(group_id, user_id) SELECT" \
-                          "(SELECT group_id FROM Groups_info WHERE name = '{group}'), '{user}';"\
+                          "(SELECT group_id FROM Groups_info WHERE name = '{group}'), '{user}';" \
                         .format(group=name, user=user_id)
                     cursor.execute(sql)
                     connection.commit()
@@ -259,16 +259,29 @@ def Follow(user_id):
         print("Wrong Input Try Again")
 
 
+def push_notification_Friend(choice, review_id, review_user, review_business):
+    if choice.lower() == "friends":
+        sql = "SELECT friend_id as user_id FROM Friends WHERE user_id = '{}'".format(review_user)
+        result = display_sql(sql)
+        result.insert(1, "review_id", review_id, allow_duplicates=False)
+        result.insert(1, "reviewbusiness_id", review_business, allow_duplicates=False)
+        result.insert(1, "reviewuser_id", review_user, allow_duplicates=False)
+        result.insert(1, "is_read", 0, allow_duplicates=False)
+        insert_pandas("Notification", result)
 
-def push_notification_Friend(review_id, review_user, review_business):
-    sql = "SELECT friend_id as user_id FROM Friends WHERE user_id = '{}'".format(review_user)
-    result = display_sql(sql)
-    result.insert(1, "review_id", review_id, allow_duplicates=False)
-    result.insert(1, "reviewbusiness_id", review_business, allow_duplicates=False)
-    result.insert(1, "reviewuser_id", review_user, allow_duplicates=False)
-    result.insert(1, "is_read", 0, allow_duplicates=False)
+    elif choice.lower() == "groups":
+        sql = "select group_id from User_Group where user_id = '{}'".format(review_user)
+        result = display_sql(sql)
+        for group in result['group_id']:
+            sql = "select user_id from User_Group where group_id = {} and user_id <> '{}'".format(group, review_user)
+            result = display_sql(sql)
+            result.insert(1, "review_id", review_id, allow_duplicates=False)
+            result.insert(1, "reviewbusiness_id", review_business, allow_duplicates=False)
+            result.insert(1, "reviewuser_id", review_user, allow_duplicates=False)
+            result.insert(1, "is_read", 0, allow_duplicates=False)
+            insert_pandas("Notification", result)
+    print("Notification send complete")
 
-    insert_pandas("Notification", result)
 
 
 def Notification(user_id):
@@ -347,6 +360,7 @@ def convert_sql(dict):
     return col, val
 
 
+# insert data as dictionary
 def insert_data(table_name, mydata):
     # Open database connection
     my_key = get_connection_key()
@@ -401,7 +415,7 @@ def insert_pandas(table_name, mydata):
     finally:
         connection.close()
 
-
+# display selected data
 def display_sql(sql):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
@@ -428,7 +442,7 @@ def display_sql(sql):
     finally:
         connection.close()
 
-
+#update existing data
 def update_sql(table, update_column, update_value, clause_column, clause_value):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
