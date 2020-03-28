@@ -16,14 +16,14 @@ def get_connection_key():
     return connection_key
 
 
-def BusinessPage():
+def BusinessPage(user_id):
     try:
         while True:
             search_name = input("Please enter the search content:  ")
             sql = "Select business_id FROM Category WHERE category = '{data}'".format(data=search_name)
             result = display_sql(sql)
             if not result.empty:
-                Search_Business_List(search_name)
+                Search_Business_List(search_name,user_id)
                 return
             print("{} is not in category list, please choose one from following:\n".format(search_name))
             sql = "select category FROM Category GROUP BY category order by count(business_id) desc limit 10;"
@@ -37,7 +37,7 @@ def BusinessPage():
         print(">>>>>>>>>>>>>", code, message)
 
 
-def Search_Business_List(name):
+def Search_Business_List(name,user_id):
     try:
             while True:
                 business = input("Please enter the business name:  ")
@@ -47,7 +47,7 @@ def Search_Business_List(name):
                     .format(x="'%" + name + "%'", y=business)
                 result = display_sql(sql)
                 if not result.empty:
-                    Search_Business_Info(result.values[0][0])
+                    Search_Business_Info(result.values[0][0],user_id)
                     return
                 print("{x} is not in {y} list, please choose one from following:".format(x=business, y=name))
                 sql = "SELECT name FROM Category C INNER JOIN Business B ON C.business_id = B.business_id WHERE category LIKE {x};" \
@@ -62,11 +62,22 @@ def Search_Business_List(name):
         print(">>>>>>>>>>>>>", code, message)
 
 
-def Search_Business_Info(id):
+def Search_Business_Info(id,user_id):
     try:
         sql = "SELECT name, address, city, state, stars FROM Business WHERE business_id = '{}'".format(id)
         result = display_sql(sql)
         print(result)
+        print("==================== "
+              "Review of this business:"
+              " ====================")
+        sql = "SELECT review_id, useful, funny, cool, text FROM Review WHERE business_id = '{}'".format(id)
+        result = display_sql(sql)
+        print(result)
+        inp = input("type review id to continue reading a post / type skip to continue")
+        if inp == "skip":
+            continue
+        else:
+            read_review(inp, user_id)
     except pymysql.InternalError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
@@ -74,6 +85,12 @@ def Search_Business_Info(id):
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
 
+def read_review(review_id, user_id):
+    sql = "SELECT * FROM Review WHERE review_id = '{}'".format(review_id)
+    review_result = display_sql(sql)
+    print(review_result)
+    like_input = input("Do you like this review:")
+    
 
 
 def UserPage(user_id):
@@ -286,7 +303,7 @@ def HomePage(user_name, user_id):
                 "2:Me\n"
                 "3:Sign Out\n")
     if inp == "1":
-        BusinessPage()
+        BusinessPage(user_id)
     elif inp == "2":
         UserPage(user_id)
     elif inp == "3":
@@ -424,6 +441,8 @@ def update_sql(table, update_column, update_value, clause_column, clause_value):
 
 def main():
     pd.set_option('display.max_columns', None)
+    pd.set_option('display.width', None)
+    pd.set_option('display.max_colwidth', 50)
     print("Welcome to Yelp!")
     result = login()
     user_name = result[0]
