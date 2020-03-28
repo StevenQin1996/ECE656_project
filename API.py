@@ -6,6 +6,8 @@ import string
 from datetime import date
 
 
+# zYagTYoClQeP-7JxiTa7jw
+
 class emptyQuery(Exception):
     pass
 
@@ -75,7 +77,7 @@ def Search_Business_Info(id,user_id):
         print(result)
         inp = input("type review id to continue reading a post / type skip to continue")
         if inp == "skip":
-            continue
+            return
         else:
             read_review(inp, user_id)
     except pymysql.InternalError as error:
@@ -91,7 +93,6 @@ def read_review(review_id, user_id):
     print(review_result)
     like_input = input("Do you like this review:")
     
-
 
 def UserPage(user_id):
     inp = input("1: Write Review\n"
@@ -148,13 +149,13 @@ def Review(user_id):
                     sql = "select review_count, business_id from Business where business_id = '{}'".format(business_id)
                     result = display_sql(sql)
 
-                    update_sql("Business", "review_count", int(result["review_count"].values + 1), "business_id", result["business_id"])
+                    update_sql("Business", "review_count", int(result["review_count"].values + 1), "business_id",
+                               result["business_id"])
 
                     push_notification("friends", my_input['review_id'], my_input['user_id'],
-                                             my_input['business_id'])
+                                      my_input['business_id'])
                     push_notification("groups", my_input['review_id'], my_input['user_id'],
-                                             my_input['business_id'])
-
+                                      my_input['business_id'])
 
                 return 0
         except emptyQuery:
@@ -184,7 +185,7 @@ def follow_group(user_id):
             inp = input("The group {} is not exist, do you want to create this group(Y/N): ".format(name))
             if inp == "Y":
                 my_input1 = {'name': name}
-                insert_data("Groups_info",my_input1)
+                insert_data("Groups_info", my_input1)
                 sql = "SELECT group_id FROM Groups_info WHERE name = '{name}';".format(name=name)
                 result = display_sql(sql)
                 my_input2 = {'group_id': result.values[0][0], 'user_id': user_id}
@@ -246,7 +247,7 @@ def push_notification(relation, review_id, review_user, review_business):
         result.insert(1, "reviewbusiness_id", review_business, allow_duplicates=False)
         result.insert(1, "reviewuser_id", review_user, allow_duplicates=False)
         result.insert(1, "is_read", 0, allow_duplicates=False)
-        result.insert(1,"relation", relation, allow_duplicates=False)
+        result.insert(1, "relation", relation, allow_duplicates=False)
         insert_pandas("Notification", result)
 
     elif relation.lower() == "groups":
@@ -272,12 +273,13 @@ def Notification(user_id):
                   "where N.user_id = '{}' and N.is_read = 0".format(user_id)
             result = display_sql(sql)
             if result.empty:
-                print("There is no new notification")
-                print(">>>>>>>>>>>.continue working")
                 raise emptyQuery
+            elif result["count"].values == 0:
+                print("There is no new notification\n")
+                break
             else:
                 print("You have {} new messages".format(result["count"].values))
-                user_choice = input("type 1 to read reviews \n")
+                user_choice = input("type 1 to read reviews or quit to exit \n")
                 if user_choice == "1":
                     sql = "select N.notification_id,R.review_id,B.name as business_name, R.stars, R.date, R.text, R.useful, R.funny, R.cool " \
                           "from Notification N " \
@@ -285,16 +287,44 @@ def Notification(user_id):
                           "inner join Business B on R.business_id = B.business_id " \
                           "where N.user_id = '{}' and N.is_read = 0".format(user_id)
                     result = display_sql(sql)
-                    print(result)
-
-                    update_sql("Notification", "is_read", 1, "notification_id", result["notification_id"])
-
+                    count = 0
+                    my_id = []
+                    while count < len(result):
+                        temp = result.loc[count]
+                        print(temp)
+                        my_id.append(temp["notification_id"])
+                        inp = input("type next to read another post, like to like the current post, or quit to exit\n")
+                        if inp.lower() == "next":
+                            count += 1
+                        elif inp.lower() == "quit":
+                            break
+                        elif inp.lower() == "like":
+                            like(user_id, temp["review_id"])
+                        else:
+                            print("invalid input\n")
+                            continue
+                    read_id = pd.DataFrame(data=my_id, columns=["notification_id"])
+                    update_sql("Notification", "is_read", 1, "notification_id", read_id["notification_id"])
+                elif user_choice == "quit":
+                    break
         except emptyQuery:
             print("an Error happened: ")
             print("Maybe choose another Business ID From Following:")
             sql = "SELECT business_id FROM Business limit 5"
             result = display_sql(sql)
             print(result)
+
+
+def like(user_id, review_id):
+    sql = "select count(*) as 'count' from like_review where user_id = '{}' and review_id = '{}'".format(user_id,
+                                                                                                         review_id)
+    like_result = display_sql(sql)
+    if like_result["count"].values == 0:
+        my_input = {'review_id': review_id, 'user_id': user_id}
+        insert_data("like_review", my_input)
+        print("You liked this post")
+    elif like_result["count"].values != 0:
+        print("You already liked this post")
 
 
 def HomePage(user_name, user_id):
@@ -393,6 +423,7 @@ def insert_pandas(table_name, mydata):
     finally:
         connection.close()
 
+
 # display selected data
 def display_sql(sql):
     my_key = get_connection_key()
@@ -420,7 +451,8 @@ def display_sql(sql):
     finally:
         connection.close()
 
-#update existing data
+
+# update existing data
 def update_sql(table, update_column, update_value, clause_column, clause_value):
     my_key = get_connection_key()
     connection = pymysql.connect(host=my_key['host'], user=my_key['username'], password=my_key['password'],
