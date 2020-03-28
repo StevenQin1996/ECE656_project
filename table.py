@@ -280,19 +280,20 @@ def create_tables():
             #     )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             # cursor.execute(sql)
             #
-            # sql = 'DROP TABLE IF EXISTS Notification;'
-            # cursor.execute(sql)
-            #
-            # sql = ' CREATE TABLE Notification(\
-            #     `notification_id` INT NOT NULL AUTO_INCREMENT,\
-            #     `review_id` VARCHAR(128) DEFAULT NULL,\
-            #     `reviewbusiness_id` VARCHAR(128) DEFAULT NULL,\
-            #     `reviewuser_id` VARCHAR(128) DEFAULT NULL,\
-            #     `user_id` VARCHAR(128) DEFAULT NULL,\
-            #     `is_read` BOOLEAN DEFAULT NULL,\
-            #     PRIMARY KEY (`notification_id`)\
-            # )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            # cursor.execute(sql)
+            sql = 'DROP TABLE IF EXISTS Notification;'
+            cursor.execute(sql)
+
+            sql = ' CREATE TABLE Notification(\
+                `notification_id` INT NOT NULL AUTO_INCREMENT,\
+                `review_id` VARCHAR(128) DEFAULT NULL,\
+                `reviewbusiness_id` VARCHAR(128) DEFAULT NULL,\
+                `reviewuser_id` VARCHAR(128) DEFAULT NULL,\
+                `user_id` VARCHAR(128) DEFAULT NULL,\
+                `relation` VARCHAR(128) DEFAULT NULL,\
+                `is_read` BOOLEAN DEFAULT NULL,\
+                PRIMARY KEY (`notification_id`)\
+            )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
+            cursor.execute(sql)
             #
             # sql = 'DROP TABLE IF EXISTS Group_info;'
             # cursor.execute(sql)
@@ -342,21 +343,6 @@ def create_tables():
             # )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
             # cursor.execute(sql)
 
-            sql = 'DROP TABLE IF EXISTS Test;'
-            cursor.execute(sql)
-            sql = 'CREATE TABLE Test(\
-                `review_id` VARCHAR(128) NOT NULL,\
-                `user_id` VARCHAR(128) DEFAULT NULL,\
-                `business_id` VARCHAR(128) DEFAULT NULL,\
-                `stars` INT DEFAULT NULL,\
-                `date` DATE,\
-                `text` TEXT DEFAULT NULL,\
-                `useful` INT DEFAULT NULL,\
-                `funny` INT DEFAULT NULL,\
-                `cool` INT DEFAULT NULL,\
-                PRIMARY KEY (`review_id`)\
-            )ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;'
-            cursor.execute(sql)
     finally:
         print("create table complete")
         connection.close()
