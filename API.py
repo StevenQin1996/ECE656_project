@@ -150,6 +150,10 @@ def Review(user_id):
                     my_input['text'] = input("Enter review below: \n")
 
                     insert_data("Review", my_input)
+                    sql = "select review_count, business_id from Business where business_id = '{}'".format(business_id)
+                    result = display_sql(sql)
+
+                    update_sql("Business", "review_count", int(result["review_count"].values + 1), "business_id", result["business_id"])
 
                     push_notification("friends", my_input['review_id'], my_input['user_id'],
                                              my_input['business_id'])
@@ -378,9 +382,6 @@ def insert_data(table_name, mydata):
             query = 'INSERT INTO {} ({}) VALUES ({})'.format(table_name, column, value)
             cursor.execute(query)
             connection.commit()
-
-            print("{}: update complete".format(table_name))
-            sys.stdout.flush()
     except pymysql.InternalError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
@@ -410,8 +411,6 @@ def insert_pandas(table_name, mydata):
             # the connection is not autocommitted by default, so we must commit to save our changes
             connection.commit()
 
-            print("{}: update complete".format(table_name))
-            sys.stdout.flush()
     except pymysql.InternalError as error:
         code, message = error.args
         print(">>>>>>>>>>>>>", code, message)
@@ -458,7 +457,7 @@ def update_sql(table, update_column, update_value, clause_column, clause_value):
             sql = "UPDATE {} set {} = {} where {} = ".format(table, update_column, update_value, clause_column)
             sql += "%s"
             records = clause_value.tolist()
-            print(type(records))
+            # print(type(records))
             cursor.executemany(sql, records)
             connection.commit()
     except pymysql.err.OperationalError as error:
