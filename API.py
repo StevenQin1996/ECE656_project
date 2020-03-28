@@ -151,9 +151,9 @@ def Review(user_id):
 
                     insert_data("Review", my_input)
 
-                    push_notification_Friend("friends", my_input['review_id'], my_input['user_id'],
+                    push_notification("friends", my_input['review_id'], my_input['user_id'],
                                              my_input['business_id'])
-                    push_notification_Friend("groups", my_input['review_id'], my_input['user_id'],
+                    push_notification("groups", my_input['review_id'], my_input['user_id'],
                                              my_input['business_id'])
 
 
@@ -197,7 +197,7 @@ def Group(user_id):
                 print("Successfully join in the group {}".format(name))
             else:
                 inp = input("The group {} is not exist, do you want to create this group(Y/N): ".format(name))
-                if inp == "Y" or "y":
+                if inp == "Y":
                     sql = "INSERT INTO Groups_info(name) VALUES('{}');".format(name)
                     cursor.execute(sql)
                     connection.commit()
@@ -207,7 +207,7 @@ def Group(user_id):
                     cursor.execute(sql)
                     connection.commit()
                     print("Successfully create the group {}".format(name))
-                elif inp == "N" or "n":
+                else:
                     return
     finally:
         connection.close()
@@ -220,28 +220,33 @@ def Topic(user_id):
     try:
         with connection.cursor() as cursor:
             business_name = input("Please input the topic name:")
-            sql = "SELECT F.user_id " \
-                  "FROM Business B INNER JOIN Follow F ON B.business_id = F.business_id " \
-                  "WHERE B.name = '{}'; ".format(business_name)
+            sql = "SELECT business_id FROM Business WHERE name = '{}';".format(business_name)
             cursor.execute(sql)
-            user_list = cursor.fetchall()
-            cols = cursor.description
+            data = cursor.fetchall()
             connection.commit()
-            col = []
-            for i in cols:
-                col.append(i[0])
-            data_list = list(map(list, user_list))
-            data_list = pd.DataFrame(data_list, columns=col)
-            if user_list and user_id in data_list['user_id'].values:
-                print("You already follow the topic {}".format(business_name))
-                return
-            elif user_list and user_id not in data_list['user_id'].values:
-                sql = "INSERT INTO Follow(business_id, user_id) SELECT" \
-                      "(SELECT business_id FROM Business WHERE name = '{group}'), '{user}';" \
-                    .format(group=business_name, user=user_id)
+            if data:
+                sql = "SELECT F.user_id " \
+                      "FROM Business B INNER JOIN Follow F ON B.business_id = F.business_id " \
+                      "WHERE B.name = '{}'; ".format(business_name)
                 cursor.execute(sql)
+                user_list = cursor.fetchall()
+                cols = cursor.description
                 connection.commit()
-                print("Successfully follow in the topic {}".format(business_name))
+                col = []
+                for i in cols:
+                    col.append(i[0])
+                data_list = list(map(list, user_list))
+                data_list = pd.DataFrame(data_list, columns=col)
+                if user_list and user_id in data_list['user_id'].values:
+                    print("You already follow the topic {}".format(business_name))
+                    return
+                else:
+                    sql = "INSERT INTO Follow(business_id, user_id) SELECT" \
+                          "(SELECT business_id FROM Business WHERE name = '{group}'), '{user}';" \
+                        .format(group=business_name, user=user_id)
+                    cursor.execute(sql)
+                    connection.commit()
+                    print("Successfully follow in the topic {}".format(business_name))
             else:
                 print("Do not have this topic")
     finally:
@@ -259,7 +264,7 @@ def Follow(user_id):
         print("Wrong Input Try Again")
 
 
-def push_notification_Friend(choice, review_id, review_user, review_business):
+def push_notification(choice, review_id, review_user, review_business):
     if choice.lower() == "friends":
         sql = "SELECT friend_id as user_id FROM Friends WHERE user_id = '{}'".format(review_user)
         result = display_sql(sql)
@@ -281,7 +286,6 @@ def push_notification_Friend(choice, review_id, review_user, review_business):
             result.insert(1, "is_read", 0, allow_duplicates=False)
             insert_pandas("Notification", result)
     print("Notification send complete")
-
 
 
 def Notification(user_id):
