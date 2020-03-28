@@ -258,8 +258,7 @@ def Notification(user_id):
             if result.empty:
                 raise emptyQuery
             elif result["count"].values == 0:
-                print("There is no new notification")
-                print(">>>>>>>>>>>.continue working")
+                print("There is no new notification\n")
                 break
             else:
                 print("You have {} new messages".format(result["count"].values))
@@ -283,18 +282,11 @@ def Notification(user_id):
                         elif inp.lower() == "quit":
                             break
                         elif inp.lower() == "like":
-                            sql = "select count(*) as 'count' from like_review where user_id = '{}' and review_id = '{}'".format(user_id, temp["review_id"])
-                            like_result = display_sql(sql)
-                            if like_result["count"].values == 0:
-                                my_input = {'review_id': temp["review_id"], 'user_id': user_id}
-                                insert_data("like_review", my_input)
-                                print("You liked this post")
-                            elif like_result["count"].values != 0:
-                                print("You already liked this post")
+                            like(user_id, temp["review_id"])
                         else:
                             print("invalid input\n")
                             continue
-                    read_id = pd.DataFrame(data = my_id, columns=["notification_id"])
+                    read_id = pd.DataFrame(data=my_id, columns=["notification_id"])
                     update_sql("Notification", "is_read", 1, "notification_id", read_id["notification_id"])
                 elif user_choice == "quit":
                     break
@@ -304,6 +296,18 @@ def Notification(user_id):
             sql = "SELECT business_id FROM Business limit 5"
             result = display_sql(sql)
             print(result)
+
+
+def like(user_id, review_id):
+    sql = "select count(*) as 'count' from like_review where user_id = '{}' and review_id = '{}'".format(user_id,
+                                                                                                         review_id)
+    like_result = display_sql(sql)
+    if like_result["count"].values == 0:
+        my_input = {'review_id': review_id, 'user_id': user_id}
+        insert_data("like_review", my_input)
+        print("You liked this post")
+    elif like_result["count"].values != 0:
+        print("You already liked this post")
 
 
 def HomePage(user_name, user_id):
@@ -452,6 +456,8 @@ def update_sql(table, update_column, update_value, clause_column, clause_value):
 
 def main():
     pd.set_option('display.max_columns', None)
+    pd.set_option('display.width', None)
+
     print("Welcome to Yelp!")
     result = login()
     user_name = result[0]
