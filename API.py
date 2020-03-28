@@ -283,11 +283,14 @@ def Notification(user_id):
 def HomePage(user_name, user_id):
     print("Hi {}".format(user_name))
     inp = input("1:Search\n"
-                "2:Me\n")
+                "2:Me\n"
+                "3:Sign Out\n")
     if inp == "1":
         BusinessPage()
     elif inp == "2":
         UserPage(user_id)
+    elif inp == "3":
+        login()
     elif inp == "exit":
         sys.exit(0)
     else:
