@@ -30,6 +30,19 @@ Enter each function by enter the index (ex. 1 or 2) in the terminal.
 
 
 ## Search 
+Inside the search page, the major purpose of this function is let user find information of business through a series of search. In order to shrink the search area, user firstly need to tell the system which category of business that they are looking for. If user's input is not in data list or the format of input is not correct, the system will remind user some examples of data that they can use to search. Then, user can enter the business name that they want search. As mensioned above, if the name is not in data list or the format of input is not correct, the system will remind user some examples of data that they can use to search.
+
+The information of the business that present to user includes name, address, stars, and reviews. User is able to choose a review to read and post a respond.
+
+### Example
+```
+Searching information about the restaurant, which is named "Urawa Sushi".
+Sign in as user ___DPmKJsBF2X6ZKgAeGqg
+Press 1 for search
+Input category Restaurants (if do not know the category, type any thing to get hint)
+Input name "Urawa Sushi" (if do not know the name, type any thing to get hint)
+type skip to finish search or type review to read a exict review
+```
 
 ## User Home
 Inside the home page, you can write review, follow group/topic, or read notification send from other users.
