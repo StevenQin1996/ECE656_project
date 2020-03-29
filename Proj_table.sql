@@ -54,6 +54,10 @@ ALTER TABLE Notification ADD CONSTRAINT Note_ReviewUser_FK FOREIGN KEY (reviewus
 
 ALTER TABLE Notification ADD CONSTRAINT Note_User_FK FOREIGN KEY (user_id) REFERENCES User(user_id) on delete restrict on update restrict;
 
+ALTER TABLE like_review ADD CONSTRAINT like_review_FK FOREIGN KEY (review_id) REFERENCES Review(review_id) on delete restrict on update restrict;
+
+ALTER TABLE like_review ADD CONSTRAINT like_user_FK FOREIGN KEY (user_id) REFERENCES User(user_id) on delete restrict on update restrict;
+
 
 
 
