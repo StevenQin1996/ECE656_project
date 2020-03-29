@@ -14,7 +14,7 @@ class emptyQuery(Exception):
 
 def get_connection_key():
     connection_key = {'host': '149.248.53.217', 'port': 3306, 'username': 'steven', 'password': '123456',
-                      'database': 'Test2'}
+                      'database': 'Test3'}
     return connection_key
 
 
