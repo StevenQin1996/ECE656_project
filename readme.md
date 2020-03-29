@@ -33,26 +33,15 @@ Enter each function by enter the index (ex. 1 or 2) in the terminal.
 
 ## User Home
 Inside the home page, you can write review, follow group/topic, or read notification send from other users.
+Once a review is posted by user, a notification will be sent to all the user's friend and group members who are in the same group with user. 
 
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+### Example
 
 ```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+Post a review as user zYagTYoClQeP-7JxiTa7jw who is in group 6 and has friends 1T1x_58P-As_rB1mGITklw
+Sign out and log back in as user 1T1x_58P-As_rB1mGITklw.
+Press 3 the read 
+new Post are shown one at a time and you can like each post by enter like. One user can Only like a post once. 
 ```
 
 ## Deployment

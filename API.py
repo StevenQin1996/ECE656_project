@@ -4,6 +4,7 @@ import pandas as pd
 import random
 import string
 from datetime import date
+import math
 
 
 # zYagTYoClQeP-7JxiTa7jw
@@ -19,79 +20,64 @@ def get_connection_key():
 
 
 def BusinessPage(user_id):
-    try:
+    while True:
+        search_name = input("Please enter the search content:  ")
+        sql = "Select business_id FROM Category WHERE category = '{data}'".format(data=search_name)
+        result = display_sql(sql)
+        if not result.empty:
+            Search_Business_List(search_name,user_id)
+            return
+        print("{} is not in category list, please choose one from following:\n".format(search_name))
+        sql = "select category FROM Category GROUP BY category order by count(business_id) desc;"
+        result = display_sql(sql)
+        print_result(result, 10)
+
+
+def Search_Business_List(name, user_id):
         while True:
-            search_name = input("Please enter the search content:  ")
-            sql = "Select business_id FROM Category WHERE category = '{data}'".format(data=search_name)
+            business = input("Please enter the business name:  ")
+            sql = "SELECT B.business_id FROM " \
+                  "Category C INNER JOIN Business B ON C.business_id = B.business_id " \
+                  "WHERE C.category LIKE {x} AND B.name = '{y}';" \
+                .format(x="'%" + name + "%'", y=business)
             result = display_sql(sql)
             if not result.empty:
-                Search_Business_List(search_name,user_id)
+                Search_Business_Info(result.values[0][0],user_id)
                 return
-            print("{} is not in category list, please choose one from following:\n".format(search_name))
-            sql = "select category FROM Category GROUP BY category order by count(business_id) desc limit 10;"
+            print("{x} is not in {y} list, please choose one from following:".format(x=business, y=name))
+            sql = "SELECT name FROM Category C INNER JOIN Business B ON C.business_id = B.business_id WHERE category LIKE {x};" \
+                .format(x="'%" + name + "%'")
             result = display_sql(sql)
-            print(result)
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-
-
-def Search_Business_List(name,user_id):
-    try:
-            while True:
-                business = input("Please enter the business name:  ")
-                sql = "SELECT B.business_id FROM " \
-                      "Category C INNER JOIN Business B ON C.business_id = B.business_id " \
-                      "WHERE C.category LIKE {x} AND B.name = '{y}';" \
-                    .format(x="'%" + name + "%'", y=business)
-                result = display_sql(sql)
-                if not result.empty:
-                    Search_Business_Info(result.values[0][0],user_id)
-                    return
-                print("{x} is not in {y} list, please choose one from following:".format(x=business, y=name))
-                sql = "SELECT name FROM Category C INNER JOIN Business B ON C.business_id = B.business_id WHERE category LIKE {x};" \
-                    .format(x="'%" + name + "%'")
-                result = display_sql(sql)
-                print(result)
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
+            print_result(result, 20)
 
 
 def Search_Business_Info(id,user_id):
-    try:
-        sql = "SELECT name, address, city, state, stars FROM Business WHERE business_id = '{}'".format(id)
-        result = display_sql(sql)
-        print(result)
-        print("==================== "
-              "Review of this business:"
-              " ====================")
-        sql = "SELECT review_id, useful, funny, cool, text FROM Review WHERE business_id = '{}'".format(id)
-        result = display_sql(sql)
-        print(result)
-        inp = input("type review id to continue reading a post / type skip to continue")
-        if inp == "skip":
-            return
-        else:
-            read_review(inp, user_id)
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
+    sql = "SELECT name, address, city, state, stars FROM Business WHERE business_id = '{}'".format(id)
+    result = display_sql(sql)
+    print(result)
+    print("==================== "
+          "Review of this business:"
+          " ====================")
+    sql = "SELECT review_id, useful, funny, cool, text FROM Review WHERE business_id = '{}'".format(id)
+    result = display_sql(sql)
+    print_result(result, 5)
+    inp = input("type review id to continue reading a post / type skip to continue: ")
+    if inp.lower() == "skip":
+        return
+    else:
+        read_review(inp, user_id)
+
 
 def read_review(review_id, user_id):
     sql = "SELECT * FROM Review WHERE review_id = '{}'".format(review_id)
     review_result = display_sql(sql)
+    pd.set_option('display.max_colwidth', None)
     print(review_result)
-    like_input = input("Do you like this review:")
+    pd.set_option('display.max_colwidth', 50)
+    like_input = input("Do you like this review(Y/N):")
+    if like_input.lower() == "y":
+        like(user_id, review_id)
+    return
     
 
 def UserPage(user_id):
@@ -167,41 +153,35 @@ def Review(user_id):
 
 
 def follow_group(user_id):
-    try:
-        name = input("Please input the group name:")
-        sql = "SELECT U.user_id " \
-              "FROM Groups_info G INNER JOIN User_Group U ON G.group_id = U.group_id " \
-              "WHERE G.name = '{}';".format(name)
-        user_list = display_sql(sql)
-        if not user_list.empty and user_id in user_list['user_id'].values:
-            print("You already in the group {}".format(name))
-            return
-        elif not user_list.empty and user_id not in user_list['user_id'].values:
+    name = input("Please input the group name:")
+    sql = "SELECT U.user_id " \
+          "FROM Groups_info G INNER JOIN User_Group U ON G.group_id = U.group_id " \
+          "WHERE G.name = '{}';".format(name)
+    user_list = display_sql(sql)
+    if not user_list.empty and user_id in user_list['user_id'].values:
+        print("You already in the group {}".format(name))
+        return
+    elif not user_list.empty and user_id not in user_list['user_id'].values:
+        sql = "SELECT group_id FROM Groups_info WHERE name = '{name}';".format(name=name)
+        result = display_sql(sql)
+        my_input = {'group_id': result.values[0][0], 'user_id': user_id}
+        insert_data("User_Group", my_input)
+        print("Successfully follow the group")
+    else:
+        inp = input("The group {} is not exist, do you want to create this group(Y/N): ".format(name))
+        if inp.lower() == "y":
+            my_input1 = {'name': name}
+            insert_data("Groups_info", my_input1)
             sql = "SELECT group_id FROM Groups_info WHERE name = '{name}';".format(name=name)
             result = display_sql(sql)
-            my_input = {'group_id': result.values[0][0], 'user_id': user_id}
-            insert_data("User_Group", my_input)
+            my_input2 = {'group_id': result.values[0][0], 'user_id': user_id}
+            insert_data("User_Group", my_input2)
+            print("Successfully create the group")
         else:
-            inp = input("The group {} is not exist, do you want to create this group(Y/N): ".format(name))
-            if inp == "Y":
-                my_input1 = {'name': name}
-                insert_data("Groups_info", my_input1)
-                sql = "SELECT group_id FROM Groups_info WHERE name = '{name}';".format(name=name)
-                result = display_sql(sql)
-                my_input2 = {'group_id': result.values[0][0], 'user_id': user_id}
-                insert_data("User_Group", my_input2)
-            else:
-                return
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
+            return
 
 
 def follow_topic(user_id):
-    try:
         name = input("Please input the topic name:")
         sql = "SELECT business_id FROM Business WHERE name = '{}';".format(name)
         result = display_sql(sql)
@@ -218,14 +198,9 @@ def follow_topic(user_id):
                 result = display_sql(sql)
                 my_input = {'business_id': result.values[0][0], 'user_id': user_id}
                 insert_data("Follow", my_input)
+                print("Successfully follow the topic")
         else:
             print("Do not have this topic")
-    except pymysql.InternalError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
-    except pymysql.err.ProgrammingError as error:
-        code, message = error.args
-        print(">>>>>>>>>>>>>", code, message)
 
 
 def Follow(user_id):
@@ -337,7 +312,7 @@ def HomePage(user_name, user_id):
     elif inp == "2":
         UserPage(user_id)
     elif inp == "3":
-        login()
+        main()
     elif inp == "exit":
         sys.exit(0)
     else:
@@ -469,6 +444,31 @@ def update_sql(table, update_column, update_value, clause_column, clause_value):
         print(">>>>>>>>>>>>>", error)
     finally:
         connection.close()
+
+
+def print_result(result, num_columes):
+    length = len(result)
+    max_page = math.floor(length / num_columes)
+    page = 0
+    print(result[page * num_columes:page * num_columes + num_columes])
+    while True:
+        next = input("1:next  2:back  3:skip \n")
+        if next == "1":
+            if page + 1 > max_page:
+                page = 0
+                print(result.iloc[page * num_columes:page * num_columes + num_columes])
+            else:
+                page += 1
+                print(result.iloc[page * num_columes:page * num_columes + num_columes])
+        elif next == "2":
+            if page - 1 < 0:
+                page = max_page
+                print(result.iloc[page * num_columes:page * num_columes + num_columes])
+            else:
+                page -= 1
+                print(result.iloc[page * num_columes:page * num_columes + num_columes])
+        elif next == "3":
+            break
 
 
 def main():
