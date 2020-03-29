@@ -36,6 +36,7 @@ def BusinessPage(user_id):
 def Search_Business_List(name, user_id):
         while True:
             business = input("Please enter the business name:  ")
+            business = business.replace("'", "\\\'")
             sql = "SELECT B.business_id FROM " \
                   "Category C INNER JOIN Business B ON C.business_id = B.business_id " \
                   "WHERE C.category LIKE {x} AND B.name = '{y}';" \
