@@ -454,7 +454,7 @@ def print_result(result, num_columes):
     while True:
         next = input("1:next  2:back  3:skip \n")
         if next == "1":
-            if page + 1 > max_page:
+            if page + 1 >= max_page:
                 page = 0
                 print(result.iloc[page * num_columes:page * num_columes + num_columes])
             else:
