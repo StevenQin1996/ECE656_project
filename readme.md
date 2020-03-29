@@ -56,7 +56,16 @@ Sign out and log back in as user 1T1x_58P-As_rB1mGITklw.
 Press 3 the read 
 new Post are shown one at a time and you can like each post by enter like. One user can Only like a post once. 
 ```
+### Example
 
+```
+Follow a group 'Waterloo' as user ___DPmKJsBF2X6ZKgAeGqg who already in this group, system shows "You already in the group"
+Follow a group 'Waterloo' as user ___QCazm0YrHLd3uNUPYMA who are not in the group, system shows "Successfully follow the group"
+Follow a group 'ECE656' which is a new group, the system ask group is not exist, do you want to create this group(Y/N). If choose Y, the group is created and user follow this group at the same time.
+
+Follow a topic, "Urawa Sushi", which is an exist topic and user ___QCazm0YrHLd3uNUPYMA is not followed, then successfully follow the topic. Otherwise, this user already follow the topic or this topic is not exist.
+
+```
 ## Deployment
 
 Original CSV can be found here https://www.kaggle.com/yelp-dataset/yelp-dataset/version/6
