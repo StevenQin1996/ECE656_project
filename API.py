@@ -71,14 +71,26 @@ def Search_Business_Info(id,user_id):
 def read_review(review_id, user_id):
     sql = "SELECT * FROM Review WHERE review_id = '{}'".format(review_id)
     review_result = display_sql(sql)
-    pd.set_option('display.max_colwidth', None)
-    print(review_result)
-    pd.set_option('display.max_colwidth', 50)
-    like_input = input("Do you like this review(Y/N):")
-    if like_input.lower() == "y":
-        like(user_id, review_id)
+    if review_result.empty:
+        print("This review does not exist\n")
+        return
+    else:
+        pd.set_option('display.max_colwidth', None)
+        print(review_result)
+        pd.set_option('display.max_colwidth', 50)
+
+        sql = "select count('{}') as count from like_review where review_id = '{}'".format("review_id", review_id)
+        likes = display_sql(sql)
+        print("Total likes: {}\n".format(likes["count"].values))
+
+        like_input = input("Do you like this review(Y/N):")
+        if like_input.lower() == "y":
+            like(user_id, review_id)
+            sql = "select count('{}') as count from like_review where review_id = '{}'".format("review_id", review_id)
+            likes = display_sql(sql)
+            print("Total likes: {}\n".format(likes["count"].values))
     return
-    
+
 
 def UserPage(user_id):
     inp = input("1: Write Review\n"
@@ -267,6 +279,11 @@ def Notification(user_id):
                     while count < len(result):
                         temp = result.loc[count]
                         print(temp)
+
+                        sql = "select count('{}') as count from like_review where review_id = '{}'".format("review_id",temp["review_id"])
+                        likes = display_sql(sql)
+                        print("Total likes: {}".format(likes["count"].values))
+
                         my_id.append(temp["notification_id"])
                         inp = input("type next to read another post, like to like the current post, or quit to exit\n")
                         if inp.lower() == "next":
