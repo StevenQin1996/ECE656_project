@@ -71,19 +71,31 @@ def Search_Business_Info(id,user_id):
 def read_review(review_id, user_id):
     sql = "SELECT * FROM Review WHERE review_id = '{}'".format(review_id)
     review_result = display_sql(sql)
-    pd.set_option('display.max_colwidth', None)
-    print(review_result)
-    pd.set_option('display.max_colwidth', 50)
-    like_input = input("Do you like this review(Y/N):")
-    if like_input.lower() == "y":
-        like(user_id, review_id)
+    if review_result.empty:
+        print("This review does not exist\n")
+        return
+    else:
+        pd.set_option('display.max_colwidth', None)
+        print(review_result)
+        pd.set_option('display.max_colwidth', 50)
+
+        sql = "select count('{}') as count from like_review where review_id = '{}'".format("review_id", review_id)
+        likes = display_sql(sql)
+        print("Total likes: {}\n".format(likes["count"].values))
+
+        like_input = input("Do you like this review(Y/N):")
+        if like_input.lower() == "y":
+            like(user_id, review_id)
+            sql = "select count('{}') as count from like_review where review_id = '{}'".format("review_id", review_id)
+            likes = display_sql(sql)
+            print("Total likes: {}\n".format(likes["count"].values))
     return
-    
+
 
 def UserPage(user_id):
     inp = input("1: Write Review\n"
                 "2: Follow Group / Topic \n"
-                "3: Unread Notification\n")
+                "3: Read Notification\n")
     if inp == "1":
         Review(user_id)
     elif inp == "2":
@@ -237,7 +249,7 @@ def push_notification(relation, review_id, review_user, review_business):
             result.insert(1, "is_read", 0, allow_duplicates=False)
             result.insert(1, "relation", relation, allow_duplicates=False)
             insert_pandas("Notification", result)
-    print("Notification send complete")
+    print("Notification send complete\n")
 
 
 def Notification(user_id):
@@ -253,7 +265,7 @@ def Notification(user_id):
                 print("There is no new notification\n")
                 break
             else:
-                print("You have {} new messages".format(result["count"].values))
+                print("You have {} new messages\n".format(result["count"].values))
                 user_choice = input("type 1 to read reviews or quit to exit \n")
                 if user_choice == "1":
                     sql = "select N.notification_id,R.review_id,B.name as business_name, R.stars, R.date, R.text, R.useful, R.funny, R.cool " \
@@ -267,6 +279,11 @@ def Notification(user_id):
                     while count < len(result):
                         temp = result.loc[count]
                         print(temp)
+
+                        sql = "select count('{}') as count from like_review where review_id = '{}'".format("review_id",temp["review_id"])
+                        likes = display_sql(sql)
+                        print("Total likes: {}".format(likes["count"].values))
+
                         my_id.append(temp["notification_id"])
                         inp = input("type next to read another post, like to like the current post, or quit to exit\n")
                         if inp.lower() == "next":
@@ -283,8 +300,8 @@ def Notification(user_id):
                 elif user_choice == "quit":
                     break
         except emptyQuery:
-            print("an Error happened: ")
-            print("Maybe choose another Business ID From Following:")
+            print("an Error happened: \n")
+            print("Maybe choose another Business ID From Following: \n")
             sql = "SELECT business_id FROM Business limit 5"
             result = display_sql(sql)
             print(result)
@@ -297,15 +314,15 @@ def like(user_id, review_id):
     if like_result["count"].values == 0:
         my_input = {'review_id': review_id, 'user_id': user_id}
         insert_data("like_review", my_input)
-        print("You liked this post")
+        print("You liked this post\n")
     elif like_result["count"].values != 0:
-        print("You already liked this post")
+        print("You already liked this post\n")
 
 
 def HomePage(user_name, user_id):
     print("Hi {}".format(user_name))
     inp = input("1:Search\n"
-                "2:Me\n"
+                "2:User Home\n"
                 "3:Sign Out\n")
     if inp == "1":
         BusinessPage(user_id)
@@ -330,7 +347,7 @@ def login():
             else:
                 return (result["name"][0], user_id)
         except emptyQuery:
-            print("ID do not exist, choose another User ID From Following:")
+            print("ID do not exist, choose another User ID From Following: \n")
             sql = "SELECT user_id FROM User limit 5"
             result = display_sql(sql)
             print(result)
