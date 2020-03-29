@@ -312,7 +312,7 @@ def HomePage(user_name, user_id):
     elif inp == "2":
         UserPage(user_id)
     elif inp == "3":
-        login()
+        main()
     elif inp == "exit":
         sys.exit(0)
     else:
